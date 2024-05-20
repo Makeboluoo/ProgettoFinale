@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 8px;
+            text-align: center;
+        }
+    </style>
+    <meta charset="UTF-8">
+    <title>Home</title>
+</head>
+<body>
+<!--<h1 th:text="'Benvenuto ' + ${Username} + ' nella tua pagina home'"></h1>-->
+<table>
+    <tr>
+        <th> <a href="/event/allEvents"> Home: Eventi</a></th>
+        <th> <a href="/group/groups">Gruppi</a></th>
+        <th> <a href="/event/myEvents">I miei eventi</a></th>
+        <th> <a href="/user/profile">Profilo</a></th>
+    </tr>
+</table>
+<!--<table>-->
+<!--    <thead>-->
+<!--    <tr>-->
+<!--        <th scope="col">Name</th>-->
+<!--        <th scope="col">Age</th>-->
+<!--    </tr>-->
+<!--    </thead>-->
+<!--    <tbody>-->
+<!--    <p th:if="${Persons.isEmpty()}">-->
+<!--    <h2>Non ci sono ancora Persone</h2>-->
+<!--    </p>-->
+<!--    <p th:else>-->
+<!--        <tr th:each="person: ${Persons}">-->
+<!--            <td th:text="${person.getName}"/>-->
+<!--            <td th:text="${person.getAge}"/>-->
+<!--        </tr>-->
+<!--    </p>-->
+<!--    </tbody>-->
+<!--</table>-->
+
+</body>
+</html>
