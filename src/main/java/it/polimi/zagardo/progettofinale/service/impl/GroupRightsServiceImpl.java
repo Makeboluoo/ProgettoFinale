@@ -47,4 +47,9 @@ public class GroupRightsServiceImpl implements GroupRightsService {
         groupRightsRepo.delete(g);
         return true;
     }
+
+    @Override
+    public GroupRights searchGroupRightByIds(Long idUser, Long idGroup) {
+        return groupRightsRepo.findByUser_IdAndGroup_Id(idUser, idGroup).orElse(null);
+    }
 }

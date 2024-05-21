@@ -2,9 +2,11 @@ package it.polimi.zagardo.progettofinale.facade;
 
 import it.polimi.zagardo.progettofinale.dto.EventDTO;
 import it.polimi.zagardo.progettofinale.dto.PrivateEventDTO;
+import it.polimi.zagardo.progettofinale.dto.SingleEventDTO;
 import it.polimi.zagardo.progettofinale.mapper.EventMapper;
 import it.polimi.zagardo.progettofinale.model.Event;
 import it.polimi.zagardo.progettofinale.model.UserModel;
+import it.polimi.zagardo.progettofinale.model.enums.Role;
 import it.polimi.zagardo.progettofinale.service.def.EventService;
 import it.polimi.zagardo.progettofinale.service.def.GroupRightsService;
 import it.polimi.zagardo.progettofinale.service.def.GroupService;
@@ -40,6 +42,13 @@ public class EventFacade {
             return mapper.toPrivateEventDTO(event);
         }
         else return null;
+    }
+
+    public SingleEventDTO singleEvent(long id) {
+        UserModel userModel = (UserModel) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Event e = eventService.findEventByID(id);
+        Role role = groupRightsService.searchGroupRightByIds(userModel.getId(), e.getGroup().getId()).getRole();
+        return mapper.toSingleEventDTO(e, userModel.getId(), role);
     }
 
 

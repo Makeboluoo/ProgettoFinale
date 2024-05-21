@@ -17,4 +17,6 @@ public interface GroupRightsService {
 
     @Transactional
     boolean deleteRights(long id, String name);
+
+    GroupRights searchGroupRightByIds(Long idUser, Long idGroup);
 }

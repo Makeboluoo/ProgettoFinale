@@ -39,7 +39,8 @@ public class GroupController {
         if(group!=null){
             model.addAttribute("name", group.getName());
             model.addAttribute("creationDate", LocalDate.now());
-            model.addAttribute("role", "Administrator");
+            model.addAttribute("myRole", Role.Administrator);
+            model.addAttribute("admin", Role.Administrator);
             return "group/group";
         }
         return "group/group_creation_failed";

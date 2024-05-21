@@ -13,4 +13,6 @@ public interface GroupRightsRepo extends JpaRepository<GroupRights, Long> {
     Optional<GroupRights> findMembership(UserModel user, GroupModel group);
 
     Optional<GroupRights> findByUser_IdAndGroup_Name(Long id,String nome);
+
+    Optional<GroupRights> findByUser_IdAndGroup_Id(long idUser, long idGroup);
 }

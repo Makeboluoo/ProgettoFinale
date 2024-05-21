@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Events</title>
+</head>
+<body>
+<h1>All the events that you will attend!</h1>
+
+<div th:if="${events.isEmpty()}">
+  <h2>There are no events!</h2>
+</div>
+<div th:unless="${events.isEmpty()}">
+  <table class="table table-dark">
+    <thead>
+    <tr>
+      <th scope="col">Group</th>
+      <th scope="col">Title</th>
+      <th scope="col">Creator</th>
+      <th scope="col">Date and Time</th>
+<!--      aggiungi pagina di dettaglio -->
+<!--      <th scope="col">Info</th>-->
+
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="event: ${events}">
+      <td th:text="${event.getGroupName()}"></td>
+      <td th:text="${event.getTitle()}"></td>
+      <td th:text="${event.getCreator()}"></td>
+      <td th:text="${event.getDateTime()}"></td>
+      <td>
+        <form action="/event/singleEvent" method="post">
+          <input type="hidden" id="id_event" name="id_event" th:value="${event.getId()}"/>
+          <button type="submit">View!</button>
+        </form>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+
+<h2> <a href="/user/home">Torna alla home</a> </h2>
+
+
+
+</body>
+</html>

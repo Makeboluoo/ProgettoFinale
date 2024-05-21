@@ -4,6 +4,7 @@ import it.polimi.zagardo.progettofinale.model.Event;
 import it.polimi.zagardo.progettofinale.model.UserModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -16,5 +17,8 @@ public interface EventRepo extends JpaRepository<Event, Long> {
     Optional<Event> findEventByTitleAndDescriptionAndDateTime(String title, String description, LocalDateTime dateTime);
 
     //todo: questa query è corretta?? voglio avere tutti gli eventi a cui il mio utente partecipa.
-    List<Event> findByParticipantsContains(UserModel user);
+//    List<Event> findByParticipantsContains(UserModel user);
+
+    @Query("SELECT e FROM Event e JOIN e.participants p WHERE p = :user")
+    List<Event> findEventsByParticipant(@Param("user") UserModel user);
 }

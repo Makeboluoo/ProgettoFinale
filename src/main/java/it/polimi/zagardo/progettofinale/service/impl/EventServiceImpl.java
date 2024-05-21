@@ -2,12 +2,16 @@ package it.polimi.zagardo.progettofinale.service.impl;
 
 import it.polimi.zagardo.progettofinale.model.*;
 import it.polimi.zagardo.progettofinale.repository.EventRepo;
+import it.polimi.zagardo.progettofinale.repository.UserRepo;
 import it.polimi.zagardo.progettofinale.service.def.EventService;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,6 +20,8 @@ import java.util.Optional;
 public class EventServiceImpl implements EventService {
     @Autowired
     private final EventRepo eventRepo;
+    @Autowired
+    private final UserRepo userRepo;
 
     @Override
     public Event findEvent(String title, String description, LocalDateTime dateTime) {
@@ -25,14 +31,16 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public Event findEventByID(long id) {
-        Optional<Event> eventOptional = eventRepo.findById(id);
-        return eventOptional.orElse(null);
+        return eventRepo.findById(id).orElse(null);
     }
 
+    @Transactional
     @Override
     public Event createEvent(String title, String description, LocalDateTime dateTime, UserModel creator, GroupModel group) {
-        Event event = new Event(0,title,description,dateTime,creator,group,null,null);
+        UserModel user = userRepo.findById(creator.getId()).get();
+        Event event = new Event(title,description,dateTime,user,group,new ArrayList<>(),new ArrayList<>());
         eventRepo.save(event);
+        user.getEvents().add(event);
         return event;
     }
 
@@ -53,6 +61,6 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public List<Event> findAllEvents(UserModel user) {
-        return eventRepo.findByParticipantsContains(user);
+        return eventRepo.findEventsByParticipant(user);
     }
 }

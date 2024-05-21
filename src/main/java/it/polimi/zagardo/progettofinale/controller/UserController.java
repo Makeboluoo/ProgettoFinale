@@ -46,9 +46,10 @@ public class UserController {
     }
 
     @PostMapping(path = "/register")
-    public String register(@RequestParam("username") String username, @RequestParam("password") String password){
+    public String register(@RequestParam("username") String username, @RequestParam("password") String password, HttpSession session){
         if (!userFacade.loginCheck(username, password)){
             userFacade.createAccount(username,password);
+            session.setAttribute("username", username);
             return "redirect:/user/home";
             }
         else {

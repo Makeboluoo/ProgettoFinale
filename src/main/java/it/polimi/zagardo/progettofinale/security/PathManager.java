@@ -29,6 +29,8 @@ public class PathManager {
                                 .requestMatchers("group/creation").permitAll()
                                 .requestMatchers("group/search").permitAll()
                                 .requestMatchers("event/creation").permitAll()
+                                .requestMatchers("event/myEvents").permitAll()
+                                .requestMatchers("event/singleEvent").permitAll()
                                 .requestMatchers("event/delete").hasRole(Role.Administrator.name())
                                 .requestMatchers("event/findAll").authenticated()
                         )

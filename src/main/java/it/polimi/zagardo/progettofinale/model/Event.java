@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -36,7 +37,18 @@ public class Event {
 
     @OneToMany(mappedBy = "event",cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REMOVE})
     private List<Comment> comments;
-//    In caso possiamo aggiungere questo
+
+    public Event(String title, String description, LocalDateTime dateTime, UserModel creator, GroupModel group, List<UserModel> participants, List<Comment> comments) {
+        this.title = title;
+        this.description = description;
+        this.dateTime = dateTime;
+        this.creator = creator;
+        this.group = group;
+        this.participants = participants;
+        this.comments = comments;
+    }
+
+    //    In caso possiamo aggiungere questo
 
 //    private long maxNumber;
 //    private enum city;
