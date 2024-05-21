@@ -1,5 +1,6 @@
 package it.polimi.zagardo.progettofinale.service.impl;
 
+import it.polimi.zagardo.progettofinale.dto.SingleEventDTO;
 import it.polimi.zagardo.progettofinale.model.*;
 import it.polimi.zagardo.progettofinale.repository.EventRepo;
 import it.polimi.zagardo.progettofinale.repository.UserRepo;
@@ -62,5 +63,17 @@ public class EventServiceImpl implements EventService {
     @Override
     public List<Event> findAllEvents(UserModel user) {
         return eventRepo.findEventsByParticipant(user);
+    }
+
+    @Override
+    public UserModel findSingleParticipant(long idEvent, long idUser) {
+        return eventRepo.findParticipantById(idEvent, idUser).orElse(null);
+    }
+
+    @Transactional
+    @Override
+    public void participate(Event event, long idUser) {
+        UserModel u = userRepo.findById(idUser).orElse(null);
+        if (u != null) u.getEvents().add(event);
     }
 }

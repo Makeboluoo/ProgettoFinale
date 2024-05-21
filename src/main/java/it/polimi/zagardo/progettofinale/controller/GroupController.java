@@ -49,12 +49,10 @@ public class GroupController {
     public String searchGroup(@RequestParam("nameSearch") String name, Model model, HttpSession session){
 
         SingleGroupDTO group = groupFacade.findGroupByName(name);
-
         if (group!= null){
             Role myRole = groupFacade.getRoleFromGroup(group);
             String adminGroupUsername = groupFacade.getAdminUsername(group);
-            model.addAttribute("name", name);
-            model.addAttribute("creationDate", group.getCreationDateTime());
+            model.addAttribute("group", group);
             model.addAttribute("myRole", myRole);
             model.addAttribute("admin", Role.Administrator);
             model.addAttribute("adminUsername", adminGroupUsername);
@@ -65,5 +63,13 @@ public class GroupController {
             model.addAttribute("error", "There are no groups with that name. Try Again");
             return "redirect:/group/groups";
         }
+    }
+
+    @PostMapping(path = "/join")
+    public String joinGroup(@RequestParam("group_name") String groupName, Model model){
+        boolean wasAlreadyMember = groupFacade.joinGroup(groupName);
+        model.addAttribute("error", "You are now a member of this group");
+        if(wasAlreadyMember) model.addAttribute("error", "You were already a member of this group");
+        return "group/group_joined";
     }
 }

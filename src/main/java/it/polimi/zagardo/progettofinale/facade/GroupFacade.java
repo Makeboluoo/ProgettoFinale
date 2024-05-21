@@ -64,4 +64,13 @@ public class GroupFacade {
         }
         return null;
     }
+
+    public boolean joinGroup(String groupName) {
+        UserModel userModel = (UserModel) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        GroupModel groupModel = groupService.findGroupByName(groupName);
+        GroupRights gr = groupRightsService.searchGroupRightByIds(userModel.getId() ,groupModel.getId());
+        if(gr == null)
+            groupRightsService.addGroupRight(userModel, groupModel, Role.Junior);
+        return gr != null;
+    }
 }

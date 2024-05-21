@@ -6,41 +6,44 @@
 </head>
 <body>
 <h1>Group Info</h1>
-<h2 th:text="'Group name: ' + ${name} "></h2>
-<h2 th:text="'Creation date: ' + ${creationDate} "></h2>
+<h2 th:text="'Group name: ' + ${group.getName()} "></h2>
+<h2 th:text="'Creation date: ' + ${group.getCreationDateTime()} "></h2>
 <h2 th:if="${myRole} != null" th:text="'My role: ' + ${myRole} "></h2>
 <h2 th:if="${myRole} != ${admin}" th:text="'Administrator: ' + ${adminUsername} "></h2>
 
-<div th:if="${myRole.name()} == 'Junior' ">
-<!--    <h1>Sono Junior</h1>-->
+<div th:if="${myRole} != null">
+    <div th:if="${myRole.name()} == 'Junior' ">
+        <!--    <h1>Sono Junior</h1>-->
+    </div>
+    <div th:if="${myRole.name()} == 'Administrator' or ${myRole.name()} == 'Senior'">
+    <!--    <h1>Sono Admin o Senior</h1>-->
+    <!--    Prima azione esclusiva = creazione evento-->
+        <h3>Create your event!</h3>
+        <form action="/event/creation" method="post">
+            <label for="title">Title of the event</label>
+            <input type="text" id="title" name="title"/>
+
+            <label for="description">Description of the event</label>
+            <input type="text" id="description" name="description"/>
+
+            <label for="dateTime">Date and Time of the event</label>
+            <input type="datetime-local" id="dateTime" name="dateTime"/>
+
+            <input type="hidden" id="groupName" name="groupName" th:value="${group.getName()}"/>
+
+            <button type="submit">Create event!</button>
+        </form>
+    </div>
 </div>
-<div th:if="${myRole.name()} == 'Administrator' or ${myRole.name()} == 'Senior'">
-<!--    <h1>Sono Admin o Senior</h1>-->
-<!--    Prima azione esclusiva = creazione evento-->
-    <h3>Create your event!</h3>
-    <form action="/event/creation" method="post">
-        <label for="title">Title of the event</label>
-        <input type="text" id="title" name="title"/>
 
-        <label for="description">Description of the event</label>
-        <input type="text" id="description" name="description"/>
-
-        <label for="dateTime">Date and Time of the event</label>
-        <input type="datetime-local" id="dateTime" name="dateTime"/>
-
-        <input type="hidden" id="groupName" name="groupName" th:value="${name}"/>
-
-        <button type="submit">Create event!</button>
-    </form>
-</div>
 
 <!--vista degli utenti che non fanno parte del gruppo-->
 <div th:if="${myRole} == null">
-    <form action="/user/join" method="post">
+    <form action="/group/join" method="post">
+        <input type="hidden" id="group_name" name="group_name" th:value="${group.getName()}"/>
         <button type="submit">Join group!</button>
     </form>
 </div>
-
 
 
 

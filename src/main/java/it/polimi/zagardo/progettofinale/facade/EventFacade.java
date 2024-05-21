@@ -51,6 +51,12 @@ public class EventFacade {
         return mapper.toSingleEventDTO(e, userModel.getId(), role);
     }
 
+    public boolean partecipate(long idEvent, long idUser) {
+        UserModel u = eventService.findSingleParticipant(idEvent,idUser);
+        if (u == null) eventService.participate(eventService.findEventByID(idEvent), idUser);
+        return u != null;
+    }
+
 
 //    public List<EventDTO> allEvents(){
 //        UserModel userModel = (UserModel) SecurityContextHolder.getContext().getAuthentication().getPrincipal();

@@ -1,5 +1,6 @@
 package it.polimi.zagardo.progettofinale.service.def;
 
+import it.polimi.zagardo.progettofinale.dto.SingleEventDTO;
 import it.polimi.zagardo.progettofinale.model.Event;
 import it.polimi.zagardo.progettofinale.model.GroupModel;
 import it.polimi.zagardo.progettofinale.model.UserModel;
@@ -19,4 +20,8 @@ public interface EventService {
     void deleteEvents(List<Event> events);
 
     List<Event> findAllEvents(UserModel user);
+
+    UserModel findSingleParticipant(long idEvent, long idUser);
+
+    void participate(Event event, long idUser);
 }

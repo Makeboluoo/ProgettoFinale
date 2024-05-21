@@ -40,10 +40,10 @@ public class EventMapper {
     }
 
     public List<PrivateEventDTO> toPrivateEventDTO(List<Event> e){
-        if(e==null||e.isEmpty()){
-            //TODO: crea e sviluppa exception
-            throw new EventsNotFoundException();
-        }
+//        if(e==null||e.isEmpty()){
+//            //TODO: crea e sviluppa exception, per ora non la includo perché mi blocca il tutto
+//            throw new EventsNotFoundException();
+//        }
 
         return e.stream().map(this::toPrivateEventDTO).toList();
     }
