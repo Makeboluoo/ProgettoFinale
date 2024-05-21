@@ -30,6 +30,7 @@ public class PathManager {
                                 .requestMatchers("group/search").permitAll()
                                 .requestMatchers("group/join").permitAll()
                                 .requestMatchers("event/creation").permitAll()
+                                .requestMatchers("event/allEvents").permitAll()
                                 .requestMatchers("event/myEvents").permitAll()
                                 .requestMatchers("event/singleEvent").permitAll()
                                 .requestMatchers("event/participate").permitAll()

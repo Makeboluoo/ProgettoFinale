@@ -19,8 +19,11 @@ public interface EventRepo extends JpaRepository<Event, Long> {
     //todo: questa query è corretta?? voglio avere tutti gli eventi a cui il mio utente partecipa.
 //    List<Event> findByParticipantsContains(UserModel user);
 
-    @Query("SELECT e FROM Event e JOIN e.participants p WHERE p = :user")
-    List<Event> findEventsByParticipant(@Param("user") UserModel user);
+    @Query("SELECT e FROM Event e JOIN e.participants p WHERE p.id = :idUser")
+    List<Event> findEventsByParticipant(@Param("idUser") long idUser);
+
+    @Query("SELECT e FROM Event e JOIN e.group g JOIN g.groupRights gr WHERE gr.user.id = :userId")
+    List<Event> findAllGroupEventsByUser(@Param("userId") Long userId);
 
     @Query("SELECT p FROM Event e JOIN e.participants p WHERE e.id = :idEvent AND p.id = :idUser")
     Optional<UserModel> findParticipantById(@Param("idEvent") long idEvent, @Param("idUser") long idUser);

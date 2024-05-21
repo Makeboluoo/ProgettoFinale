@@ -61,8 +61,8 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public List<Event> findAllEvents(UserModel user) {
-        return eventRepo.findEventsByParticipant(user);
+    public List<Event> findAllEvents(long idUser) {
+        return eventRepo.findAllGroupEventsByUser(idUser);
     }
 
     @Override
@@ -75,5 +75,10 @@ public class EventServiceImpl implements EventService {
     public void participate(Event event, long idUser) {
         UserModel u = userRepo.findById(idUser).orElse(null);
         if (u != null) u.getEvents().add(event);
+    }
+
+    @Override
+    public List<Event> findMyEvents(Long idUser) {
+        return eventRepo.findEventsByParticipant(idUser);
     }
 }

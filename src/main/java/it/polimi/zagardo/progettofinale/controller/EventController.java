@@ -29,12 +29,12 @@ public class EventController {
         return "events/my_events";
     }
 
-//    @GetMapping(path = "/allEvents")
-//    public String allEvents(Model model){
-//        List<EventDTO> events = eventFacade.allEvents();
-//        model.addAttribute("events", events);
-//            return "all_events";
-//    }
+    @GetMapping(path = "/allEvents")
+    public String allEvents(Model model){
+        List<PrivateEventDTO> events = eventFacade.allEvents();
+        model.addAttribute("events", events);
+            return "events/allEvents";
+    }
 
     @PostMapping(path = "/creation")
     public String creationEvent(@RequestParam("title") String title, @RequestParam("description") String description,

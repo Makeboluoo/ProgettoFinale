@@ -28,9 +28,10 @@ public class EventFacade {
     private final GroupRightsService groupRightsService;
     private final EventMapper mapper;
 
+    //todo: provare ad utilizzare un utente che non
     public List<PrivateEventDTO> myEvents(){
         UserModel userModel = (UserModel) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        List<Event> e= eventService.findAllEvents(userModel);
+        List<Event> e= eventService.findMyEvents(userModel.getId());
         return mapper.toPrivateEventDTO(e);
     }
 
@@ -55,6 +56,12 @@ public class EventFacade {
         UserModel u = eventService.findSingleParticipant(idEvent,idUser);
         if (u == null) eventService.participate(eventService.findEventByID(idEvent), idUser);
         return u != null;
+    }
+
+    public List<PrivateEventDTO> allEvents() {
+        UserModel userModel = (UserModel) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        List<Event> events = eventService.findAllEvents(userModel.getId());
+        return mapper.toPrivateEventDTO(events);
     }
 
 
