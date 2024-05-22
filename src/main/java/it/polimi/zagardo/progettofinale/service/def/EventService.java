@@ -26,4 +26,6 @@ public interface EventService {
     void participate(Event event, long idUser);
 
     List<Event> findMyEvents(Long idUser);
+
+    void resign(Event event, long idUser);
 }

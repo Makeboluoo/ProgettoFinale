@@ -64,6 +64,11 @@ public class EventFacade {
         return mapper.toPrivateEventDTO(events);
     }
 
+    public void resign(long idEvent, long idUser) {
+        Event event = eventService.findEventByID(idEvent);
+        eventService.resign(event, idUser);
+    }
+
 
 //    public List<EventDTO> allEvents(){
 //        UserModel userModel = (UserModel) SecurityContextHolder.getContext().getAuthentication().getPrincipal();

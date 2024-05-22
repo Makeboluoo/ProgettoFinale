@@ -81,4 +81,11 @@ public class EventServiceImpl implements EventService {
     public List<Event> findMyEvents(Long idUser) {
         return eventRepo.findEventsByParticipant(idUser);
     }
+
+    @Transactional
+    @Override
+    public void resign(Event event, long idUser) {
+        UserModel u = userRepo.findById(idUser).orElse(null);
+        if (u != null) u.getEvents().remove(event);
+    }
 }

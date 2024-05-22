@@ -65,4 +65,17 @@ public class EventController {
         return "events/single_event";
     }
 
+    @PostMapping("/resign")
+    public String resignEvent(@RequestParam("id_event") long id_event,@RequestParam("id_user") long id_user, HttpSession session, Model model){
+        boolean wasAlreadyParticipant = eventFacade.partecipate(id_event, id_user);
+        SingleEventDTO event = eventFacade.singleEvent(id_event);
+        model.addAttribute("event", event);
+        model.addAttribute("error", "You are no longer a participant!");
+        if (!wasAlreadyParticipant) model.addAttribute("error", "You can't resign an event you didn't join: you were already not a participant");
+        else eventFacade.resign(id_event, id_user);
+        return "events/single_event";
+    }
+
+
+
 }

@@ -45,7 +45,7 @@
     </td>
     <div th:if="${event.getRole().name()} == 'Administrator'">
       <td>
-        <form action="/api/event/eliminate" method="post">
+        <form action="/event/eliminate" method="post">
           <input type="hidden" id="id_event2" name="id_event" th:value="${event.getId()}"/>
           <input type="hidden" id="id_user2" name="id_user" th:value="${event.getIdUser()}"/>
           <button type="submit">Eliminate!</button>
