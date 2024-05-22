@@ -70,4 +70,10 @@ public class GroupController {
         if(wasAlreadyMember) model.addAttribute("error", "You were already a member of this group");
         return "group/group_joined";
     }
+
+    @PostMapping(path = "/delete")
+    public String deleteGroup(@RequestParam("group_name") String groupName){
+        groupFacade.deleteGroup(groupName);
+        return "group/group_deleted";
+    }
 }

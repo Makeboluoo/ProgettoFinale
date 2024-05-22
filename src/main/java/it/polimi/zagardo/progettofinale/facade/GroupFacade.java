@@ -11,6 +11,7 @@ import it.polimi.zagardo.progettofinale.model.GroupModel;
 import it.polimi.zagardo.progettofinale.model.GroupRights;
 import it.polimi.zagardo.progettofinale.model.UserModel;
 import it.polimi.zagardo.progettofinale.model.enums.Role;
+import it.polimi.zagardo.progettofinale.service.def.EventService;
 import it.polimi.zagardo.progettofinale.service.def.GroupRightsService;
 import it.polimi.zagardo.progettofinale.service.def.GroupService;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +25,7 @@ import java.util.List;
 public class GroupFacade {
     private final GroupService groupService;
     private final GroupRightsService groupRightsService;
+    private final EventService eventService;
     private final GroupMapper mapper;
 
 
@@ -72,5 +74,14 @@ public class GroupFacade {
         if(gr == null)
             groupRightsService.addGroupRight(userModel, groupModel, Role.Junior);
         return gr != null;
+    }
+
+    public void deleteGroup(String groupName) {
+        GroupModel groupModel = groupService.findGroupByName(groupName);
+        List<Event> events = groupModel.getEvents();
+        for(Event e: events){
+            eventService.deleteEvent(e);
+        }
+        groupService.deleteGroup(groupModel);
     }
 }

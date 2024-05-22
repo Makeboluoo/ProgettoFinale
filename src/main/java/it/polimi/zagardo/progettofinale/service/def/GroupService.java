@@ -15,4 +15,6 @@ public interface GroupService {
     boolean findIfExistGroupByName(String name);
 
     GroupModel findGroupByName(String name);
+
+    void deleteGroup(GroupModel groupModel);
 }

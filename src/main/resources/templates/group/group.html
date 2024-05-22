@@ -34,6 +34,13 @@
             <button type="submit">Create event!</button>
         </form>
     </div>
+
+    <div th:if="${myRole.name()} == 'Administrator'">
+        <form action="/group/delete" method="post">
+            <input type="hidden" id="group_name2" name="group_name" th:value="${group.getName()}"/>
+            <button type="submit">Delete group!</button>
+        </form>
+    </div>
 </div>
 
 
@@ -44,7 +51,6 @@
         <button type="submit">Join group!</button>
     </form>
 </div>
-
 
 
 <h2> <a href="/group/groups">Torna dietro</a></h2>

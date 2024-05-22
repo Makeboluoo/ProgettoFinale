@@ -1,10 +1,12 @@
 package it.polimi.zagardo.progettofinale.service.impl;
 
+import it.polimi.zagardo.progettofinale.model.Event;
 import it.polimi.zagardo.progettofinale.model.GroupModel;
 import it.polimi.zagardo.progettofinale.model.GroupRights;
 import it.polimi.zagardo.progettofinale.model.UserModel;
 import it.polimi.zagardo.progettofinale.repository.GroupRepo;
 import it.polimi.zagardo.progettofinale.service.def.GroupService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -37,6 +39,12 @@ public class GroupServiceImpl implements GroupService {
     @Override
     public GroupModel findGroupByName(String name){
         return groupRepo.findGroupModelByName(name).orElse(null);
+    }
+
+    @Transactional
+    @Override
+    public void deleteGroup(GroupModel groupModel) {
+        groupRepo.delete(groupModel);
     }
 
     @Override
