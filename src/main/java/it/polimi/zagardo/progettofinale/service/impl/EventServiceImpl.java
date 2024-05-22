@@ -3,6 +3,7 @@ package it.polimi.zagardo.progettofinale.service.impl;
 import it.polimi.zagardo.progettofinale.dto.SingleEventDTO;
 import it.polimi.zagardo.progettofinale.model.*;
 import it.polimi.zagardo.progettofinale.repository.EventRepo;
+import it.polimi.zagardo.progettofinale.repository.GroupRepo;
 import it.polimi.zagardo.progettofinale.repository.UserRepo;
 import it.polimi.zagardo.progettofinale.service.def.EventService;
 import jakarta.transaction.Transactional;
@@ -23,6 +24,8 @@ public class EventServiceImpl implements EventService {
     private final EventRepo eventRepo;
     @Autowired
     private final UserRepo userRepo;
+    @Autowired
+    private final GroupRepo groupRepo;
 
     @Override
     public Event findEvent(String title, String description, LocalDateTime dateTime) {
@@ -87,5 +90,20 @@ public class EventServiceImpl implements EventService {
     public void resign(Event event, long idUser) {
         UserModel u = userRepo.findById(idUser).orElse(null);
         if (u != null) u.getEvents().remove(event);
+    }
+
+    @Transactional
+    @Override
+    public void deleteEvent(Event e) {
+        for(UserModel participant: e.getParticipants()){
+            participant.getEvents().remove(e);
+        }
+        e.setGroup(null);
+        e.setCreator(null);
+        eventRepo.delete(e);
+//        UserModel u = userRepo.findById(e.getCreator().getId()).orElse(null);
+//        System.out.println("SONO QUI 1. L'evento è: "+ u.getCreatedEvents().size());
+//        u.getCreatedEvents().remove(e);
+//        System.out.println("SONO QUI 2. L'evento è: "+ u.getCreatedEvents().size());
     }
 }

@@ -34,14 +34,12 @@ public class GroupController {
 
     @PostMapping(path = "/creation")
     public String creationGroup(@RequestParam("name") String name,Model model){
-
         GroupDTO group = groupFacade.createGroup(name);
         if(group!=null){
-            model.addAttribute("name", group.getName());
+            model.addAttribute("name", name);
             model.addAttribute("creationDate", LocalDate.now());
             model.addAttribute("myRole", Role.Administrator);
-            model.addAttribute("admin", Role.Administrator);
-            return "group/group";
+            return "group/group_created";
         }
         return "group/group_creation_failed";
     }

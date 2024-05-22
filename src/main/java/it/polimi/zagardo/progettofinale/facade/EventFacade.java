@@ -11,6 +11,7 @@ import it.polimi.zagardo.progettofinale.service.def.EventService;
 import it.polimi.zagardo.progettofinale.service.def.GroupRightsService;
 import it.polimi.zagardo.progettofinale.service.def.GroupService;
 import it.polimi.zagardo.progettofinale.service.def.UserService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -67,6 +68,11 @@ public class EventFacade {
     public void resign(long idEvent, long idUser) {
         Event event = eventService.findEventByID(idEvent);
         eventService.resign(event, idUser);
+    }
+
+    public void eliminateEvent(SingleEventDTO event) {
+        Event e = eventService.findEventByID(event.getId());
+        eventService.deleteEvent(e);
     }
 
 

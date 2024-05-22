@@ -28,4 +28,6 @@ public interface EventService {
     List<Event> findMyEvents(Long idUser);
 
     void resign(Event event, long idUser);
+
+    void deleteEvent(Event e);
 }

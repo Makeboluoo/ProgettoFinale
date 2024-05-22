@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Event Eliminated</title>
+</head>
+<body>
+
+<div th:if="${error!=null}">
+  <h2 th:text="${error}"></h2>
+</div>
+
+<div th:unless="${error!=null}">
+  <h1>Event eliminated successfully!</h1>
+</div>
+
+<h2> <a href="/user/home">Go back to home page!</a> </h2>
+</body>
+</html>

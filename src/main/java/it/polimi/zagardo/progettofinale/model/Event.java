@@ -25,14 +25,14 @@ public class Event {
     @Column(nullable = false)
     private LocalDateTime dateTime;
     @ManyToOne
-    @JoinColumn(name = "id_creator",nullable = false)
+    @JoinColumn(name = "id_creator")
     private UserModel creator;
     @ManyToOne
-    @JoinColumn(name = "id_group",nullable = false)
+    @JoinColumn(name = "id_group")
     private GroupModel group;
 
     //partecipante
-    @ManyToMany(mappedBy = "events", cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REMOVE})
+    @ManyToMany(mappedBy = "events")
     private List<UserModel> participants;
 
     @OneToMany(mappedBy = "event",cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REMOVE})

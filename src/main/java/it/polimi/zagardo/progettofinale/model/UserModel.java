@@ -36,7 +36,7 @@ public class UserModel implements UserDetails {
     @OneToMany(mappedBy = "user")
     private List<Comment> comments;
 
-    @OneToMany(mappedBy = "creator")
+    @OneToMany(mappedBy = "creator", orphanRemoval = true)
     private List<Event> createdEvents;
 
 //    TODO Da capire per ogni classe che costruttori dare e perché!!

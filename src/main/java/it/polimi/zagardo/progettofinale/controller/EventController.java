@@ -76,6 +76,13 @@ public class EventController {
         return "events/single_event";
     }
 
+    @PostMapping("/delete")
+    public String deleteEvent(@RequestParam("id_event") long id_event, Model model){
+        SingleEventDTO event = eventFacade.singleEvent(id_event);
+        eventFacade.eliminateEvent(event);
+        model.addAttribute("error", "You have now eliminated the event!");
+        return "events/event_eliminated";
+    }
 
 
 }
