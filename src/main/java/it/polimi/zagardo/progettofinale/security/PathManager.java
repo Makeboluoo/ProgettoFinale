@@ -36,6 +36,7 @@ public class PathManager {
                                 .requestMatchers("event/singleEvent").permitAll()
                                 .requestMatchers("event/participate").permitAll()
                                 .requestMatchers("event/resign").permitAll()
+                                .requestMatchers("comment/eventComments").permitAll()
                                 .requestMatchers("groupRight/upgradeRole").hasRole(Role.Administrator.name())
                                 .requestMatchers("groupRight/downgradeRole").hasRole(Role.Administrator.name())
                                 .requestMatchers("event/delete").hasRole(Role.Administrator.name())

@@ -24,6 +24,8 @@ public class Comment {
     @JoinColumn(name = "event_id",nullable = false)
     private Event event;
 
+    //todo vogliamo aggiungere anche la data così posso passarglieli ordinati per data??
+
     public Comment(String text, UserModel user, Event event) {
         this.text = text;
         this.user = user;

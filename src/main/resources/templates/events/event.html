@@ -31,6 +31,11 @@
     </tbody>
 </table>
 
+<form action="/comment/eventComments" method="post">
+    <input type="hidden" id="id_event" name="id_event" th:value="${event.getId()}"/>
+    <button type="submit">Vai ai commenti relativi all'evento!</button>
+</form>
+
 <!-- TO-DO AGGIUNGI SEZIONE COMMENTI!-->
 <!-- TO-DO AGGIUNGI SEZIONE PARTECIPANTI (visibile penso solo al creatore dell'evento)-->
 

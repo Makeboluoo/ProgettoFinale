@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Event's Comments</title>
+</head>
+<body>
+<h1>All the comments that your groups have in this event</h1>
+<!--<div th:if="${user.getMemberships.isEmpty()}">-->
+<!--  <h2>Your not part of any group!</h2>-->
+<!--</div>-->
+<!--<div th:unless="${user.getMemberships.isEmpty()}">-->
+<div th:if="${comments.isEmpty() || comments == null}">
+    <h2>There are no comments yet!</h2>
+</div>
+<div th:unless="${comments.isEmpty() || comments == null}">
+    <table class="table table-dark">
+        <thead>
+        <tr>
+            <th scope="col">User</th>
+            <th scope="col">Text</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="comment: ${comments}">
+            <td th:text="${comment.getUsername()}"></td>
+            <td th:text="${comment.getText()}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<h2> <a href="/event/allEvents">Torna alla pagina eventi</a> </h2>
+
+</body>
+</html>
