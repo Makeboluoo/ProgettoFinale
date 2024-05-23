@@ -19,4 +19,10 @@ public interface GroupRightsService {
     boolean deleteRights(long id, String name);
 
     GroupRights searchGroupRightByIds(Long idUser, Long idGroup);
+
+    GroupRights searchGroupRightById(long idGroupRight);
+
+    GroupRights upgradeRole(long idGroupRight);
+
+    GroupRights downgradeRole(long idGroupRight);
 }

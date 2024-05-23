@@ -11,6 +11,7 @@ import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @AllArgsConstructor
@@ -51,5 +52,33 @@ public class GroupRightsServiceImpl implements GroupRightsService {
     @Override
     public GroupRights searchGroupRightByIds(Long idUser, Long idGroup) {
         return groupRightsRepo.findByUser_IdAndGroup_Id(idUser, idGroup).orElse(null);
+    }
+
+    @Override
+    public GroupRights searchGroupRightById(long idGroupRight) {
+        return groupRightsRepo.findById(idGroupRight).orElse(null);
+    }
+
+    @Transactional
+    @Override
+    public GroupRights upgradeRole(long idGroupRight) {
+        GroupRights groupRights = groupRightsRepo.findById(idGroupRight).orElse(null);
+        if(groupRights.getRole() == Role.Senior){
+            List<GroupRights> adminGroupRight = groupRightsRepo.findByGroup_IdAndRole(groupRights.getGroup().getId(), Role.Administrator);
+            adminGroupRight.get(0).setRole(Role.Senior);
+            groupRights.setRole(Role.Administrator);
+        }
+        if(groupRights.getRole() == Role.Junior)
+            groupRights.setRole(Role.Senior);
+        return groupRights;
+    }
+
+    @Transactional
+    @Override
+    public GroupRights downgradeRole(long idGroupRight) {
+        GroupRights groupRights = groupRightsRepo.findById(idGroupRight).orElse(null);
+        if(groupRights.getRole() == Role.Senior)
+            groupRights.setRole(Role.Junior);
+        return groupRights;
     }
 }
