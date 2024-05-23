@@ -33,8 +33,8 @@ public class UserModel implements UserDetails {
     @OneToMany(mappedBy = "user",fetch = FetchType.EAGER)
     private List<GroupRights> groupRights;
 
-    @OneToMany(mappedBy = "user")
-    private List<Comment> comments;
+//    @OneToMany(mappedBy = "user")
+//    private List<Comment> comments;
 
     @OneToMany(mappedBy = "creator", orphanRemoval = true)
     private List<Event> createdEvents;

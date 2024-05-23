@@ -17,18 +17,19 @@ public class Comment {
     private long id;
     @Column(nullable = false)
     private String text;
+    //todo stessa questione del delete dell'evento: devo togliere il carattere nullable false
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id",nullable = false)
-    private UserModel user;
+    @JoinColumn(name = "groupRight_id"/*,nullable = false*/)
+    private GroupRights groupRights;
     @ManyToOne
-    @JoinColumn(name = "event_id",nullable = false)
+    @JoinColumn(name = "event_id"/*,nullable = false*/)
     private Event event;
 
     //todo vogliamo aggiungere anche la data così posso passarglieli ordinati per data??
 
-    public Comment(String text, UserModel user, Event event) {
+    public Comment(String text, GroupRights groupRights, Event event) {
         this.text = text;
-        this.user = user;
+        this.groupRights = groupRights;
         this.event = event;
     }
 }

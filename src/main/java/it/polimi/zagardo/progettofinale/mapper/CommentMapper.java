@@ -18,7 +18,7 @@ public class CommentMapper {
     public CommentDTO toCommentDTO(Comment c){
         CommentDTO.Builder cDTO = new CommentDTO.Builder()
                 .setId(c.getId())
-                .setUsername(c.getUser().getUsername())
+                .setUsername(c.getGroupRights().getUser().getUsername())
                 .setText(c.getText());
         return cDTO.build();
     }
@@ -32,7 +32,7 @@ public class CommentMapper {
         for(Comment singleComment: c){
             CommentDTO cDTO = new CommentDTO.Builder()
                     .setId(singleComment.getId())
-                    .setUsername(singleComment.getUser().getUsername())
+                    .setUsername(singleComment.getGroupRights().getUser().getUsername())
                     .setText(singleComment.getText())
                     .build();
             comments.add(cDTO);

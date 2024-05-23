@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Table(uniqueConstraints = { @UniqueConstraint(name = "user_group_unique_constraint", columnNames = { "user_id", "group_id" }) })
 @Data
 @NoArgsConstructor
@@ -24,6 +26,9 @@ public class GroupRights {
     @ManyToOne
     @JoinColumn(name = "group_id",nullable = false)
     private GroupModel group;
+
+    @OneToMany(mappedBy = "groupRights")
+    private List<Comment> comments;
 
     @Column(nullable = false)
     private Role role;

@@ -2,6 +2,7 @@ package it.polimi.zagardo.progettofinale.service.impl;
 
 import it.polimi.zagardo.progettofinale.model.Comment;
 import it.polimi.zagardo.progettofinale.model.Event;
+import it.polimi.zagardo.progettofinale.model.GroupRights;
 import it.polimi.zagardo.progettofinale.model.UserModel;
 import it.polimi.zagardo.progettofinale.repository.CommentRepo;
 import it.polimi.zagardo.progettofinale.service.def.CommentService;
@@ -25,8 +26,8 @@ public class CommentServiceImpl implements CommentService {
 
     @Transactional
     @Override
-    public Comment postComment(String comment, UserModel userModel, Event event) {
-        Comment c = new Comment(comment,userModel,event);
+    public Comment postComment(String comment, GroupRights groupRights, Event event) {
+        Comment c = new Comment(comment,groupRights,event);
         commentRepo.save(c);
         return c;
     }

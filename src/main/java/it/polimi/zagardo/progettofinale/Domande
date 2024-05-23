@@ -1,4 +1,0 @@
-1) Quando li metto i DTO?
-2) Prima usavo la session per prendermi lo user per fare dei metodi. Adesso come faccio?
-3) Cosa faccio con il Model model?
-4) cosa dovrei returnare con il facade?? IN teoria un boolean ma in che modo?

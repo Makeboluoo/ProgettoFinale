@@ -46,7 +46,7 @@ public class UserServiceImpl implements UserService {
         oldUser.getEvents().clear();
         oldUser.setEvents(user.getEvents());
         oldUser.setGroupRights(user.getGroupRights());
-        oldUser.setComments(user.getComments());
+//        oldUser.setComments(user.getComments());
         userRepo.save(oldUser);
     }
 
