@@ -1,5 +1,6 @@
 package it.polimi.zagardo.progettofinale.controller;
 
+import it.polimi.zagardo.progettofinale.dto.AllEventCommentsDTO;
 import it.polimi.zagardo.progettofinale.dto.CommentDTO;
 import it.polimi.zagardo.progettofinale.dto.PrivateEventDTO;
 import it.polimi.zagardo.progettofinale.facade.CommentFacade;
@@ -24,7 +25,14 @@ public class CommentController {
 
     @PostMapping(path = "/eventComments")
     public String eventComments(@RequestParam("id_event") long idEvent, Model model){
-        List<CommentDTO> comments = commentFacade.getEventComments(idEvent);
+        AllEventCommentsDTO comments = commentFacade.getEventComments(idEvent);
+        model.addAttribute("comments", comments);
+        return "comments/event_comments";
+    }
+
+    @PostMapping(path = "/postComment")
+    public String postComment(@RequestParam("id_event") long idEvent, @RequestParam("comment") String comment, Model model){
+        AllEventCommentsDTO comments = commentFacade.postComment(idEvent, comment);
         model.addAttribute("comments", comments);
         return "comments/event_comments";
     }

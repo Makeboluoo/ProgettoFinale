@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.boot.model.naming.Identifier;
 
-@Table(uniqueConstraints = { @UniqueConstraint(name = "user_event_unique_constraint", columnNames = { "user_id", "event_id" }) })
+//@Table(uniqueConstraints = { @UniqueConstraint(name = "user_event_unique_constraint", columnNames = { "user_id", "event_id" }) })
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
