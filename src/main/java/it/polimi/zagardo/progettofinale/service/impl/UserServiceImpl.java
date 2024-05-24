@@ -33,22 +33,22 @@ public class UserServiceImpl implements UserService {
         userRepo.save(user);
     }
 
-    @Override
-    public UserModel findUserByUsername(String username) {
-        Optional<UserModel> userOptional = userRepo.findUserByUsername(username);
-        return userOptional.orElse(null);
-    }
+//    @Override
+//    public UserModel findUserByUsername(String username) {
+//        Optional<UserModel> userOptional = userRepo.findUserByUsername(username);
+//        return userOptional.orElse(null);
+//    }
 
-    @Override
-    @Transactional
-    public void updateUser(UserModel user) {
-        UserModel oldUser = findUserByUsername(user.getUsername());
-        oldUser.getEvents().clear();
-        oldUser.setEvents(user.getEvents());
-        oldUser.setGroupRights(user.getGroupRights());
-//        oldUser.setComments(user.getComments());
-        userRepo.save(oldUser);
-    }
+//    @Override
+//    @Transactional
+//    public void updateUser(UserModel user) {
+//        UserModel oldUser = findUserByUsername(user.getUsername());
+//        oldUser.getEvents().clear();
+//        oldUser.setEvents(user.getEvents());
+//        oldUser.setGroupRights(user.getGroupRights());
+////        oldUser.setComments(user.getComments());
+//        userRepo.save(oldUser);
+//    }
 
 //    eventualmente fare il metodo per vedere se la sessione è ancora attiva
 //    public boolean checkSession()

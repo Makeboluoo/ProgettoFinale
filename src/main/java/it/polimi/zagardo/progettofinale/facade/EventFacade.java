@@ -40,7 +40,7 @@ public class EventFacade {
         Event e =  eventService.findEvent(title, description, dateTime);
         UserModel userModel = (UserModel) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (e == null){
-            Event event = eventService.createEvent(title,description,dateTime,userModel, groupService.findGroupByName(groupName));
+            Event event = eventService.createEvent(title,description,dateTime, groupRightsService.searchGroupRightByIds(userModel.getId(),groupService.findGroupByName(groupName).getId() ));
             return mapper.toPrivateEventDTO(event);
         }
         else return null;
@@ -49,7 +49,7 @@ public class EventFacade {
     public SingleEventDTO singleEvent(long id) {
         UserModel userModel = (UserModel) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Event e = eventService.findEventByID(id);
-        Role role = groupRightsService.searchGroupRightByIds(userModel.getId(), e.getGroup().getId()).getRole();
+        Role role = groupRightsService.searchGroupRightByIds(userModel.getId(), e.getCreatorGR().getGroup().getId()).getRole();
         return mapper.toSingleEventDTO(e, userModel.getId(), role);
     }
 
@@ -62,6 +62,7 @@ public class EventFacade {
     public List<PrivateEventDTO> allEvents() {
         UserModel userModel = (UserModel) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         List<Event> events = eventService.findAllEvents(userModel.getId());
+        //todo fai un modo per togliere gli eventi in cui l'utente è in Waiting
         return mapper.toPrivateEventDTO(events);
     }
 

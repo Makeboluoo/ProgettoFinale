@@ -4,8 +4,10 @@ import it.polimi.zagardo.progettofinale.dto.GroupRightsDTO;
 import it.polimi.zagardo.progettofinale.mapper.GroupMapper;
 import it.polimi.zagardo.progettofinale.mapper.GroupRightsMapper;
 import it.polimi.zagardo.progettofinale.model.GroupRights;
+import it.polimi.zagardo.progettofinale.model.UserModel;
 import it.polimi.zagardo.progettofinale.service.def.GroupRightsService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 @Service

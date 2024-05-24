@@ -3,6 +3,7 @@ package it.polimi.zagardo.progettofinale.service.def;
 import it.polimi.zagardo.progettofinale.dto.SingleEventDTO;
 import it.polimi.zagardo.progettofinale.model.Event;
 import it.polimi.zagardo.progettofinale.model.GroupModel;
+import it.polimi.zagardo.progettofinale.model.GroupRights;
 import it.polimi.zagardo.progettofinale.model.UserModel;
 
 import java.time.LocalDateTime;
@@ -13,11 +14,11 @@ public interface EventService {
 
     Event findEventByID(long id);
 
-    Event createEvent(String title, String description, LocalDateTime dateTime, UserModel creator, GroupModel group);
+    Event createEvent(String title, String description, LocalDateTime dateTime,/* UserModel creator, GroupModel group*/ GroupRights groupRights);
 
-    void eliminateEvent(Event e);
+//    void eliminateEvent(Event e);
 
-    void deleteEvents(List<Event> events);
+//    void deleteEvents(List<Event> events);
 
     List<Event> findAllEvents(long idUser);
 
@@ -30,4 +31,6 @@ public interface EventService {
     void resign(Event event, long idUser);
 
     void deleteEvent(Event e);
+
+    List<Event> findSingleGroupEvents(GroupModel groupModel);
 }

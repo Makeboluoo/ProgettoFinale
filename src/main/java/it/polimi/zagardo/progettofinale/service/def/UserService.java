@@ -11,9 +11,9 @@ public interface UserService {
 
     void createAccount(String username, String password);
 
-    UserModel findUserByUsername(String username);
-
-    @Transactional
-    void updateUser(UserModel user);
+//    UserModel findUserByUsername(String username);
+//
+//    @Transactional
+//    void updateUser(UserModel user);
 
 }

@@ -48,8 +48,8 @@ public class EventController {
     }
 
     @PostMapping(path = "/singleEvent")
-    public String singleEvent(@RequestParam("id_event") long id, Model model){
-        SingleEventDTO event = eventFacade.singleEvent(id);
+    public String singleEvent(@RequestParam("id_event") long idEvent, Model model){
+        SingleEventDTO event = eventFacade.singleEvent(idEvent);
         if(event == null) model.addAttribute("error", "Errore nel caricare l'evento, torna indietro e riprova");
         model.addAttribute("event", event);
         return "events/single_event";

@@ -29,7 +29,7 @@ public class CommentFacade {
     public AllEventCommentsDTO postComment(long idEvent, String comment) {
         UserModel userModel = (UserModel) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Event e = eventService.findEventByID(idEvent);
-        GroupRights groupRights = groupRightsService.searchGroupRightByIds(userModel.getId(), e.getGroup().getId());
+        GroupRights groupRights = groupRightsService.searchGroupRightByIds(userModel.getId(), e.getCreatorGR().getGroup().getId());
         Comment singleComment = commentService.postComment(comment, groupRights, e);
         List<Comment> c = commentService.getCommentsFromEvent(idEvent);
         return mapper.toAllEventCommentsDTO(c, idEvent);

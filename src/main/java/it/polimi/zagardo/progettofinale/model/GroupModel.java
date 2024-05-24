@@ -35,8 +35,8 @@ public class GroupModel {
     //todo: secondo me un gruppo senza utenti deve essere eliminato ma non so come fare
     @OneToMany(mappedBy = "group", cascade = CascadeType.ALL)
     private List<GroupRights> groupRights;
-    @OneToMany(mappedBy = "group", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Event> events;
+//    @OneToMany(mappedBy = "group", cascade = CascadeType.ALL, orphanRemoval = true)
+//    private List<Event> events;
 
     public GroupModel(String name) {
         this.name = name;

@@ -30,7 +30,7 @@ public class PathManager {
                                 .requestMatchers("group/search").permitAll()
                                 .requestMatchers("group/join").permitAll()
                                 .requestMatchers("group/delete").hasRole(Role.Administrator.name())
-                                .requestMatchers("event/creation").permitAll()
+                                .requestMatchers("event/creation").hasAnyRole(Role.Administrator.name(), Role.Senior.name())
                                 .requestMatchers("event/allEvents").permitAll()
                                 .requestMatchers("event/myEvents").permitAll()
                                 .requestMatchers("event/singleEvent").permitAll()

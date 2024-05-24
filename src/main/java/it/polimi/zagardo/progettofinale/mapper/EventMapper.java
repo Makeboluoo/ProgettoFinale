@@ -15,7 +15,7 @@ import java.util.List;
 public class EventMapper {
 
     public EventDTO toEventDTO(Event e){
-        return new EventDTO(e.getId(),e.getTitle(),e.getDescription(),e.getDateTime(),e.getCreator().getId(),e.getCreator().getUsername(),e.getGroup().getId(),e.getGroup().getName());
+        return new EventDTO(e.getId(),e.getTitle(),e.getDescription(),e.getDateTime(),e.getCreatorGR().getUser().getId(),e.getCreatorGR().getUser().getUsername(),e.getCreatorGR().getGroup().getId(),e.getCreatorGR().getGroup().getName());
     }
 
     public List<EventDTO> toEventDTOList(List<Event> e){
@@ -28,42 +28,44 @@ public class EventMapper {
                 .setTitle(e.getTitle())
                 .setDescription(e.getDescription())
                 .setDateTime(e.getDateTime())
-                .setCreator((e.getCreator().getUsername()));
-        if(e.getGroup()==null){
+                .setCreator((e.getCreatorGR().getUser().getUsername()));
+        if(e.getCreatorGR().getGroup()==null){
             pDTO.setIdGroup(-1);
             pDTO.setGroupName("NO GROUP ASSIGNED");
         }else{
-            pDTO.setGroupName(e.getGroup().getName());
-            pDTO.setIdGroup(e.getGroup().getId());
+            pDTO.setGroupName(e.getCreatorGR().getGroup().getName());
+            pDTO.setIdGroup(e.getCreatorGR().getGroup().getId());
         }
         return pDTO.build();
     }
 
     public List<PrivateEventDTO> toPrivateEventDTO(List<Event> e){
-//        if(e==null||e.isEmpty()){
-//            //TODO: crea e sviluppa exception, per ora non la includo perché mi blocca il tutto
-//            throw new EventsNotFoundException();
+//        List<Event> newEventList = new ArrayList<>();
+//        for (Event singleEvent: e){
+//            if(singleEvent.getParticipants().get().getRole() != Role.Waiting)
+//                newEventList.add(singleEvent);
 //        }
 
         return e.stream().map(this::toPrivateEventDTO).toList();
     }
+
     public SingleEventDTO toSingleEventDTO(Event e, long id, Role role){
-        SingleEventDTO.Builder pDTO=new SingleEventDTO.Builder()
+        SingleEventDTO.Builder sDTO=new SingleEventDTO.Builder()
                 .setId(e.getId())
                 .setTitle(e.getTitle())
                 .setDescription(e.getDescription())
                 .setDateTime(e.getDateTime())
-                .setCreator((e.getCreator().getUsername()))
+                .setCreator((e.getCreatorGR().getUser().getUsername()))
                 .setIdUser(id)
                 .setRole(role);
-        if(e.getGroup()==null){
-            pDTO.setIdGroup(-1);
-            pDTO.setGroupName("NO GROUP ASSIGNED");
+        if(e.getCreatorGR().getGroup()==null){
+            sDTO.setIdGroup(-1);
+            sDTO.setGroupName("NO GROUP ASSIGNED");
         }else{
-            pDTO.setGroupName(e.getGroup().getName());
-            pDTO.setIdGroup(e.getGroup().getId());
+            sDTO.setGroupName(e.getCreatorGR().getGroup().getName());
+            sDTO.setIdGroup(e.getCreatorGR().getGroup().getId());
         }
-        return pDTO.build();
+        return sDTO.build();
     }
 
 }

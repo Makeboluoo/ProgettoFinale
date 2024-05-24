@@ -72,13 +72,13 @@ public class GroupFacade {
         GroupModel groupModel = groupService.findGroupByName(groupName);
         GroupRights gr = groupRightsService.searchGroupRightByIds(userModel.getId() ,groupModel.getId());
         if(gr == null)
-            groupRightsService.addGroupRight(userModel, groupModel, Role.Junior);
+            groupRightsService.addGroupRight(userModel, groupModel, Role.Waiting);
         return gr != null;
     }
 
     public void deleteGroup(String groupName) {
         GroupModel groupModel = groupService.findGroupByName(groupName);
-        List<Event> events = groupModel.getEvents();
+        List<Event> events = eventService.findSingleGroupEvents(groupModel);
         for(Event e: events){
             eventService.deleteEvent(e);
         }

@@ -27,8 +27,8 @@ public class UserModel implements UserDetails {
     @Column(nullable = false)
     private String password;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    private List<Event> events; //eventi a cui partecipa
+//    @ManyToMany(fetch = FetchType.LAZY)
+//    private List<Event> events; //eventi a cui partecipa
 
     @OneToMany(mappedBy = "user",fetch = FetchType.EAGER)
     private List<GroupRights> groupRights;
@@ -36,8 +36,8 @@ public class UserModel implements UserDetails {
 //    @OneToMany(mappedBy = "user")
 //    private List<Comment> comments;
 
-    @OneToMany(mappedBy = "creator", orphanRemoval = true)
-    private List<Event> createdEvents;
+//    @OneToMany(mappedBy = "creator", orphanRemoval = true)
+//    private List<Event> createdEvents;
 
 //    TODO Da capire per ogni classe che costruttori dare e perché!!
     public UserModel(String username, String password, List<GroupRights> groupRights) {
@@ -47,12 +47,6 @@ public class UserModel implements UserDetails {
     }
 
     //da capire se alla fine serve a qualcosa
-    public List<Event> getEvents() {
-        if(events == null){
-            events = new ArrayList<>();
-        }
-        return events;
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -98,7 +92,4 @@ public class UserModel implements UserDetails {
         return false;
     }
 
-    //Make 1
-    //Kema 2
-    //Mapo 3
 }

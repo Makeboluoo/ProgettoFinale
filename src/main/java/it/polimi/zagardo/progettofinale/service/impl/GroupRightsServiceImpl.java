@@ -70,6 +70,8 @@ public class GroupRightsServiceImpl implements GroupRightsService {
         }
         if(groupRights.getRole() == Role.Junior)
             groupRights.setRole(Role.Senior);
+        if(groupRights.getRole() == Role.Waiting)
+            groupRights.setRole(Role.Junior);
         return groupRights;
     }
 
@@ -77,6 +79,12 @@ public class GroupRightsServiceImpl implements GroupRightsService {
     @Override
     public GroupRights downgradeRole(long idGroupRight) {
         GroupRights groupRights = groupRightsRepo.findById(idGroupRight).orElse(null);
+        //todo magari se lo metti in waiting puoi cancellarlo dagli eventi del gruppo
+        if(groupRights.getRole() == Role.Junior) {
+            groupRights.setRole(Role.Waiting);
+            groupRights.getCreatedEvents().clear();
+            groupRights.getEvents().clear();
+        }
         if(groupRights.getRole() == Role.Senior)
             groupRights.setRole(Role.Junior);
         return groupRights;
