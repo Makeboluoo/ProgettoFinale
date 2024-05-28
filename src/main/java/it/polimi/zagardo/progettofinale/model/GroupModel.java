@@ -21,6 +21,7 @@ public class GroupModel {
     @Id
     @GeneratedValue
     private Long id;
+    //nome del gruppo
     @Column(nullable = false,unique = true)
     private String name;
 //    @Column(nullable = false,updatable = false,insertable = false, columnDefinition = "DEFAULT CURRENT_TIMESTAMP()")
@@ -32,11 +33,9 @@ public class GroupModel {
 //            ,updatable = false,insertable = false
             )
     private LocalDateTime creationDay;
-    //todo: secondo me un gruppo senza utenti deve essere eliminato ma non so come fare
+    //membri di un gruppo
     @OneToMany(mappedBy = "group", cascade = CascadeType.ALL)
     private List<GroupRights> groupRights;
-//    @OneToMany(mappedBy = "group", cascade = CascadeType.ALL, orphanRemoval = true)
-//    private List<Event> events;
 
     public GroupModel(String name) {
         this.name = name;

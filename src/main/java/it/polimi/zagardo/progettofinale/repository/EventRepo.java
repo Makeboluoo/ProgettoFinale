@@ -12,13 +12,8 @@ import java.util.List;
 import java.util.Optional;
 
 public interface EventRepo extends JpaRepository<Event, Long> {
-//    @Query("SELECT e FROM Event e WHERE e.title = :title AND e.description = :description AND e.dateTime = :dateTime")
-//    Optional<Event> findEvent(String title, String description, LocalDateTime dateTime);
 
     Optional<Event> findEventByTitleAndDescriptionAndDateTime(String title, String description, LocalDateTime dateTime);
-
-    //todo: questa query è corretta?? voglio avere tutti gli eventi a cui il mio utente partecipa.
-//    List<Event> findByParticipantsContains(UserModel user);
 
     @Query("SELECT e FROM Event e JOIN e.participants p WHERE p.user.id = :idUser ORDER BY e.creatorGR.group.name, e.dateTime")
     List<Event> findEventsByParticipant(@Param("idUser") long idUser);

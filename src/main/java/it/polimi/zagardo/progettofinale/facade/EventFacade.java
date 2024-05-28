@@ -29,16 +29,20 @@ public class EventFacade {
     private final GroupRightsService groupRightsService;
     private final EventMapper mapper;
 
-    //todo: provare ad utilizzare un utente che non
     public List<PrivateEventDTO> myEvents(){
+        //prendi l'utente in sessione
         UserModel userModel = (UserModel) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        //prendi la lista di eventi a cui l'utente partecipa e convertili in DTO
         List<Event> e= eventService.findMyEvents(userModel.getId());
         return mapper.toPrivateEventDTO(e);
     }
 
     public PrivateEventDTO creationEvent(String title, String description, LocalDateTime dateTime, String groupName) {
+        //cerca se esiste un evento con quei dati
         Event e =  eventService.findEvent(title, description, dateTime);
+        //prendi lo user in sessione
         UserModel userModel = (UserModel) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        //nel caso in cui non esiste ancora un evento con quei valori lo crea e lo converte in DTO sennò ritorna null
         if (e == null){
             Event event = eventService.createEvent(title,description,dateTime, groupRightsService.searchGroupRightByIds(userModel.getId(),groupService.findGroupByName(groupName).getId() ));
             return mapper.toPrivateEventDTO(event);
@@ -47,173 +51,43 @@ public class EventFacade {
     }
 
     public SingleEventDTO singleEvent(long id) {
+        //prendi lo user in sessione
         UserModel userModel = (UserModel) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        //prendi l'evento con id = id
         Event e = eventService.findEventByID(id);
+        //prendi il groupRight dell'utente in sessione nel gruppo in cui è stato pubblicato l'evento con id = id
         Role role = groupRightsService.searchGroupRightByIds(userModel.getId(), e.getCreatorGR().getGroup().getId()).getRole();
+        //ritorna il DTO
         return mapper.toSingleEventDTO(e, userModel.getId(), role);
     }
 
     public boolean partecipate(long idEvent, long idUser) {
+        //cerca se esiste un utente con id=idUser che partecipa all'evento con id = idEvent, in caso negativo
         UserModel u = eventService.findSingleParticipant(idEvent,idUser);
         if (u == null) eventService.participate(eventService.findEventByID(idEvent), idUser);
+        //ritorna true se esiste, false se non esiste
         return u != null;
     }
 
     public List<PrivateEventDTO> allEvents() {
+        //prendi lo user in sessione
         UserModel userModel = (UserModel) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        //prendi la lista degli eventi che sono stati pubblicati nei gruppi a cui l'utente fa parte
         List<Event> events = eventService.findAllEvents(userModel.getId());
-        //todo fai un modo per togliere gli eventi in cui l'utente è in Waiting
         return mapper.toPrivateEventDTO(events);
     }
 
     public void resign(long idEvent, long idUser) {
+        //cerca l'evento con id = idEvent
         Event event = eventService.findEventByID(idEvent);
+        //l'utente viene tolto dalla lista dei partecipanti
         eventService.resign(event, idUser);
     }
 
     public void eliminateEvent(SingleEventDTO event) {
+        //cerca l'evento con id = idEvent
         Event e = eventService.findEventByID(event.getId());
+        //l'utente elimina l'evento
         eventService.deleteEvent(e);
     }
-
-
-//    public List<EventDTO> allEvents(){
-//        UserModel userModel = (UserModel) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//        //todo: serve prendere tutti gli eventi di tutti i gruppi a cui l'utente fa parte
-//    }
-    //---------------------------------------------------------------------------------------------------------
-
-//    public boolean creationEvent(@RequestParam("title") String title, @RequestParam("description") String description,
-//                                @RequestParam("dateTime") LocalDateTime dateTime, Model model){
-//            Event event = eventService.findEvent(title, description, dateTime);
-//            if (event == null) {
-//                UserModel user = (UserModel) session.getAttribute("user");
-//                GroupModel group = (GroupModel) session.getAttribute("group");
-//                GroupRights creator = groupRightsService.searchMembership(user, group);
-//                //            creo l'evento
-//                eventService.createEvent(title, description, dateTime, creator);
-//                event = eventService.findEvent(title, description, dateTime);
-////          aggiungi automaticamente l'evento all'interno della lista di eventi e faccio l'update
-//                List<Event> events = user.getEvents();
-//                events.add(event);
-//                user.setEvents(events);
-//                userService.updateUser(user);
-//                model.addAttribute("event", event);
-//                return "event";
-//            } else {
-//                return "event_creation_failed";
-//            }
-//        }
-//    }
-//    @PostMapping("/singleEvent")
-//    public String singleEvent(long id, Model model){
-//
-//        Event event = eventService.findEventByID(id);
-//        UserModel userModel = (UserModel) session.getAttribute("user");
-//        if (event == null) {
-//            return "event_not_found";
-//        } else {
-//            model.addAttribute("event", event);
-//            model.addAttribute("user", userModel);
-//
-//            List<GroupRights> groupRights = event.getMembership().getGroup().getMemberships();
-//            String role= Role.Junior.toString();
-//            for(GroupRights m: groupRights){
-//                if(userModel.equals(m.getUser())){
-//                    System.out.println("Ci sono");
-//                    role=m.getRole().toString();
-//                }
-//            }
-//            model.addAttribute("role", role);
-//            return "single_event";
-//        }
-//
-//
-//    }
-//    @PostMapping("/participate")
-//    public String participateEvent(@RequestParam("id_event") long id_event,@RequestParam("id_user") long id_user, HttpSession session, Model model){
-//        if (session.getAttribute("user") != null) {
-//            UserModel userModel = (UserModel) session.getAttribute("user");
-//            Event event = eventService.findEventByID(id_event);
-//            if (event == null) {
-//                return "event_not_found";
-//            } else {
-//                model.addAttribute("event", event);
-//                model.addAttribute("user", userModel);
-//
-//                // controllo che l'utente non sia già iscritto all'evento
-//                for(Event e: userModel.getEvents()){
-//                    if(event.getId()==e.getId()){
-//                        model.addAttribute("error", "You are already a participant!");
-//                        return "single_event";
-//                    }
-//                }
-//
-//                // aggiungo l'evento all'utente
-//                List<Event> events = userModel.getEvents();
-//                events.add(event);
-//                userModel.setEvents(events);
-//                userService.updateUser(userModel);
-//                model.addAttribute("error", "You are now a participant!");
-//                return "single_event";
-//            }
-//        }
-//        else{
-//            // L'utente non è autenticato, reindirizza alla pagina di login
-//            return "redirect:/api/user/login";
-//        }
-//    }
-//    @PostMapping("/resign")
-//    public String resignEvent(@RequestParam("id_event") long id_event,@RequestParam("id_user") long id_user, HttpSession session, Model model){
-//        if (session.getAttribute("user") != null) {
-//            UserModel userModel = (UserModel) session.getAttribute("user");
-//            Event event = eventService.findEventByID(id_event);
-//            if (event == null) {
-//                return "event_not_found";
-//            } else {
-//                model.addAttribute("event", event);
-//                model.addAttribute("user", userModel);
-//
-//                // controllo che l'utente sia già iscritto all'evento
-//                for(Event e: userModel.getEvents()){
-//                    if(event.getId()==e.getId()){
-//                        List<Event> events = userModel.getEvents();
-//                        events.remove(event);
-//                        userModel.setEvents(events);
-//                        userService.updateUser(userModel);
-//                        model.addAttribute("error", "You are no longer a participant!");
-//                        return "single_event";
-//                    }
-//                }
-//
-//                // l'utente non partecipa di già all'evento
-//                model.addAttribute("error", "You are already not a participant!");
-//                return "single_event";
-//            }
-//        }
-//        else{
-//            // L'utente non è autenticato, reindirizza alla pagina di login
-//            return "redirect:/api/user/login";
-//        }
-//    }
-//
-//    @PostMapping("/eliminate")
-//    public String eliminateEvent(@RequestParam("id_event") long id_event,@RequestParam("id_user") long id_user, HttpSession session, Model model){
-//        if (session.getAttribute("user") != null) {
-//            UserModel userModel = (UserModel) session.getAttribute("user");
-//            Event event = eventService.findEventByID(id_event);
-//            if (event == null) {
-//                return "event_not_found";
-//            } else {
-//                eventService.eliminateEvent(event);
-//                model.addAttribute("error", "You have now eliminated the event!");
-//                return "single_event";
-//            }
-//        }
-//        else{
-//            // L'utente non è autenticato, reindirizza alla pagina di login
-//            return "redirect:/api/user/login";
-//        }
-//    }
-
 }

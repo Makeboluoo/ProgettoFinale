@@ -6,9 +6,13 @@ import lombok.Getter;
 
 @Getter
 public class GroupRightsDTO {
+    //prendiamo il id del group right
     private long id;
+    //prendiamo il nome del gruppo relativo
     private String groupName;
+    //prendiamo il ruolo del group right
     private Role role;
+    //prendiamo lo username dell'utente relativo
     private String username;
 
     private GroupRightsDTO(long id, String groupName, Role role, String username) {

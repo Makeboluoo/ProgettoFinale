@@ -22,54 +22,37 @@ public class GroupRightsServiceImpl implements GroupRightsService {
     @Override
     @Transactional
     public GroupRights addGroupRight(UserModel user, GroupModel group, Role role) {
+        //crea un group right dati utente, gruppo e ruolo
         GroupRights groupRight = new GroupRights(user, group, role);
         groupRightsRepo.save(groupRight);
         return groupRight;
     }
 
     @Override
-    public GroupRights searchMembership(UserModel user, GroupModel group) {
-        Optional<GroupRights> membershipOptional = groupRightsRepo.findMembership(user, group);
-        return membershipOptional.orElse(null);
-    }
-
-    @Override
-    @Transactional
-    public void updateMembership(String groupName,long idUser,Role r) {
-        GroupRights g=groupRightsRepo.findByUser_IdAndGroup_Name(idUser,groupName).orElseThrow(()->new GroupRightsNotFoundException(idUser,groupName));
-        g.setRole(r);
-        groupRightsRepo.save(g);
-    }
-
-    @Override
-    @Transactional
-    public boolean deleteRights(long id,String name){
-        GroupRights g=groupRightsRepo.findByUser_IdAndGroup_Name(id,name).orElseThrow(()->new GroupRightsNotFoundException(id,name));
-        groupRightsRepo.delete(g);
-        return true;
-    }
-
-    @Override
     public GroupRights searchGroupRightByIds(Long idUser, Long idGroup) {
+        //cerca un group right grazie agli id di utente e gruppo
         return groupRightsRepo.findByUser_IdAndGroup_Id(idUser, idGroup).orElse(null);
-    }
-
-    @Override
-    public GroupRights searchGroupRightById(long idGroupRight) {
-        return groupRightsRepo.findById(idGroupRight).orElse(null);
     }
 
     @Transactional
     @Override
     public GroupRights upgradeRole(long idGroupRight) {
+        //prende il group right da promuovere
         GroupRights groupRights = groupRightsRepo.findById(idGroupRight).orElse(null);
+        //se era un Senior allora diventa Administrator
+        //todo: da capire se lasciare un solo administrator o no
         if(groupRights.getRole() == Role.Senior){
+            //cerca il group right dell' administrator del gruppo
             List<GroupRights> adminGroupRight = groupRightsRepo.findByGroup_IdAndRole(groupRights.getGroup().getId(), Role.Administrator);
+            //gli impone il ruolo di Senior
             adminGroupRight.get(0).setRole(Role.Senior);
+            //fa Administrator il groupRight di partenza
             groupRights.setRole(Role.Administrator);
         }
+        //se era uno Junior lo promuove a Senior
         if(groupRights.getRole() == Role.Junior)
             groupRights.setRole(Role.Senior);
+        //se era uno in Waiting lo promuove a Junior (diventa ufficialmente un membro del gruppo)
         if(groupRights.getRole() == Role.Waiting)
             groupRights.setRole(Role.Junior);
         return groupRights;
@@ -78,13 +61,17 @@ public class GroupRightsServiceImpl implements GroupRightsService {
     @Transactional
     @Override
     public GroupRights downgradeRole(long idGroupRight) {
+        //prende il group right da declassare
         GroupRights groupRights = groupRightsRepo.findById(idGroupRight).orElse(null);
-        //todo magari se lo metti in waiting puoi cancellarlo dagli eventi del gruppo
+        //se era uno Junior allora lo fa diventare Waiting
         if(groupRights.getRole() == Role.Junior) {
             groupRights.setRole(Role.Waiting);
+            //Elimina tutti gli eventi che aveva creato nel gruppo
             groupRights.getCreatedEvents().clear();
+            //Viene tolto dagli eventi a cui partecipava nel gruppo
             groupRights.getEvents().clear();
         }
+        //ser era uno Senior lo declassa a Junior
         if(groupRights.getRole() == Role.Senior)
             groupRights.setRole(Role.Junior);
         return groupRights;

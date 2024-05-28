@@ -22,6 +22,7 @@ import java.util.Optional;
 @AllArgsConstructor
 @Service
 public class EventServiceImpl implements EventService {
+    //todo autowired??
     @Autowired
     private final EventRepo eventRepo;
     @Autowired
@@ -29,66 +30,60 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public Event findEvent(String title, String description, LocalDateTime dateTime) {
+        //ritorna l'evento con i campi titolo, descrizione e datetime sennò passa null
         Optional<Event> eventOptional = eventRepo.findEventByTitleAndDescriptionAndDateTime(title, description, dateTime);
         return eventOptional.orElse(null);
     }
 
     @Override
     public Event findEventByID(long id) {
+        //ritorna l'evento con id = id, sennò passa null
         return eventRepo.findById(id).orElse(null);
     }
 
     @Transactional
     @Override
-    public Event createEvent(String title, String description, LocalDateTime dateTime,/* UserModel creator, GroupModel group*/ GroupRights groupRights) {
-//        UserModel user = userRepo.findById(creator.getId()).get();
-        Event event = new Event(title,description,dateTime,/*user,group,*/ groupRights, new ArrayList<>(),new ArrayList<>());
+    public Event createEvent(String title, String description, LocalDateTime dateTime, GroupRights groupRights) {
+        //crea un evento con i dati passati
+        Event event = new Event(title,description,dateTime, groupRights, new ArrayList<>(),new ArrayList<>());
         eventRepo.save(event);
+        //aggiunge al groupRight (dell'utente in sessione nel gruppo in cui ha pubblicato l'evento) l'evento nella lista createdEvents
         groupRights.getCreatedEvents().add(event);
         return event;
     }
 
-//    @Transactional
-//    @Override
-//    public void eliminateEvent(Event e) {
-//        Event event = eventRepo.findById(e.getId())
-//                .orElseThrow(() -> new RuntimeException("Evento non trovato"));
-//
-//        // Rimuovi l'evento da tutti gli utenti partecipanti
-//
-//        eventRepo.delete(event);
-//    }
-
-//    @Override
-//    public void deleteEvents(List<Event> events){
-//        eventRepo.deleteAll(events);
-//    }
-
     @Override
     public List<Event> findAllEvents(long idUser) {
+        //ritorna tutti i gli eventi dei gruppi a cui l'utente partecipa tranne quelli in cui è in WAITING
         return eventRepo.findAllGroupEventsByUser(idUser, Role.Waiting);
     }
 
     @Override
     public UserModel findSingleParticipant(long idEvent, long idUser) {
+        //ritorna un determinato utente con id=idUser che partecipa a un evento con id=idEvent
         return eventRepo.findParticipantById(idEvent, idUser).orElse(null);
     }
 
     @Transactional
     @Override
     public void participate(Event event, long idUser) {
+        //cerca il groupRight dell'utente in sessione nel gruppo dell'evento che viene passato
+        //e gli aggiunge l'evento tra quelli a cui partecipa
         GroupRights groupRights = groupRightsRepo.findByUser_IdAndGroup_Id(idUser, event.getCreatorGR().getGroup().getId()).orElse(null);
         if (groupRights != null) groupRights.getEvents().add(event);
     }
 
     @Override
     public List<Event> findMyEvents(Long idUser) {
+        //cerca gli eventi a cui l'utente partecipa
         return eventRepo.findEventsByParticipant(idUser);
     }
 
     @Transactional
     @Override
     public void resign(Event event, long idUser) {
+        //cerca il groupRight dell'utente in sessione nel gruppo dell'evento che viene passato
+        //e rimuove tale evento da quelli a cui partecipa
         GroupRights groupRights = groupRightsRepo.findByUser_IdAndGroup_Id(idUser, event.getCreatorGR().getGroup().getId()).orElse(null);
         if (groupRights != null) groupRights.getEvents().remove(event);
     }
@@ -96,20 +91,19 @@ public class EventServiceImpl implements EventService {
     @Transactional
     @Override
     public void deleteEvent(Event e) {
+        //Prende tutti i groupRights di un determinato evento, ovvero i partecipanti
         for(GroupRights participant: e.getParticipants()){
+            //per ogni groupRight prende la lista di eventi a cui partecipa e lo rimuove
             participant.getEvents().remove(e);
         }
+        //si setta il creatore dell'evento da eliminare uguale a null per poi eliminare l'evento dal database
         e.setCreatorGR(null);
         eventRepo.delete(e);
-//        UserModel u = userRepo.findById(e.getCreator().getId()).orElse(null);
-//        System.out.println("SONO QUI 1. L'evento è: "+ u.getCreatedEvents().size());
-//        u.getCreatedEvents().remove(e);
-//        System.out.println("SONO QUI 2. L'evento è: "+ u.getCreatedEvents().size());
     }
 
     @Override
     public List<Event> findSingleGroupEvents(GroupModel groupModel) {
-
+        //prende la lista di eventi di un determinato gruppo
         return eventRepo.findByCreatorGR_Group_Id(groupModel.getId());
     }
 }

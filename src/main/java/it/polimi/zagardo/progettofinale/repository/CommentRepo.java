@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface CommentRepo extends JpaRepository<Comment, Long> {
     List<Comment> findByEvent_Id(long idEvent);
+    //ritorna la lista di commenti di un determinato evento
+
 }

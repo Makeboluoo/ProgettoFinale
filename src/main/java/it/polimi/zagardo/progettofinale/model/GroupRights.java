@@ -14,29 +14,33 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 public class GroupRights {
-    //grazie paolo mi hai salvato
-
     @Id
     @GeneratedValue
     private Long id;
 
+    //utente
     @ManyToOne
     @JoinColumn(name = "user_id",nullable = false)
     private UserModel user;
 
+    //gruppo
     @ManyToOne
     @JoinColumn(name = "group_id",nullable = false)
     private GroupModel group;
 
+    //commenti creati
     @OneToMany(mappedBy = "groupRights", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> comments;
 
+    //eventi creati
     @OneToMany(mappedBy = "creatorGR", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Event> createdEvents;
 
+    //eventi a cui si partecipa
     @ManyToMany(fetch = FetchType.LAZY)
     private List<Event> events; //eventi a cui partecipa
 
+    //ruolo all'interno del gruppo
     @Column(nullable = false)
     private Role role;
 

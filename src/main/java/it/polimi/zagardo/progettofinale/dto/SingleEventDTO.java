@@ -8,15 +8,25 @@ import java.time.LocalDateTime;
 
 @Getter
 public class SingleEventDTO {
+    //prendiamo il id dell'evento
     private long id;
+    //prendiamo il titolo dell'evento
     private String title;
+    //prendiamo la descrizione dell'evento
     private String description;
+    //prendiamo la data dell'evento
     private LocalDateTime dateTime;
     private long idGroup;
+    //prendiamo il id del gruppo su cui è pubblicato l'evento
     private String groupName;
+    //prendiamo lo username del creatore dell'evento
     private String creator;
+    //prendiamo il id dell'utente in sessione
     private long idUser;
+    //prendiamo il ruolo dell'utente in sessione all'interno del gruppo
     private Role role;
+
+    //todo aggiungi anche il numero dei partecipanti e chi partecipa (quindi aggiungi la lista dei partecipanti)?
 
     //step 1 il costruttore diventa privato
 

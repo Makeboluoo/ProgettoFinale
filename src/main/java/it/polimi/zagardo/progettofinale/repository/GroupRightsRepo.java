@@ -11,10 +11,6 @@ import java.util.List;
 import java.util.Optional;
 
 public interface GroupRightsRepo extends JpaRepository<GroupRights, Long> {
-    @Query("SELECT m FROM GroupRights m WHERE m.user = :user AND m.group = :group")
-    Optional<GroupRights> findMembership(UserModel user, GroupModel group);
-
-    Optional<GroupRights> findByUser_IdAndGroup_Name(Long id,String nome);
 
     Optional<GroupRights> findByUser_IdAndGroup_Id(long idUser, long idGroup);
 

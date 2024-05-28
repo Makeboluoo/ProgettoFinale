@@ -9,8 +9,11 @@ import java.util.List;
 
 @Getter
 public class UserDTO {
+    //prendiamo il id dello user
     private long id;
+    //prendiamo lo username dell'utente
     private String username;
+    //prendiamo la lista di groupRight che compone (le iscrizioni ai gruppi)
     private List<GroupRightsDTO> groupRightsDTO;
 
     private UserDTO(long id, String username, List<GroupRightsDTO> groupRightsDTO) {

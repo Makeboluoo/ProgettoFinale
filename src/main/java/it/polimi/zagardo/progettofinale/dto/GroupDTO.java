@@ -5,9 +5,11 @@ import lombok.Getter;
 
 @Getter
 public class GroupDTO {
+    //prendiamo l'id del gruppo
     private long id;
+    //prendiamo ilnome del gruppo
     private String name;
-    //todo: vogliamo anche aggiungere il numero di partecipanti nella scermata di tutti i gruppi? Nome + membri?
+    //todo: vogliamo anche aggiungere il numero di partecipanti nella schermata di tutti i gruppi? Nome + membri?
 
 
     private GroupDTO(long id, String name) {

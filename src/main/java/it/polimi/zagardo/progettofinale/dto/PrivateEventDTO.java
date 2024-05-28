@@ -9,12 +9,19 @@ import java.time.LocalDateTime;
 
 @Getter
 public class PrivateEventDTO {
+    //prendiamo il id dell'evento
     private long id;
+    //prendiamo il titolo dell'evento
     private String title;
+    //prendiamo la descrizione dell'evento
     private String description;
+    //prendiamo la data dell'evento
     private LocalDateTime dateTime;
+    //prendiamo il id del gruppo su cui è pubblicato l'evento
     private long idGroup;
+    //prendiamo anche il nome di quel gruppo
     private String groupName;
+    //prendiamo lo username del creatore
     private String creator;
 
     //step 1 il costruttore diventa privato

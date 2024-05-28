@@ -6,8 +6,11 @@ import lombok.Getter;
 
 @Getter
 public class CommentDTO {
+    //prendiamo l'id del commento
     private long id;
+    //prendiamo lo username di chi ha postato il commento
     private String username;
+    //prendiamo il testo del commento
     private String text;
 
     private CommentDTO(long id, String username, String text) {

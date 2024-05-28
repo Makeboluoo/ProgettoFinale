@@ -7,7 +7,9 @@ import java.util.List;
 
 @Getter
 public class AllEventCommentsDTO {
+    //prendiamo il id dell'evento
     private long idEvent;
+    //prendiamo la lista di commenti convertiti in DTO relativi all'evento
     private List<CommentDTO> commentsDTO;
 
     private AllEventCommentsDTO(long idEvent, List<CommentDTO> commentsDTO) {

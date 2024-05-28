@@ -20,27 +20,24 @@ public class Event {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+    //titolo dell'evento
     @Column(nullable = false)
     private String title;
+    //descrizione dell'evento
     private String description;
+    //data dell'evento
     @Column(nullable = false)
     private LocalDateTime dateTime;
-    //todo secondo me ha MOLTO più senso avere un solo collegamento con group-right e non due collegamenti con user e group
-//    @ManyToOne
-//    @JoinColumn(name = "id_creator")
-//    private UserModel creator;
-//    @ManyToOne
-//    @JoinColumn(name = "id_group")
-//    private GroupModel group;
+    //creatore dell'evento sotto forma di groupRight (connessione utente-gruppo)
     @ManyToOne
     @JoinColumn(name = "id_groupRight")
     private GroupRights creatorGR;
 
-    //todo stessa cosa per i partecipanti: chissene degli user, a me importano solo i groupright
-    //partecipante
+    //partecipanti sotto forma di groupRight
     @ManyToMany(mappedBy = "events")
     private List<GroupRights> participants;
 
+    //lista di commenti sotto all'evento
     @OneToMany(mappedBy = "event",cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REMOVE})
     private List<Comment> comments;
 

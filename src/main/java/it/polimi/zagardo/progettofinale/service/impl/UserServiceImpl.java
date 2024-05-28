@@ -19,37 +19,25 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean checkCredentials(String username, String password) {
+        //viene criptata la password usata
         String encryptedPassword = DigestUtils.sha256Hex(password);
+        //si controlla se esiste un utente con determinati username e password criptata
         Optional<UserModel> userOptional = userRepo.findByUsernameAndPassword(username, encryptedPassword);
         return userOptional.isPresent();
     }
 
+    //todo dovremmo usare un @Transactional?
     @Override
     public void createAccount(String username, String password) {
+        //si crea un nuovo utente
         UserModel user = new UserModel();
+        //si setta il suo username
         user.setUsername(username);
+        //si cripta la password che ha utilizzato
         String encryptedPassword = DigestUtils.sha256Hex(password);
+        //si setta la sua password criptata
         user.setPassword(encryptedPassword);
+        //si salva nel database il nuovo utente
         userRepo.save(user);
     }
-
-//    @Override
-//    public UserModel findUserByUsername(String username) {
-//        Optional<UserModel> userOptional = userRepo.findUserByUsername(username);
-//        return userOptional.orElse(null);
-//    }
-
-//    @Override
-//    @Transactional
-//    public void updateUser(UserModel user) {
-//        UserModel oldUser = findUserByUsername(user.getUsername());
-//        oldUser.getEvents().clear();
-//        oldUser.setEvents(user.getEvents());
-//        oldUser.setGroupRights(user.getGroupRights());
-////        oldUser.setComments(user.getComments());
-//        userRepo.save(oldUser);
-//    }
-
-//    eventualmente fare il metodo per vedere se la sessione è ancora attiva
-//    public boolean checkSession()
 }

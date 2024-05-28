@@ -15,17 +15,18 @@ public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+    //testo del commento
     @Column(nullable = false)
     private String text;
+    //groupRight del creatore nel gruppo dell'evento su cui è postato un commento
     //todo stessa questione del delete dell'evento: devo togliere il carattere nullable false
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "groupRight_id"/*,nullable = false*/)
     private GroupRights groupRights;
+    //evento su cui è postato un commento
     @ManyToOne
     @JoinColumn(name = "event_id"/*,nullable = false*/)
     private Event event;
-
-    //todo vogliamo aggiungere anche la data così posso passarglieli ordinati per data??
 
     public Comment(String text, GroupRights groupRights, Event event) {
         this.text = text;

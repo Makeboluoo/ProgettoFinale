@@ -21,12 +21,14 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public List<Comment> getCommentsFromEvent(long idEvent) {
+        //ritorna la lista di commenti di un determinato evento
         return commentRepo.findByEvent_Id(idEvent);
     }
 
     @Transactional
     @Override
     public Comment postComment(String comment, GroupRights groupRights, Event event) {
+        //Crea un commento per un determinato evento con i vari attributi passati e lo salva sul database
         Comment c = new Comment(comment,groupRights,event);
         commentRepo.save(c);
         return c;

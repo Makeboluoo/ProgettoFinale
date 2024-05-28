@@ -21,26 +21,29 @@ public class GroupServiceImpl implements GroupService {
     private final GroupRepo groupRepo;
 
 
-    //TO-DO eventualmente da togliere: si può tranquillamente usare findGroupByName. Non c'è bisogno di un metodo booleano
+    //booleano per vedere se esiste un gruppo con un determinato nome
     public boolean findIfExistGroupByName(String name) {
         return groupRepo.findGroupModelByName(name).isPresent();
     }
 
     @Override
     public GroupModel createGroup(String name) {
+        //crea un gruppo e settare il nome e la data
         GroupModel group = new GroupModel();
         group.setName(name);
-//        in teoria per via delle annotations in groupModel non dovrei settare io la data di creazione
+//      todo  in teoria per via delle annotations in groupModel non dovrei settare io la data di creazione
         group.setCreationDay(LocalDateTime.now());
         groupRepo.save(group);
         return groupRepo.findGroupModelByName(name).orElse(null);
     }
 
+    //trova il gruppo attraverso il nome
     @Override
     public GroupModel findGroupByName(String name){
         return groupRepo.findGroupModelByName(name).orElse(null);
     }
 
+    //cancella il gruppo
     @Transactional
     @Override
     public void deleteGroup(GroupModel groupModel) {
@@ -49,6 +52,7 @@ public class GroupServiceImpl implements GroupService {
 
     @Override
     public List<GroupModel> findAllGroups(UserModel userModel) {
+        //cerca tutti i gruppi di cui è membro un utente
         return groupRepo.findGroupByUsername(userModel.getUsername());
     }
 

@@ -18,14 +18,17 @@ public class UserFacade {
     private final UserMapper mapper;
 
     public boolean loginCheck(String username, String password){
+        //viene controllata la reale presenza di un utente con quel username e password
         return userService.checkCredentials(username, password);
     }
 
+    //si crea un nuovo account
     public void createAccount(String username, String password) {
         userService.createAccount(username, password);
     }
 
     public UserDTO getProfile() {
+        //si prende lo user dalla sessione e lo si converte in DTO
         UserModel userModel = (UserModel) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return mapper.toUserDTO(userModel);
     }

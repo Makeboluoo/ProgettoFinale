@@ -8,9 +8,13 @@ import java.util.List;
 
 @Getter
 public class SingleGroupDTO {
+    //prendiamo il id del gruppo
     private long id;
+    //prendiamo il nome del gruppo
     private String name;
+    //prendiamo la data di creazione
     private LocalDateTime creationDateTime;
+    //prendiamo la lista di groupRight (ovvero membri)
     private List<GroupRightsDTO> groupRightsDTOS;
 
     private SingleGroupDTO(long id, String name, LocalDateTime creationDateTime, List<GroupRightsDTO> groupRightsDTOS) {

@@ -22,31 +22,20 @@ public class UserModel implements UserDetails {
     @Id
     @GeneratedValue
     private Long id;
+    //username dell'utente
     @Column(nullable = false,unique = true)
     private String username;
+    //password dell'utente
     @Column(nullable = false)
     private String password;
-
-//    @ManyToMany(fetch = FetchType.LAZY)
-//    private List<Event> events; //eventi a cui partecipa
-
+    //groupRights in cui è coinvolto
     @OneToMany(mappedBy = "user",fetch = FetchType.EAGER)
     private List<GroupRights> groupRights;
-
-//    @OneToMany(mappedBy = "user")
-//    private List<Comment> comments;
-
-//    @OneToMany(mappedBy = "creator", orphanRemoval = true)
-//    private List<Event> createdEvents;
-
-//    TODO Da capire per ogni classe che costruttori dare e perché!!
     public UserModel(String username, String password, List<GroupRights> groupRights) {
         this.username = username;
         this.password = password;
         this.groupRights = groupRights;
     }
-
-    //da capire se alla fine serve a qualcosa
 
     @Override
     public boolean equals(Object o) {

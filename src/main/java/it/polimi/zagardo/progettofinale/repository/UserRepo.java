@@ -11,9 +11,6 @@ import java.util.Optional;
 
 public interface UserRepo extends JpaRepository<UserModel, Long> {
     Optional<UserModel> findByUsernameAndPassword(String username,String password);
-//    @Query("SELECT u FROM UserModel u WHERE u.username = ?1 AND u.password = ?2")
-//    Optional<UserModel> checkCredentials(String username, String encryptedPassword);
-
 
     @Query("SELECT u FROM UserModel u WHERE u.username = ?1")
     Optional<UserModel> findUserByUsername(String username);
