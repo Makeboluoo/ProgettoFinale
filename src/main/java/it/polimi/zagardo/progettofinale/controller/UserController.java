@@ -25,11 +25,11 @@ public class UserController {
     }
 
     //todo come gestire il logout??
-//    @GetMapping(path = "/logout")
-//    public String logoutPage(HttpSession session){
-//        session.invalidate();
-//        return "logout_page";
-//    }
+    @GetMapping(path = "/logout")
+    public String logoutPage(HttpSession session){
+        session.invalidate();
+        return "register_login_logout_profile/logout_page";
+    }
 
     //viene gestito il login dalla pagina html login_page
     @PostMapping(path = "/login")

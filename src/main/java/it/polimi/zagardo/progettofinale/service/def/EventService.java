@@ -16,13 +16,9 @@ public interface EventService {
 
     Event createEvent(String title, String description, LocalDateTime dateTime,/* UserModel creator, GroupModel group*/ GroupRights groupRights);
 
-//    void eliminateEvent(Event e);
-
-//    void deleteEvents(List<Event> events);
-
     List<Event> findAllEvents(long idUser);
 
-    UserModel findSingleParticipant(long idEvent, long idUser);
+    GroupRights findSingleParticipant(long idEvent, long idUser);
 
     void participate(Event event, long idUser);
 
@@ -33,4 +29,6 @@ public interface EventService {
     void deleteEvent(Event e);
 
     List<Event> findSingleGroupEvents(GroupModel groupModel);
+
+    List<Event> findAllEventsBetween(Long id, LocalDateTime fromDateTime, LocalDateTime toDateTime);
 }

@@ -5,6 +5,7 @@ import it.polimi.zagardo.progettofinale.dto.PrivateEventDTO;
 import it.polimi.zagardo.progettofinale.dto.SingleEventDTO;
 import it.polimi.zagardo.progettofinale.mapper.EventMapper;
 import it.polimi.zagardo.progettofinale.model.Event;
+import it.polimi.zagardo.progettofinale.model.GroupRights;
 import it.polimi.zagardo.progettofinale.model.UserModel;
 import it.polimi.zagardo.progettofinale.model.enums.Role;
 import it.polimi.zagardo.progettofinale.service.def.EventService;
@@ -24,7 +25,6 @@ import java.util.List;
 public class EventFacade {
 
     private final EventService eventService;
-    private final UserService userService;
     private final GroupService groupService;
     private final GroupRightsService groupRightsService;
     private final EventMapper mapper;
@@ -44,7 +44,9 @@ public class EventFacade {
         UserModel userModel = (UserModel) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         //nel caso in cui non esiste ancora un evento con quei valori lo crea e lo converte in DTO sennò ritorna null
         if (e == null){
-            Event event = eventService.createEvent(title,description,dateTime, groupRightsService.searchGroupRightByIds(userModel.getId(),groupService.findGroupByName(groupName).getId() ));
+            long idGroup=groupService.findGroupByName(groupName).getId();
+            GroupRights g=groupRightsService.searchGroupRightByIds(userModel.getId(),idGroup);
+            Event event = eventService.createEvent(title,description,dateTime, g);
             return mapper.toPrivateEventDTO(event);
         }
         else return null;
@@ -63,10 +65,10 @@ public class EventFacade {
 
     public boolean partecipate(long idEvent, long idUser) {
         //cerca se esiste un utente con id=idUser che partecipa all'evento con id = idEvent, in caso negativo
-        UserModel u = eventService.findSingleParticipant(idEvent,idUser);
-        if (u == null) eventService.participate(eventService.findEventByID(idEvent), idUser);
+        GroupRights g = eventService.findSingleParticipant(idEvent,idUser);
+        if (g == null) eventService.participate(eventService.findEventByID(idEvent), idUser);
         //ritorna true se esiste, false se non esiste
-        return u != null;
+        return g != null;
     }
 
     public List<PrivateEventDTO> allEvents() {
@@ -89,5 +91,13 @@ public class EventFacade {
         Event e = eventService.findEventByID(event.getId());
         //l'utente elimina l'evento
         eventService.deleteEvent(e);
+    }
+
+    public List<PrivateEventDTO> allEventsBetween(LocalDateTime fromDateTime, LocalDateTime toDateTime) {
+        //prendi lo user in sessione
+        UserModel userModel = (UserModel) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        //prendi la lista degli eventi che sono stati pubblicati nei gruppi a cui l'utente fa parte
+        List<Event> events = eventService.findAllEventsBetween(userModel.getId(), fromDateTime, toDateTime);
+        return mapper.toPrivateEventDTO(events);
     }
 }

@@ -41,7 +41,7 @@
             <button type="submit">Delete group!</button>
         </form>
 
-<!--        todo: fare la lista di membri per eventualmente fargli alzare il ruolo-->
+
     </div>
 
     <div th:if="${myRole.name()} != 'Waiting' ">
@@ -72,8 +72,6 @@
                             <button type="submit">Downgrade role!</button>
                         </form>
                     </td>
-    <!--                todo eventualmente mettere anche un bottone per espellere una persona dal gruppo. -->
-    <!-- todo questo però necessita una modifica nell'iscrizione ad un gruppo che dovrà essere accettata dal administrator-->
                 </tr>
                 </tbody>
             </table>

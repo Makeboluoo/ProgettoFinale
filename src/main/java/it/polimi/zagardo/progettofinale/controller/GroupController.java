@@ -65,7 +65,7 @@ public class GroupController {
         //se il gruppo non esiste
         else {
             model.addAttribute("error", "There are no groups with that name. Try Again");
-            return "redirect:/group/groups";
+            return "group/group_not_found";
         }
     }
 

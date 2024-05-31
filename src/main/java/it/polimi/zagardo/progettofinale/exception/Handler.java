@@ -9,7 +9,7 @@ public class Handler {
 
     //todo Crea un handler per ogni eccezione oppure un handler che catcha tutto?
     @ExceptionHandler({GroupRightsNotFoundException.class})
-    public String groupRightsNotFound(Exception ex, Model model){
+    public String groupRightsNotFound(){
         return "errorPage";
     }
 }

@@ -29,11 +29,11 @@ public class GroupRights {
     private GroupModel group;
 
     //commenti creati
-    @OneToMany(mappedBy = "groupRights", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "groupRights", cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REMOVE}, orphanRemoval = true)
     private List<Comment> comments;
 
     //eventi creati
-    @OneToMany(mappedBy = "creatorGR", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "creatorGR", cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REMOVE}, orphanRemoval = true)
     private List<Event> createdEvents;
 
     //eventi a cui si partecipa

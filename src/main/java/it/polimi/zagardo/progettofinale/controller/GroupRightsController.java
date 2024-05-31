@@ -35,4 +35,5 @@ public class GroupRightsController {
         return "groupRight/group_right_downgraded";
     }
 
+    //todo fare un metodo per togliersi da un gruppo?
 }

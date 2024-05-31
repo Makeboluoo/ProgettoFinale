@@ -59,7 +59,7 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public UserModel findSingleParticipant(long idEvent, long idUser) {
+    public GroupRights findSingleParticipant(long idEvent, long idUser) {
         //ritorna un determinato utente con id=idUser che partecipa a un evento con id=idEvent
         return eventRepo.findParticipantById(idEvent, idUser).orElse(null);
     }
@@ -98,6 +98,7 @@ public class EventServiceImpl implements EventService {
         }
         //si setta il creatore dell'evento da eliminare uguale a null per poi eliminare l'evento dal database
         e.setCreatorGR(null);
+        //todo: per antonio, ho provato a togliere queste righe sopra ma mi da java.sql.SQLIntegrityConstraintViolationException: Cannot delete or update a parent row: a foreign key constraint fails (`progettofinaleids`.`group_rights_events`, CONSTRAINT `FKesdlokua0kc65v6gxx02xk8gx` FOREIGN KEY (`events_id`) REFERENCES `event` (`id`))
         eventRepo.delete(e);
     }
 
@@ -105,5 +106,10 @@ public class EventServiceImpl implements EventService {
     public List<Event> findSingleGroupEvents(GroupModel groupModel) {
         //prende la lista di eventi di un determinato gruppo
         return eventRepo.findByCreatorGR_Group_Id(groupModel.getId());
+    }
+
+    @Override
+    public List<Event> findAllEventsBetween(Long id, LocalDateTime fromDateTime, LocalDateTime toDateTime) {
+        return eventRepo.findAllGroupEventsByUserBetween(id, Role.Waiting, fromDateTime, toDateTime);
     }
 }

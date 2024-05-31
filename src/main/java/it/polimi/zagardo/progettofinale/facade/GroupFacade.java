@@ -55,7 +55,9 @@ public class GroupFacade {
 
     public SingleGroupDTO findGroupByName(String name) {
         //cerca il gruppo per il nome
-        return mapper.toSingleGroupDTO(groupService.findGroupByName(name));
+        if (groupService.findGroupByName(name)!= null)
+            return mapper.toSingleGroupDTO(groupService.findGroupByName(name));
+        return null;
     }
 
     public Role getRoleFromGroup(SingleGroupDTO group) {

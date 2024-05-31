@@ -27,6 +27,7 @@ public class EventController {
     @GetMapping(path = "/myEvents")
     public String myEvents(Model model){
         List<PrivateEventDTO> events = eventFacade.myEvents();
+        model.addAttribute("now", LocalDateTime.now());
         model.addAttribute("events", events);
         return "events/my_events";
     }
@@ -38,6 +39,12 @@ public class EventController {
         List<PrivateEventDTO> events = eventFacade.allEvents();
         model.addAttribute("events", events);
             return "events/allEvents";
+    }
+    @PostMapping(path = "/searchBetween")
+    public String searchBetween(@RequestParam("fromDateTime") LocalDateTime fromDateTime, @RequestParam("toDateTime") LocalDateTime toDateTime, Model model){
+        List<PrivateEventDTO> events = eventFacade.allEventsBetween(fromDateTime, toDateTime);
+        model.addAttribute("events", events);
+        return "events/allEvents";
     }
 
 

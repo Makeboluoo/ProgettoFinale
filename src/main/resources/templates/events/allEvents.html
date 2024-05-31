@@ -18,6 +18,17 @@
     <h2>There are no events yet!</h2>
   </div>
   <div th:unless="${events.isEmpty() || events == null}">
+    <form action="/event/searchBetween" method="post">
+
+      <label for="fromDateTime"> From: </label>
+      <input type="datetime-local" id="fromDateTime" name="fromDateTime"/>
+
+      <label for="toDateTime">To: </label>
+      <input type="datetime-local" id="toDateTime" name="toDateTime"/>
+
+
+      <button type="submit">Search events in that period!</button>
+    </form>
     <table class="table table-dark">
       <thead>
       <tr>

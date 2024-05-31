@@ -43,7 +43,7 @@ public class SingleEventDTO {
         this.role = role;
     }
 
-    //step 2 creo una inner class pubblica statica che copia tutti gli attributi della classe padre (no getter)
+    //step 2 creo una inner class pubblica statica che copia tutti gli attributi della classe padre
     public static class Builder{
         private long id;
         private String title;
