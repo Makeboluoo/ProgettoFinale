@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class Handler {
 
-    //todo Crea un handler per ogni eccezione oppure un handler che catcha tutto?
+    //todo Eliminare tutte le exception che non uso
     @ExceptionHandler({GroupRightsNotFoundException.class})
     public String groupRightsNotFound(){
         return "errorPage";

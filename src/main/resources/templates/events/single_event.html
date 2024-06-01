@@ -43,7 +43,6 @@
         <button type="submit">Resign!</button>
       </form>
     </td>
-<!--    todo aggiungere qui sotto che un evento può essere cancellato anche dal suo creatore-->
     <div th:if="${event.getRole().name()} == 'Administrator'">
       <td>
         <form action="/event/delete" method="post">
@@ -61,11 +60,6 @@
   <input type="hidden" id="id_event3" name="id_event" th:value="${event.getId()}"/>
   <button type="submit">Vai ai commenti relativi all'evento!</button>
 </form>
-
-<!-- TO-DO AGGIUNGI SEZIONE COMMENTI!-->
-<!-- TO-DO AGGIUNGI SEZIONE PARTECIPANTI (visibile penso solo al creatore dell'evento)-->
-
-
 
 <h2> <a href="/user/home">Torna alla home</a> </h2>
 

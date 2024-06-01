@@ -23,8 +23,6 @@ public class UserController {
     public String loginPage(){
         return "register_login_logout_profile/login_page";
     }
-
-    //todo come gestire il logout??
     @GetMapping(path = "/logout")
     public String logoutPage(HttpSession session){
         session.invalidate();
@@ -61,7 +59,6 @@ public class UserController {
             return "redirect:/user/home";
             }
         else {
-            //todo io qui sto mandando ad una pagina di errore, va bene o devo creare le exception?
             return "register_login_logout_profile/registration_failed";
         }
     }

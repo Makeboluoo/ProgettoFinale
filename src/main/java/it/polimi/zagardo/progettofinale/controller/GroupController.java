@@ -74,7 +74,7 @@ public class GroupController {
     public String joinGroup(@RequestParam("group_name") String groupName, Model model){
         //controlla se era già un membro di quel gruppo e nel caso non lo fosse lo diventa
         boolean wasAlreadyMember = groupFacade.joinGroup(groupName);
-        model.addAttribute("error", "You are now a member of this group");
+        model.addAttribute("error", "Your joining request has been sent. Wait for the administrator to let you join in!");
         //in caso l'utente fosse già un partecipante ritorna il messaggio sotto
         if(wasAlreadyMember) model.addAttribute("error", "You were already a member of this group");
         return "group/group_joined";

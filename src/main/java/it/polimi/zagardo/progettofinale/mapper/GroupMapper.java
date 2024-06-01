@@ -2,11 +2,7 @@ package it.polimi.zagardo.progettofinale.mapper;
 
 import it.polimi.zagardo.progettofinale.dto.GroupDTO;
 import it.polimi.zagardo.progettofinale.dto.GroupRightsDTO;
-import it.polimi.zagardo.progettofinale.dto.PrivateEventDTO;
 import it.polimi.zagardo.progettofinale.dto.SingleGroupDTO;
-import it.polimi.zagardo.progettofinale.exception.EventsNotFoundException;
-import it.polimi.zagardo.progettofinale.exception.GroupNotFoundException;
-import it.polimi.zagardo.progettofinale.model.Event;
 import it.polimi.zagardo.progettofinale.model.GroupModel;
 import it.polimi.zagardo.progettofinale.model.GroupRights;
 import org.springframework.stereotype.Component;

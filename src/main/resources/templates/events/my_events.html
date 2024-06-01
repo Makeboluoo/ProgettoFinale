@@ -1,69 +1,3 @@
-<!--<!DOCTYPE html>-->
-<!--<html lang="en">-->
-<!--<head>-->
-<!--    <meta charset="UTF-8">-->
-<!--    <title>My Events</title>-->
-<!--</head>-->
-<!--<body>-->
-<!--<h1>All the events that you will attend!</h1>-->
-
-<!--&lt;!&ndash;todo Aggiungere sezione : Eventi Creati!&ndash;&gt;-->
-
-<!--<div th:if="${events.isEmpty()}">-->
-<!--  <h2>There are no events!</h2>-->
-<!--</div>-->
-<!--<div th:unless="${events.isEmpty()}">-->
-<!--  <table class="table table-dark">-->
-<!--    <thead>-->
-<!--    <tr>-->
-<!--      <th scope="col">Group</th>-->
-<!--      <th scope="col">Title</th>-->
-<!--      <th scope="col">Creator</th>-->
-<!--      <th scope="col">Date and Time</th>-->
-<!--&lt;!&ndash;      aggiungi pagina di dettaglio &ndash;&gt;-->
-<!--&lt;!&ndash;      <th scope="col">Info</th>&ndash;&gt;-->
-
-<!--    </tr>-->
-<!--    </thead>-->
-<!--    <tbody>-->
-<!--    <h2>Future events!</h2>-->
-<!--    <tr th:each="event: ${events}" th:if="${event.getDateTime().isAfter(now)}">-->
-<!--        <td th:text="${event.getGroupName()}"></td>-->
-<!--        <td th:text="${event.getTitle()}"></td>-->
-<!--        <td th:text="${event.getCreator()}"></td>-->
-<!--        <td th:text="${event.getDateTime()}"></td>-->
-<!--        <td>-->
-<!--          <form action="/event/singleEvent" method="post">-->
-<!--            <input type="hidden" id="id_event" name="id_event" th:value="${event.getId()}"/>-->
-<!--            <button type="submit">View!</button>-->
-<!--          </form>-->
-<!--        </td>-->
-<!--    </tr>-->
-<!--    <h2>Past Events</h2>-->
-<!--    <tr th:each="event: ${events}" th:if="${event.getDateTime().isBefore(now)}">-->
-<!--        <td th:text="${event.getGroupName()}"></td>-->
-<!--        <td th:text="${event.getTitle()}"></td>-->
-<!--        <td th:text="${event.getCreator()}"></td>-->
-<!--        <td th:text="${event.getDateTime()}"></td>-->
-<!--        <td>-->
-<!--          <form action="/event/singleEvent" method="post">-->
-<!--            <input type="hidden" id="id_event1" name="id_event" th:value="${event.getId()}"/>-->
-<!--            <button type="submit">View!</button>-->
-<!--          </form>-->
-<!--        </td>-->
-<!--    </tr>-->
-<!--    </tbody>-->
-<!--  </table>-->
-<!--</div>-->
-
-
-<!--<h2> <a href="/user/home">Torna alla home</a> </h2>-->
-
-
-
-<!--</body>-->
-<!--</html>-->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -132,7 +66,7 @@
   </table>
 </div>
 
-<h2> <a href="/user/home">Torna alla home</a> </h2>
+<h2> <a href="/user/home">Go back to the home page</a> </h2>
 
 </body>
 </html>

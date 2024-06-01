@@ -2,7 +2,6 @@ package it.polimi.zagardo.progettofinale.controller;
 
 import it.polimi.zagardo.progettofinale.dto.PrivateEventDTO;
 import it.polimi.zagardo.progettofinale.dto.SingleEventDTO;
-import it.polimi.zagardo.progettofinale.exception.EventsNotFoundException;
 import it.polimi.zagardo.progettofinale.facade.EventFacade;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -67,7 +66,7 @@ public class EventController {
     public String singleEvent(@RequestParam("id_event") long idEvent, Model model){
         SingleEventDTO event = eventFacade.singleEvent(idEvent);
         //se non trova alcun evento con quell'id torna la pagina con l'errore
-        if(event == null) model.addAttribute("error", "Errore nel caricare l'evento, torna indietro e riprova");
+        if(event == null) model.addAttribute("error", "An error occurred during the loading of the event. Please go back and try again!");
         model.addAttribute("event", event);
         return "events/single_event";
     }
@@ -80,9 +79,9 @@ public class EventController {
         //Controlla se l'utente fosse già un partecipante o meno
         boolean wasAlreadyParticipant = eventFacade.partecipate(id_event, id_user);
         model.addAttribute("event", event);
-        model.addAttribute("error", "Ora sei un partecipante");
+        model.addAttribute("error", "You are now a member!");
         //nel caso in cui l'utente fosse già un partecipante passa il messaggio di errore alla pagina single_event qui sotto
-        if (wasAlreadyParticipant) model.addAttribute("error", "Eri già un partecipante!");
+        if (wasAlreadyParticipant) model.addAttribute("error", "You were already a member!");
         return "events/single_event";
     }
 
