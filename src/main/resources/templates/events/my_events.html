@@ -13,8 +13,11 @@
     }
     .container {
       max-width: 800px;
-      margin: 0 auto;
+      margin: 20px auto;
       padding: 20px;
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     }
     .header {
       text-align: center;
@@ -76,7 +79,8 @@
         <td>
           <!-- Formatta la data -->
           <span th:text="${#temporals.format(event.getDateTime(), 'HH:mm - dd/MM/yyyy')}"></span>
-        </td>        <td>
+        </td>
+        <td>
           <form action="/event/singleEvent" method="post">
             <input type="hidden" id="id_event" name="id_event" th:value="${event.getId()}"/>
             <button type="submit">View</button>
@@ -105,7 +109,8 @@
         <td>
           <!-- Formatta la data -->
           <span th:text="${#temporals.format(event.getDateTime(), 'HH:mm - dd/MM/yyyy')}"></span>
-        </td>        <td>
+        </td>
+        <td>
           <form action="/event/singleEvent" method="post">
             <input type="hidden" id="id_event1" name="id_event" th:value="${event.getId()}"/>
             <button type="submit">View</button>
@@ -115,10 +120,11 @@
       </tbody>
     </table>
   </div>
-
-  <div class="back-link">
-    <a href="/user/home">Go back to the home page</a>
-  </div>
 </div>
+
+<div class="back-link">
+  <a href="/user/home">Go back to the home page</a>
+</div>
+
 </body>
 </html>
