@@ -2,11 +2,44 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Failed Registration</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8d7da; /* Colore di sfondo rosso chiaro per indicare un errore */
+        }
+        .card {
+            border-color: #dc3545;
+        }
+        .card-header, .btn-danger {
+            background-color: #dc3545;
+            border-color: #dc3545;
+        }
+        .btn-danger:hover {
+            background-color: #c82333;
+            border-color: #bd2130;
+        }
+    </style>
 </head>
 <body>
-  <h1>The credentials are already in use!</h1>
-  <h2> <a href="/user/register">Try again</a> </h2>
-  <h2> <a href="/user/login">Sign in</a> </h2>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header text-center">
+                    <h2>Failed Registration</h2>
+                </div>
+                <div class="card-body text-center">
+                    <p class="text-danger">The credentials are already in use!</p>
+                    <a href="/user/register" class="btn btn-danger">Try again</a>
+                    <a href="/user/login" class="btn btn-outline-danger">Sign in</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

@@ -39,6 +39,7 @@ public class EventController {
         model.addAttribute("events", events);
             return "events/allEvents";
     }
+    //passa la lista di eventi con la data in un certo periodo
     @PostMapping(path = "/searchBetween")
     public String searchBetween(@RequestParam("fromDateTime") LocalDateTime fromDateTime, @RequestParam("toDateTime") LocalDateTime toDateTime, Model model){
         List<PrivateEventDTO> events = eventFacade.allEventsBetween(fromDateTime, toDateTime);
@@ -49,8 +50,8 @@ public class EventController {
 
     //Crea un evento in un determinato gruppo
     @PostMapping(path = "/creation")
-    public String creationEvent(@RequestParam("title") String title, @RequestParam("description") String description,
-                                @RequestParam("dateTime") LocalDateTime dateTime, Model model, HttpSession session){
+    public String creationEvent(@RequestParam(value = "title", required = false) String title, @RequestParam(value = "description", required = false) String description,
+                                @RequestParam(value = "dateTime", required = false) LocalDateTime dateTime, Model model, HttpSession session){
         //crea un evento e passa il DTO di questo evento
         PrivateEventDTO privateEventDTO = eventFacade.creationEvent(title, description, dateTime, (String)session.getAttribute("groupName"));
         if (privateEventDTO != null) {
@@ -58,7 +59,7 @@ public class EventController {
             return "events/event";
         }
         //in caso la creazione dell'evento fallisca
-        else return "group/group_creation_failed";
+        else return "events/event_creation_failed";
     }
 
     //cerca e passa il DTO di un singolo evento con id = idEvent

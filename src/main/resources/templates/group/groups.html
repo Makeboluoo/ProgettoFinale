@@ -1,68 +1,121 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!--    todo fare tutto in italiano o inglese-->
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Groups</title>
+    <style>
+        body {
+            background-color: #f5deb3; /* Beige */
+            font-family: Arial, sans-serif; /* Tipo di carattere */
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .group-list {
+            margin-bottom: 40px;
+        }
+        .group-list table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .group-list th, .group-list td {
+            border: 1px solid #8b4513; /* Marrone scuro */
+            padding: 12px;
+            text-align: center;
+        }
+        .group-list th {
+            background-color: #f2f2f2; /* Sfondo grigio chiaro per le intestazioni della tabella */
+        }
+        .create-group-form, .search-group-form {
+            margin-bottom: 40px;
+        }
+        .create-group-form input[type="text"], .search-group-form input[type="text"], .create-group-form button, .search-group-form button {
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            margin-right: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease; /* Transizione del colore di sfondo */
+        }
+        .create-group-form input[type="text"], .search-group-form input[type="text"] {
+            width: 70%;
+        }
+        .create-group-form button, .search-group-form button {
+            background-color: #8b4513; /* Marrone scuro */
+            color: #ffffff; /* Testo bianco */
+        }
+        .create-group-form button:hover, .search-group-form button:hover {
+            background-color: #a0522d; /* Marrone più chiaro al passaggio del mouse */
+        }
+        .back-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .back-link a {
+            color: #8b4513; /* Marrone scuro */
+            text-decoration: none; /* Nessuna sottolineatura */
+            font-size: 18px;
+        }
+        .back-link a:hover {
+            text-decoration: underline; /* Sottolineatura al passaggio del mouse */
+        }
+    </style>
 </head>
 <body>
-<h1>Your groups</h1>
-<!--Visualizzazione dei gruppi a cui si fa parte-->
-<table>
-    <div th:if="${groups.isEmpty() or groups == null}">
-        <h2>You're not part of any group!</h2>
+<div class="container">
+    <div class="header">
+        <h1>Your Groups</h1>
     </div>
-    <div th:unless="${groups.isEmpty() or groups == null}">
-        <thead>
-        <tr>
-            <th scope="col">Group</th>
-    <!--     TO-DO: al massimo aggiungere Data di iscrizione...   <th scope="col">Date of subscription</th>-->
-        </tr>
-        </thead>
-        <tbody>
+
+    <div class="group-list">
+        <h2>Groups You Are a Member of</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>Group Name</th>
+            </tr>
+            </thead>
+            <tbody>
             <tr th:each="group: ${groups}">
                 <td>
-<!--                    se vuoi cambiare da bottone a hyperlink usa il link https://www.baeldung.com/spring-thymeleaf-request-parameters-->
-                    <form action="/group/search" method="post" >
+                    <form action="/group/search" method="post">
                         <button type="submit" th:name="nameSearch" th:value="${group.getName}" th:text="${group.getName}"></button>
                     </form>
                 </td>
-
-<!--                eventualmente mettere anche data di iscrizione-->
-<!--                <td th:text="${membership.getRole}"/>-->
             </tr>
-        </tbody>
+            </tbody>
+        </table>
     </div>
-</table>
 
-<!-- opzione di creazione di un gruppo -->
-<h1>Group creation</h1>
-<form action="/group/creation" method="post">
-    <label for="name">Name of the group:</label>
-    <input type="text" id="name" name="name"/>
+    <div class="create-group-form">
+        <h2>Create a New Group</h2>
+        <form action="/group/creation" method="post">
+            <input type="text" id="name" name="name" placeholder="Enter Group Name"/>
+            <button type="submit">Create Group</button>
+        </form>
+    </div>
 
-    <button type="submit">Create group!</button>
-</form>
+    <div class="search-group-form">
+        <h2>Search for a Group</h2>
+        <form action="/group/search" method="post">
+            <input type="text" id="nameSearch" name="nameSearch" placeholder="Enter Group Name"/>
+            <button type="submit">Search Group</button>
+        </form>
+    </div>
 
-
-<div th:if="${error!=null}">
-    <h2 th:text="${error}"></h2>
+    <div class="back-link">
+        <a href="/user/home">Go Back to Home Page</a>
+    </div>
 </div>
-<!-- opzione di ricerca di un gruppo -->
-<h1>Group research</h1>
-<!--<h2 th:if="${error != null}" th:text="${error}"></h2>-->
-<form action="/group/search" method="post">
-    <label for="nameSearch">Name of the group:</label>
-    <input type="text" id="nameSearch" name="nameSearch"/>
-
-    <button type="submit">Search group!</button>
-</form>
-
-
-
-<h2> <a href="/user/home">Go back to the home page</a> </h2>
-
-
-
 </body>
 </html>

@@ -2,18 +2,42 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Event Eliminated</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f5e6cc;
+            color: #4d4d4d;
+            font-family: Arial, sans-serif;
+            padding: 50px;
+            text-align: center;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        a {
+            color: #8b4513;
+        }
+
+        a:hover {
+            color: #6a3d09;
+        }
+    </style>
 </head>
 <body>
 
-<div th:if="${error!=null}">
-  <h2 th:text="${error}"></h2>
+<div th:if="${error != null}">
+    <h2 th:text="${error}"></h2>
 </div>
 
-<div th:unless="${error!=null}">
-  <h1>Event eliminated successfully!</h1>
+<div th:unless="${error != null}">
+    <h1>Event eliminated successfully!</h1>
 </div>
 
-<h2> <a href="/user/home">Go back to home page!</a> </h2>
+<h2><a href="/user/home">Go back to home page!</a></h2>
+
 </body>
 </html>

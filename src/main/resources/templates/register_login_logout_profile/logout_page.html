@@ -2,10 +2,43 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Logout</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #d4edda; /* Colore di sfondo verde chiaro per indicare un'azione positiva */
+        }
+        .card {
+            border-color: #28a745;
+        }
+        .card-header, .btn-success {
+            background-color: #28a745;
+            border-color: #28a745;
+        }
+        .btn-success:hover {
+            background-color: #218838;
+            border-color: #1e7e34;
+        }
+    </style>
 </head>
 <body>
-  <h1>Thank you for the time spent with us! See you next time!!</h1>
-  <h2>Want to enter from another account? Click <a href="/user/login">here</a></h2>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header text-center">
+                    <h2>Logout Successful</h2>
+                </div>
+                <div class="card-body text-center">
+                    <p class="text-success">Thank you for the time spent with us! See you next time!!</p>
+                    <a href="/user/login" class="btn btn-success">Login with another account</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

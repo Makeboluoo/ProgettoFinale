@@ -2,66 +2,136 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Single Event Page</title>
+  <style>
+    body {
+      background-color: #f5deb3; /* Beige */
+      font-family: Arial, sans-serif; /* Tipo di carattere */
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    .header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    .event-table {
+      margin-bottom: 40px;
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .event-table th, .event-table td {
+      border: 1px solid #8b4513; /* Marrone scuro */
+      padding: 12px;
+      text-align: center;
+    }
+    .event-table th {
+      background-color: #f2f2f2; /* Sfondo grigio chiaro per le intestazioni della tabella */
+    }
+    .button-container {
+      text-align: center;
+      margin-top: 20px;
+    }
+    .button-container button {
+      background-color: #8b4513; /* Marrone scuro */
+      color: #fff; /* Testo bianco */
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      margin-right: 10px;
+    }
+    .button-container button:hover {
+      background-color: #654321; /* Marrone più scuro al passaggio del mouse */
+    }
+    .back-link {
+      text-align: center;
+      margin-top: 20px;
+    }
+    .back-link a {
+      color: #8b4513; /* Marrone scuro */
+      text-decoration: none; /* Nessuna sottolineatura */
+      font-size: 18px;
+    }
+    .back-link a:hover {
+      text-decoration: underline; /* Sottolineatura al passaggio del mouse */
+    }
+  </style>
 </head>
 <body>
-<!--TO-DO cambia assolutamente tipo di vista: una tabella è proprio brutta: pensa a da descrizione grande. Meglio fare una normale sezione con h1 etc.-->
-<div th:if="${error!=null}">
-  <h2 th:text="${error}"></h2>
+<div class="container">
+  <div class="header">
+    <h1>Event created!</h1>
+  </div>
+
+  <div th:if="${error!=null}">
+    <h2 th:text="${error}"></h2>
+  </div>
+
+  <div th:if="${event!=null}">
+    <table class="event-table">
+      <thead>
+      <tr>
+        <th scope="col">Title</th>
+        <th scope="col">Description</th>
+        <th scope="col">Date and Time</th>
+        <th scope="col">Group</th>
+        <th scope="col">Creator</th>
+        <th scope="col" colspan="3">Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td th:text="${event.getTitle()}"></td>
+        <td th:text="${event.getDescription()}"></td>
+        <td>
+          <!-- Formatta la data -->
+          <span th:text="${#temporals.format(event.getDateTime(), 'HH:mm - dd/MM/yyyy')}"></span>
+        </td>
+        <td th:text="${event.getGroupName()}"></td>
+        <td th:text="${event.getCreator()}"></td>
+        <td>
+          <form action="/event/participate" method="post">
+            <input type="hidden" id="id_event" name="id_event" th:value="${event.getId()}"/>
+            <input type="hidden" id="id_user" name="id_user" th:value="${event.getIdUser()}"/>
+            <button type="submit">Participate!</button>
+          </form>
+        </td>
+        <td>
+          <form action="/event/resign" method="post">
+            <input type="hidden" id="id_event1" name="id_event" th:value="${event.getId()}"/>
+            <input type="hidden" id="id_user1" name="id_user" th:value="${event.getIdUser()}"/>
+            <button type="submit">Resign!</button>
+          </form>
+        </td>
+        <td th:if="${event.getRole().name()} == 'Administrator'">
+          <form action="/event/delete" method="post">
+            <input type="hidden" id="id_event2" name="id_event" th:value="${event.getId()}"/>
+            <button type="submit">Delete!</button>
+          </form>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="button-container">
+    <form action="/comment/eventComments" method="post">
+      <input type="hidden" id="id_event3" name="id_event" th:value="${event.getId()}"/>
+      <button type="submit">View Comments</button>
+    </form>
+  </div>
+
+  <div class="back-link">
+    <a href="/user/home">Go back to the home page</a>
+  </div>
 </div>
-<div th:if="${event!=null}">
-<table class="table table-dark">
-  <thead>
-  <tr>
-    <th scope="col">Title</th>
-    <th scope="col">Description</th>
-    <th scope="col">Date and Time</th>
-    <th scope="col">Group</th>
-    <th scope="col">Creator</th>
-
-
-  </tr>
-  </thead>
-  <tbody>
-  <tr>
-    <td th:text="${event.getTitle()}"></td>
-    <td th:text="${event.getDescription()}"></td>
-    <td th:text="${event.getDateTime()}"></td>
-    <td th:text="${event.getGroupName()}"></td>
-    <td th:text="${event.getCreator()}"></td>
-    <td>
-      <form action="/event/participate" method="post">
-        <input type="hidden" id="id_event" name="id_event" th:value="${event.getId()}"/>
-        <input type="hidden" id="id_user" name="id_user" th:value="${event.getIdUser()}"/>
-        <button type="submit">Participate!</button>
-      </form>
-    </td>
-    <td>
-      <form action="/event/resign" method="post">
-        <input type="hidden" id="id_event1" name="id_event" th:value="${event.getId()}"/>
-        <input type="hidden" id="id_user1" name="id_user" th:value="${event.getIdUser()}"/>
-        <button type="submit">Resign!</button>
-      </form>
-    </td>
-    <div th:if="${event.getRole().name()} == 'Administrator'">
-      <td>
-        <form action="/event/delete" method="post">
-          <input type="hidden" id="id_event2" name="id_event" th:value="${event.getId()}"/>
-          <button type="submit">Delete!</button>
-        </form>
-      </td>
-    </div>
-  </tr>
-  </tbody>
-</table>
-</div>
-
-<form action="/comment/eventComments" method="post">
-  <input type="hidden" id="id_event3" name="id_event" th:value="${event.getId()}"/>
-  <button type="submit">Vai ai commenti relativi all'evento!</button>
-</form>
-
-<h2> <a href="/user/home">Torna alla home</a> </h2>
-
 </body>
 </html>

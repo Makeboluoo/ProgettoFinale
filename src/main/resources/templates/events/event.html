@@ -2,46 +2,114 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Event page</title>
+    <title>Group</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+          integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <style>
+        body {
+            background-color: #f5e6cc;
+        }
+
+        .container {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        .center-bottom {
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
 </head>
 <body>
-<h1>Event created!</h1>
+<div class="container">
+    <h1>Group Info</h1>
+    <h2 th:text="'Group name: ' + ${group.getName()} "></h2>
+    <h2 th:text="'Creation date: ' + ${#temporals.format(group.getCreationDateTime(), 'HH:mm - dd/MM/yyyy')}"></h2>
+    <h2 th:if="${myRole} != null" th:text="'My role: ' + ${myRole} "></h2>
+    <h2 th:if="${myRole} != ${admin}" th:text="'Administrator: ' + ${adminUsername} "></h2>
 
-<!--TO-DO cambia assolutamente tipo di vista: una tabella è proprio brutta: pensa a da descrizione grande. Meglio fare una normale sezione con h1 etc.-->
-<table class="table table-dark">
-    <thead>
-    <tr>
-        <th scope="col">Title</th>
-        <th scope="col">Description</th>
-        <th scope="col">Date and Time</th>
-        <th scope="col">Group</th>
-        <th scope="col">Creator</th>
+    <div th:if="${myRole} != null">
+        <div th:if="${myRole.name()} == 'Junior' ">
+        </div>
+        <div th:if="${myRole.name()} == 'Administrator' or ${myRole.name()} == 'Senior'">
+            <h3>Create your event!</h3>
+            <form action="/event/creation" method="post">
+                <label for="title">Title of the event</label>
+                <input type="text" id="title" name="title"/>
 
+                <label for="description">Description of the event</label>
+                <input type="text" id="description" name="description"/>
 
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-        <td th:text="${event.getTitle()}"></td>
-        <td th:text="${event.getDescription()}"></td>
-        <td th:text="${event.getDateTime()}"></td>
-        <td th:text="${event.getGroupName()}"></td>
-        <td th:text="${event.getCreator()}"></td>
-    </tr>
-    </tbody>
-</table>
+                <label for="dateTime">Date and Time of the event</label>
+                <input type="datetime-local" id="dateTime" name="dateTime"/>
 
-<form action="/comment/eventComments" method="post">
-    <input type="hidden" id="id_event" name="id_event" th:value="${event.getId()}"/>
-    <button type="submit">Vai ai commenti relativi all'evento!</button>
-</form>
+                <input type="hidden" id="groupName" name="groupName" th:value="${group.getName()}"/>
 
-<!-- TO-DO AGGIUNGI SEZIONE COMMENTI!-->
-<!-- TO-DO AGGIUNGI SEZIONE PARTECIPANTI (visibile penso solo al creatore dell'evento)-->
+                <button type="submit" class="btn btn-primary">Create event!</button>
+            </form>
+        </div>
 
+        <div th:if="${myRole.name()} == 'Administrator'">
+            <form action="/group/delete" method="post">
+                <input type="hidden" id="group_name2" name="group_name" th:value="${group.getName()}"/>
+                <button type="submit" class="btn btn-danger">Delete group!</button>
+            </form>
+        </div>
 
+        <div th:if="${myRole.name()} != 'Waiting' ">
+            <div>
+                <table class="table table-dark">
+                    <thead>
+                    <tr>
+                        <th scope="col">Username</th>
+                        <th scope="col">Role</th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="groupRight: ${group.getGroupRightsDTOS()}">
+                        <td th:text="${groupRight.getUsername()}"></td>
+                        <td th:text="${groupRight.getRole()}"></td>
+                        <td th:if="${myRole.name()} == 'Administrator' and ${groupRight.getRole().name()}!='Administrator'">
+                            <form action="/groupRight/upgradeRole" method="post">
+                                <input type="hidden" id="id_gr_upgrade" name="id_gr_upgrade"
+                                       th:value="${groupRight.getId()}"/>
+                                <button type="submit" class="btn btn-success">Upgrade role!</button>
+                            </form>
+                        </td>
+                        <td th:if="${myRole.name()} == 'Administrator'and ${groupRight.getRole().name()}!='Administrator' and ${groupRight.getRole().name()}!='Waiting'">
+                            <form action="/groupRight/downgradeRole" method="post">
+                                <input type="hidden" id="id_gr_downgrade" name="id_gr_downgrade"
+                                       th:value="${groupRight.getId()}"/>
+                                <button type="submit" class="btn btn-warning">Downgrade role!</button>
+                            </form>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 
-<h2> <a href="/user/home">Go back to the home page</a> </h2>
+    <!-- Vista degli utenti che non fanno parte del gruppo -->
+    <div th:if="${myRole} == null">
+        <form action="/group/join" method="post">
+            <input type="hidden" id="group_name" name="group_name" th:value="${
+            group.getName()}"/>
+            <button type="submit" class="btn btn-primary">Join group!</button>
+        </form>
+    </div>
+</div>
+
+<div class="container center-bottom">
+    <h2><a href="/group/groups">Go back</a></h2>
+</div>
 
 </body>
 </html>

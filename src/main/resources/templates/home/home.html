@@ -1,31 +1,71 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Home</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
+        body {
+            background-color: #f5e6cc; /* Colore di sfondo beige */
+            font-family: 'Arial', sans-serif; /* Tipo di carattere */
         }
-        table, th, td {
-            border: 1px solid black;
+        .navbar {
+            background-color: #8b4513; /* Colore di sfondo della barra di navigazione marrone scuro */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Ombra leggera */
         }
-        th, td {
-            padding: 8px;
-            text-align: center;
+        .navbar-brand, .navbar-nav .nav-link {
+            color: #ffffff; /* Colore del testo nella barra di navigazione */
+        }
+        .navbar-brand:hover, .navbar-nav .nav-link:hover {
+            color: #ffffff; /* Cambia il colore del testo quando si passa sopra con il mouse */
+        }
+        .container {
+            margin-top: 50px; /* Margine superiore per allineare il contenuto */
+        }
+        .jumbotron {
+            background-color: #ff7f0e; /* Colore di sfondo arancione scuro */
+            color: #ffffff; /* Colore del testo bianco */
         }
     </style>
-    <meta charset="UTF-8">
-    <title>Home</title>
 </head>
 <body>
-<table>
-    <tr>
-        <th> <a href="/event/allEvents"> Home: Events</a></th>
-        <th> <a href="/group/groups">Groups</a></th>
-        <th> <a href="/event/myEvents">My events</a></th>
-        <th> <a href="/user/profile">Profile</a></th>
-    </tr>
-</table>
+<nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container">
+        <a class="navbar-brand" href="#">Navbar</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="/event/allEvents">Home: Events</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/group/groups">Groups</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/event/myEvents">My events</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/user/profile">Profile</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
 
+<div class="container mt-4">
+    <div class="jumbotron">
+        <h1 class="display-4">Welcome to our site!</h1>
+        <p class="lead">Discover and join exciting events.</p>
+        <hr class="my-4">
+        <p>Start exploring now!</p>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

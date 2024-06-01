@@ -38,6 +38,8 @@ public class EventFacade {
     }
 
     public PrivateEventDTO creationEvent(String title, String description, LocalDateTime dateTime, String groupName) {
+        if(title==null||description==null||dateTime==null)
+            return null;
         //cerca se esiste un evento con quei dati
         Event e =  eventService.findEvent(title, description, dateTime);
         //prendi lo user in sessione

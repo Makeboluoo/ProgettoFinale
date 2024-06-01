@@ -3,50 +3,92 @@
 <head>
     <meta charset="UTF-8">
     <title>Group</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f5e6cc;
+            padding: 20px;
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .btn-custom {
+            margin-right: 10px;
+            color: white;
+        }
+        .back-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .back-link a {
+            color: #8b4513; /* Marrone scuro */
+            text-decoration: none; /* Nessuna sottolineatura */
+            font-size: 18px;
+        }
+        .back-link a:hover {
+            text-decoration: underline; /* Sottolineatura al passaggio del mouse */
+        }
+    </style>
 </head>
 <body>
-<h1>Group Info</h1>
-<h2 th:text="'Group name: ' + ${group.getName()} "></h2>
-<h2 th:text="'Creation date: ' + ${group.getCreationDateTime()} "></h2>
-<h2 th:if="${myRole} != null" th:text="'My role: ' + ${myRole} "></h2>
-<h2 th:if="${myRole} != ${admin}" th:text="'Administrator: ' + ${adminUsername} "></h2>
+<div class="container">
+    <h1>Group Info</h1>
+    <h2 th:text="'Group name: ' + ${group.getName()}"></h2>
+    <h2 th:text="'Creation date: ' + ${#temporals.format(group.getCreationDateTime(), 'HH:mm - dd/MM/yyyy')}"></h2>
+    <h2 th:if="${myRole} != null" th:text="'My role: ' + ${myRole}"></h2>
+    <h2 th:if="${myRole} != ${admin}" th:text="'Administrator: ' + ${adminUsername}"></h2>
 
-<div th:if="${myRole} != null">
-    <div th:if="${myRole.name()} == 'Junior' ">
-        <!--    <h1>Sono Junior</h1>-->
+    <div th:if="${myRole} != null">
+        <div th:if="${myRole.name()} == 'Junior' ">
+            <!--    <h1>Sono Junior</h1>-->
+        </div>
+        <div th:if="${myRole.name()} == 'Administrator' or ${myRole.name()} == 'Senior'">
+            <!--    <h1>Sono Admin o Senior</h1>-->
+            <!--    Prima azione esclusiva = creazione evento-->
+            <h3>Create your event!</h3>
+            <form action="/event/creation" method="post">
+                <label for="title">Title of the event</label>
+                <input type="text" id="title" name="title"/>
+
+                <label for="description">Description of the event</label>
+                <input type="text" id="description" name="description"/>
+
+                <label for="dateTime">Date and Time of the event</label>
+                <input type="datetime-local" id="dateTime" name="dateTime"/>
+
+                <input type="hidden" id="groupName" name="groupName" th:value="${group.getName()}"/>
+
+                <button type="submit" class="btn btn-secondary btn-custom">Create event!</button>
+            </form>
+        </div>
+
+        <div style="height: 20px;"></div>
+
+        <div th:if="${myRole.name()} == 'Administrator'">
+            <form action="/group/delete" method="post">
+                <input type="hidden" id="group_name2" name="group_name" th:value="${group.getName()}"/>
+                <button type="submit" class="btn btn-danger btn-custom">Delete group!</button>
+            </form>
+        </div>
     </div>
-    <div th:if="${myRole.name()} == 'Administrator' or ${myRole.name()} == 'Senior'">
-    <!--    <h1>Sono Admin o Senior</h1>-->
-    <!--    Prima azione esclusiva = creazione evento-->
-        <h3>Create your event!</h3>
-        <form action="/event/creation" method="post">
-            <label for="title">Title of the event</label>
-            <input type="text" id="title" name="title"/>
 
-            <label for="description">Description of the event</label>
-            <input type="text" id="description" name="description"/>
-
-            <label for="dateTime">Date and Time of the event</label>
-            <input type="datetime-local" id="dateTime" name="dateTime"/>
-
-            <input type="hidden" id="groupName" name="groupName" th:value="${group.getName()}"/>
-
-            <button type="submit">Create event!</button>
+    <!-- Vista degli utenti che non fanno parte del gruppo -->
+    <div th:if="${myRole} == null">
+        <form action="/group/join" method="post">
+            <input type="hidden" id="group_name" name="group_name" th:value="${group.getName()}"/>
+            <button type="submit" class="btn btn-primary btn-custom">Join group!</button>
         </form>
     </div>
 
-    <div th:if="${myRole.name()} == 'Administrator'">
-        <form action="/group/delete" method="post">
-            <input type="hidden" id="group_name2" name="group_name" th:value="${group.getName()}"/>
-            <button type="submit">Delete group!</button>
-        </form>
+    <hr>
 
-
-    </div>
-
-    <div th:if="${myRole.name()} != 'Waiting' ">
-
+    <div th:if="${myRole} != null">
+        <!-- Tabella dei membri -->
         <div>
+            <h2>Group Members</h2>
             <table class="table table-dark">
                 <thead>
                 <tr>
@@ -63,13 +105,14 @@
                     <td th:if="${myRole.name()} == 'Administrator' and ${groupRight.getRole().name()}!='Administrator'">
                         <form action="/groupRight/upgradeRole" method="post">
                             <input type="hidden" id="id_gr_upgrade" name="id_gr_upgrade" th:value="${groupRight.getId()}"/>
-                            <button type="submit">Upgrade role!</button>
+                            <button type="submit" class="btn btn-secondary btn-custom">Upgrade role!</button>
                         </form>
                     </td>
                     <td th:if="${myRole.name()} == 'Administrator'and ${groupRight.getRole().name()}!='Administrator' and ${groupRight.getRole().name()}!='Waiting'">
                         <form action="/groupRight/downgradeRole" method="post">
                             <input type="hidden" id="id_gr_downgrade" name="id_gr_downgrade" th:value="${groupRight.getId()}"/>
-                            <button type="submit">Downgrade role!</button>
+                            <button type="submit" class="btn btn-secondary btn-custom">Downgrade role!</button>
+
                         </form>
                     </td>
                 </tr>
@@ -77,18 +120,14 @@
             </table>
         </div>
     </div>
+    <!-- Tabella dei membri -->
+
+</div>
+<!-- Vista degli utenti che non fanno parte del gruppo -->
+
+<div class="back-link">
+    <a href="/group/groups">Go Back to Home Page</a>
 </div>
 
-
-<!--vista degli utenti che non fanno parte del gruppo-->
-<div th:if="${myRole} == null">
-    <form action="/group/join" method="post">
-        <input type="hidden" id="group_name" name="group_name" th:value="${group.getName()}"/>
-        <button type="submit">Join group!</button>
-    </form>
-</div>
-
-
-<h2> <a href="/group/groups">Go back</a></h2>
 </body>
 </html>

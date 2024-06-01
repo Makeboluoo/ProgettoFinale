@@ -1,18 +1,71 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Events</title>
-<!--todo aggiungere il numero di partecipanti vicino ad ogni evento-->
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Events</title>
+  <style>
+    body {
+      background-color: #f5e6cc; /* Beige */
+      font-family: Arial, sans-serif; /* Tipo di carattere */
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 800px; /* Larghezza massima */
+      margin: 50px auto; /* Centratura */
+      padding: 20px; /* Spaziatura interna */
+      background-color: #ffffff; /* Sfondo bianco */
+      border-radius: 8px; /* Bordi arrotondati */
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Ombra leggera */
+    }
+    h1 {
+      color: #333333; /* Testo scuro */
+      text-align: center; /* Centratura */
+    }
+    h2 {
+      color: #666666; /* Testo grigio */
+      text-align: center; /* Centratura */
+      margin-bottom: 20px; /* Spaziatura inferiore */
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px; /* Spaziatura superiore */
+    }
+    table, th, td {
+      border: 1px solid #dddddd; /* Bordo della tabella */
+      padding: 12px;
+      text-align: center; /* Centratura */
+    }
+    th {
+      background-color: #f2f2f2; /* Sfondo grigio chiaro per le intestazioni della tabella */
+    }
+    button {
+      background-color: #8b4513; /* Marrone scuro */
+      color: #ffffff; /* Testo bianco */
+      border: none;
+      padding: 8px 16px; /* Spaziatura interna */
+      border-radius: 4px; /* Bordi arrotondati */
+      cursor: pointer;
+      transition: background-color 0.3s ease; /* Transizione del colore di sfondo */
+    }
+    button:hover {
+      background-color: #a0522d; /* Marrone più chiaro al passaggio del mouse */
+    }
+    a {
+      color: #007bff; /* Testo blu */
+      text-decoration: none; /* Nessuna sottolineatura */
+    }
+    a:hover {
+      text-decoration: underline; /* Sottolineatura al passaggio del mouse */
+    }
+  </style>
 </head>
 <body>
+<div class="container">
+  <h1>All the events that your groups have published</h1>
 
-<h1>All the events that your groups have published</h1>
-<!--<div th:if="${user.getMemberships.isEmpty()}">-->
-<!--  <h2>Your not part of any group!</h2>-->
-<!--</div>-->
-<!--<div th:unless="${user.getMemberships.isEmpty()}">-->
   <div th:if="${events.isEmpty() || events == null}">
     <h2>There are no events yet!</h2>
   </div>
@@ -25,38 +78,39 @@
       <label for="toDateTime">To: </label>
       <input type="datetime-local" id="toDateTime" name="toDateTime"/>
 
-
       <button type="submit">Search events in that period!</button>
     </form>
-    <table class="table table-dark">
+    <table>
       <thead>
       <tr>
         <th scope="col">Group</th>
         <th scope="col">Title</th>
         <th scope="col">Creator</th>
         <th scope="col">Date and Time</th>
-        <th scope="col">"Visualizza dettagli</th>
+        <th scope="col">View details</th>
       </tr>
       </thead>
       <tbody>
-          <tr th:each="event: ${events}">
-            <td th:text="${event.getGroupName()}"></td>
-            <td th:text="${event.getTitle()}"></td>
-            <td th:text="${event.getCreator()}"></td>
-            <td th:text="${event.getDateTime()}"></td>
-            <td>
-              <form action="/event/singleEvent" method="post">
-                <input type="hidden" id="id_event" name="id_event" th:value="${event.getId()}"/>
-                <button type="submit">View!</button>
-              </form>
-            </td>
-          </tr>
+      <tr th:each="event: ${events}">
+        <td th:text="${event.getGroupName()}"></td>
+        <td th:text="${event.getTitle()}"></td>
+        <td th:text="${event.getCreator()}"></td>
+        <td>
+          <!-- Formatta la data -->
+          <span th:text="${#temporals.format(event.getDateTime(), 'HH:mm - dd/MM/yyyy')}"></span>
+        </td>
+        <td>
+          <form action="/event/singleEvent" method="post">
+            <input type="hidden" id="id_event" name="id_event" th:value="${event.getId()}"/>
+            <button type="submit">View!</button>
+          </form>
+        </td>
+      </tr>
       </tbody>
     </table>
   </div>
-<!--</div>-->
 
-<h2> <a href="/user/home">Go back to the home page</a> </h2>
-
+  <h2><a href="/user/home">Go back to the home page</a></h2>
+</div>
 </body>
 </html>

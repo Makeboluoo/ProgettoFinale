@@ -1,41 +1,76 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Profile</title>
-<!--    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">-->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profile</title>
+  <style>
+    body {
+      background-color: #f5e6cc; /* Colore arancione scuro */
+      font-family: Arial, sans-serif; /* Tipo di carattere */
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      background-color: #ffffff; /* Sfondo bianco */
+      border-radius: 8px; /* Bordi arrotondati */
+      padding: 20px; /* Spaziatura interna */
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Ombra leggera */
+      margin: 50px auto; /* Centratura */
+      max-width: 500px; /* Larghezza massima */
+    }
+    h1 {
+      color: #333333; /* Testo scuro */
+      text-align: center; /* Centratura */
+    }
+    h2 {
+      color: #8b4513; /* Testo grigio */
+      text-align: center; /* Centratura */
+      margin-bottom: 20px; /* Spaziatura inferiore */
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px; /* Spaziatura superiore */
+      color: #8b4513;
+    }
+    table, th, td {
+      border: 1px solid #dddddd; /* Bordo della tabella */
+      padding: 12px;
+      text-align: center; /* Centratura */
+    }
+    th {
+      background-color: #f2f2f2; /* Sfondo grigio chiaro per le intestazioni della tabella */
+    }
+    a {
+      color: #007bff; /* Testo blu */
+      text-decoration: none; /* Nessuna sottolineatura */
+    }
+    a:hover {
+      text-decoration: underline; /* Sottolineatura al passaggio del mouse */
+    }
+  </style>
 </head>
 <body>
+<div class="container">
   <h1>Welcome to your profile page</h1>
-  <h2 th:text="'Username: ' + ${user.getUsername}"></h2>
-<!--  <h2 th:text="'Gruppi ' + ${Username} "></h2>-->
+  <h2 th:text="'Username: ' + ${user.getUsername()}"></h2>
   <table>
-    <div th:if="${user.getGroupRightsDTO().isEmpty()}">
-      <p>
-        <h2>Your not part of any group!</h2>
-      </p>
-    </div>
-    <div th:unless="${user.getGroupRightsDTO().isEmpty()}">
-      <p>
-        <thead>
-        <tr>
-          <th scope="col">Group</th>
-          <th scope="col">Role</th>
-        </tr>
-        </thead>
-        <tbody>
-          <tr th:each="groupRight: ${user.getGroupRightsDTO()}">
-            <td th:text="${groupRight.getGroupName()}"/>
-            <td th:text="${groupRight.getRole()}"/>
-          </tr>
-      </p>
-    </div>
+    <thead>
+    <tr>
+      <th scope="col">Group</th>
+      <th scope="col">Role</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="groupRight: ${user.getGroupRightsDTO()}">
+      <td th:text="${groupRight.getGroupName()}"></td>
+      <td th:text="${groupRight.getRole()}"></td>
+    </tr>
     </tbody>
   </table>
-
-  <h3><a href="/user/logout">Logout from this account</a></h3>
-
-  <h2> <a href="/user/home">Go back to the home page</a> </h2>
-
+  <h2><a href="/user/logout">Logout from this account</a></h2>
+  <h2><a href="/user/home">Go back to the home page</a></h2>
+</div>
 </body>
 </html>
