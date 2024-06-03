@@ -26,7 +26,6 @@ public class UserServiceImpl implements UserService {
         return userOptional.isPresent();
     }
 
-    //todo dovremmo usare un @Transactional?
     @Override
     public void createAccount(String username, String password) {
         //si crea un nuovo utente

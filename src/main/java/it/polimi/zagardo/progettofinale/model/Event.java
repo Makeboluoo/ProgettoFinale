@@ -14,8 +14,7 @@ import java.util.Objects;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-//todo sta cosa sotto non mi ispira: non penso che un utente non possa mettere due eventi con lo stesso nome anche a distanza di tempo
-@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"id_groupRight","title"})})
+//@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"id_groupRight","title"})})
 public class Event {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

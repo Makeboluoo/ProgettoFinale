@@ -2,8 +2,10 @@ package it.polimi.zagardo.progettofinale.controller;
 
 import it.polimi.zagardo.progettofinale.dto.UserDTO;
 import it.polimi.zagardo.progettofinale.facade.UserFacade;
+import it.polimi.zagardo.progettofinale.model.UserModel;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,6 +25,8 @@ public class UserController {
     public String loginPage(){
         return "register_login_logout_profile/login_page";
     }
+
+    //esegue il logout dell'utente
     @GetMapping(path = "/logout")
     public String logoutPage(HttpSession session){
         session.invalidate();
@@ -72,7 +76,9 @@ public class UserController {
     //si indirizza alla pagina di profilo
     @GetMapping(path = "/profile")
     public String profile(Model model){
-        UserDTO user = userFacade.getProfile();
+        //si prende lo user dalla sessione e lo si converte in DTO
+        UserModel userModel = (UserModel) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        UserDTO user = userFacade.getProfile(userModel);
         model.addAttribute("user", user);
         return "register_login_logout_profile/profile";
 

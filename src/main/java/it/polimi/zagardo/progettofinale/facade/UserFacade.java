@@ -7,7 +7,6 @@ import it.polimi.zagardo.progettofinale.mapper.UserMapper;
 import it.polimi.zagardo.progettofinale.model.UserModel;
 import it.polimi.zagardo.progettofinale.service.def.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -27,9 +26,7 @@ public class UserFacade {
         userService.createAccount(username, password);
     }
 
-    public UserDTO getProfile() {
-        //si prende lo user dalla sessione e lo si converte in DTO
-        UserModel userModel = (UserModel) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    public UserDTO getProfile(UserModel userModel) {
         return mapper.toUserDTO(userModel);
     }
 }

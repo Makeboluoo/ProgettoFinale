@@ -3,44 +3,81 @@
 <head>
     <meta charset="UTF-8">
     <title>Event's Comments</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f5e6cc;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            margin: 20px auto;
+        }
+        .btn-custom {
+            color: white;
+            background-color: #8b4513;
+            border: none;
+            margin-top: 10px;
+        }
+        .btn-custom:hover {
+            background-color: #a0522d;
+        }
+        .back-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .back-link a {
+            color: #8b4513;
+            text-decoration: none;
+            font-size: 18px;
+        }
+        .back-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
-<h1>All the comments that your groups have in this event</h1>
-<!--<div th:if="${user.getMemberships.isEmpty()}">-->
-<!--  <h2>Your not part of any group!</h2>-->
-<!--</div>-->
-<!--<div th:unless="${user.getMemberships.isEmpty()}">-->
-<div th:if="${comments.getCommentsDTO().isEmpty() || comments.getCommentsDTO() == null}">
-    <h2>There are no comments yet!</h2>
+<div class="container">
+    <h1>All the comments that your groups have in this event</h1>
+
+    <div th:if="${comments.getCommentsDTO().isEmpty() || comments.getCommentsDTO() == null}">
+        <h2>There are no comments yet!</h2>
+    </div>
+    <div th:unless="${comments.getCommentsDTO().isEmpty() || comments.getCommentsDTO() == null}">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th scope="col">User</th>
+                <th scope="col">Text</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="comment: ${comments.getCommentsDTO()}">
+                <td th:text="${comment.getUsername()}"></td>
+                <td th:text="${comment.getText()}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h3>Have questions? Try posting a comment below!</h3>
+    <form action="/comment/postComment" method="post">
+        <div class="form-group">
+            <label for="comment">Comment</label>
+            <textarea id="comment" name="comment" rows="4" class="form-control"></textarea>
+        </div>
+        <input type="hidden" id="id_event" name="id_event" th:value="${comments.getIdEvent()}"/>
+        <button type="submit" class="btn btn-custom">Post comment!</button>
+    </form>
 </div>
-<div th:unless="${comments.getCommentsDTO().isEmpty() || comments.getCommentsDTO() == null}">
-    <table class="table table-dark">
-        <thead>
-        <tr>
-            <th scope="col">User</th>
-            <th scope="col">Text</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="comment: ${comments.getCommentsDTO()}">
-            <td th:text="${comment.getUsername()}"></td>
-            <td th:text="${comment.getText()}"></td>
-        </tr>
-        </tbody>
-    </table>
+
+<div class="back-link">
+    <a href="/event/allEvents">Go back to the events page</a>
 </div>
-
-<h3>Have questions? Try posting a comment under!</h3>
-<form action="/comment/postComment" method="post">
-    <label for="comment">Comment</label>
-    <textarea id="comment" name="comment" rows="4" cols="50"></textarea>
-
-    <input type="hidden" id="id_event" name="id_event" th:value="${comments.getIdEvent()}"/>
-
-    <button type="submit">Post comment!</button>
-</form>
-
-<h2> <a href="/event/allEvents">Torna alla pagina eventi</a> </h2>
-
 </body>
 </html>

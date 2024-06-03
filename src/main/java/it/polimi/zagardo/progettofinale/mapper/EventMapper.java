@@ -1,10 +1,12 @@
 package it.polimi.zagardo.progettofinale.mapper;
 
 import it.polimi.zagardo.progettofinale.dto.EventDTO;
+import it.polimi.zagardo.progettofinale.dto.GroupRightsDTO;
 import it.polimi.zagardo.progettofinale.dto.PrivateEventDTO;
 import it.polimi.zagardo.progettofinale.dto.SingleEventDTO;
 import it.polimi.zagardo.progettofinale.exception.EventsNotFoundException;
 import it.polimi.zagardo.progettofinale.model.Event;
+import it.polimi.zagardo.progettofinale.model.GroupRights;
 import it.polimi.zagardo.progettofinale.model.enums.Role;
 import org.springframework.stereotype.Component;
 
@@ -40,16 +42,17 @@ public class EventMapper {
     }
 
     public List<PrivateEventDTO> toPrivateEventDTO(List<Event> e){
-//        List<Event> newEventList = new ArrayList<>();
-//        for (Event singleEvent: e){
-//            if(singleEvent.getParticipants().get().getRole() != Role.Waiting)
-//                newEventList.add(singleEvent);
-//        }
-
         return e.stream().map(this::toPrivateEventDTO).toList();
     }
 
     public SingleEventDTO toSingleEventDTO(Event e, long id, Role role){
+        List<GroupRightsDTO> groupRightsDTO = new ArrayList<>();
+        for(GroupRights groupRight:e.getParticipants()){
+            GroupRightsDTO grDTO = new GroupRightsDTO.Builder()
+                    .setId(groupRight.getId()).setGroupName(groupRight.getGroup().getName()).setRole(groupRight.getRole()).setUsername(groupRight.getUser().getUsername())
+                    .build();
+            groupRightsDTO.add(grDTO);
+        }
         SingleEventDTO.Builder sDTO=new SingleEventDTO.Builder()
                 .setId(e.getId())
                 .setTitle(e.getTitle())
@@ -57,7 +60,8 @@ public class EventMapper {
                 .setDateTime(e.getDateTime())
                 .setCreator((e.getCreatorGR().getUser().getUsername()))
                 .setIdUser(id)
-                .setRole(role);
+                .setRole(role)
+                .setParticipants(groupRightsDTO);
         if(e.getCreatorGR().getGroup()==null){
             sDTO.setIdGroup(-1);
             sDTO.setGroupName("NO GROUP ASSIGNED");

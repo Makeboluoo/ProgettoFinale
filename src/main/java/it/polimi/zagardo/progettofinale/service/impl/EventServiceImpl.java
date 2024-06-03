@@ -22,7 +22,6 @@ import java.util.Optional;
 @AllArgsConstructor
 @Service
 public class EventServiceImpl implements EventService {
-    //todo autowired??
     @Autowired
     private final EventRepo eventRepo;
     @Autowired

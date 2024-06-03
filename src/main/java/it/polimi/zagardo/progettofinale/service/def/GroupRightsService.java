@@ -15,4 +15,6 @@ public interface GroupRightsService {
     GroupRights upgradeRole(long idGroupRight);
 
     GroupRights downgradeRole(long idGroupRight);
+
+    void deleteGroupRight(GroupRights groupRights);
 }

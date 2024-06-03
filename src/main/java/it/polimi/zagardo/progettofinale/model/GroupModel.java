@@ -24,14 +24,8 @@ public class GroupModel {
     //nome del gruppo
     @Column(nullable = false,unique = true)
     private String name;
-//    @Column(nullable = false,updatable = false,insertable = false, columnDefinition = "DEFAULT CURRENT_TIMESTAMP()")
-//    @CurrentTimestamp
-//    private LocalDateTime creationDay;
-    //todo questa sopra non va bene, non esiste a quanto pare esiste al massimo @CreationTimestamp. Per ora devo anche mettere manualmente la data
-//    @CreationTimestamp
-    @Column(nullable = false
-//            ,updatable = false,insertable = false
-            )
+    //data di creazione
+    @Column(nullable = false)
     private LocalDateTime creationDay;
     //membri di un gruppo
     @OneToMany(mappedBy = "group", cascade = CascadeType.ALL)

@@ -3,9 +3,11 @@ package it.polimi.zagardo.progettofinale.controller;
 import it.polimi.zagardo.progettofinale.dto.GroupDTO;
 import it.polimi.zagardo.progettofinale.dto.SingleGroupDTO;
 import it.polimi.zagardo.progettofinale.facade.GroupFacade;
+import it.polimi.zagardo.progettofinale.model.UserModel;
 import it.polimi.zagardo.progettofinale.model.enums.Role;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,8 +28,10 @@ public class GroupController {
     //ritorna la pagina html groups con tutti i gruppi di cui l'utente è membro
     @GetMapping(path = "/groups")
     public String groupPage(Model model){
+        //si prende lo user dalla sessione e lo si converte in DTO
+        UserModel userModel = (UserModel) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         //prende la lista dei gruppi e li passa alla pagina html
-        List<GroupDTO> groups = groupFacade.getGroups();
+        List<GroupDTO> groups = groupFacade.getGroups(userModel);
         model.addAttribute("groups", groups);
         return "group/groups";
     }
@@ -35,8 +39,10 @@ public class GroupController {
     //crea un gruppo
     @PostMapping(path = "/creation")
     public String creationGroup(@RequestParam("name") String name,Model model){
+        //prendi lo user in sessione
+        UserModel userModel = (UserModel) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         //creazione di un gruppo (se il gruppo esiste già ritorna group=null)
-        GroupDTO group = groupFacade.createGroup(name);
+        GroupDTO group = groupFacade.createGroup(name, userModel);
         //il gruppo non esiste già
         if(group!=null){
             model.addAttribute("name", name);
@@ -53,7 +59,9 @@ public class GroupController {
         SingleGroupDTO group = groupFacade.findGroupByName(name);
         //se il gruppo esiste
         if (group!= null){
-            Role myRole = groupFacade.getRoleFromGroup(group);
+            //prendi lo user in sessione
+            UserModel userModel = (UserModel) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            Role myRole = groupFacade.getRoleFromGroup(group, userModel);
             String adminGroupUsername = groupFacade.getAdminUsername(group);
             model.addAttribute("group", group);
             model.addAttribute("myRole", myRole);
@@ -72,8 +80,10 @@ public class GroupController {
     //l'utente diventa un membro di un determinato gruppo
     @PostMapping(path = "/join")
     public String joinGroup(@RequestParam("group_name") String groupName, Model model){
+        //prendi lo user in sessione
+        UserModel userModel = (UserModel) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         //controlla se era già un membro di quel gruppo e nel caso non lo fosse lo diventa
-        boolean wasAlreadyMember = groupFacade.joinGroup(groupName);
+        boolean wasAlreadyMember = groupFacade.joinGroup(groupName, userModel);
         model.addAttribute("error", "Your joining request has been sent. Wait for the administrator to let you join in!");
         //in caso l'utente fosse già un partecipante ritorna il messaggio sotto
         if(wasAlreadyMember) model.addAttribute("error", "You were already a member of this group");
@@ -86,5 +96,12 @@ public class GroupController {
         //eliminazione del gruppo
         groupFacade.deleteGroup(groupName);
         return "group/group_deleted";
+    }
+    @PostMapping(path = "/leave")
+    public String leaveGroup(@RequestParam("group_name") String groupName){
+        //prendi lo user in sessione
+        UserModel userModel = (UserModel) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        groupFacade.leaveGroup(userModel, groupName);
+        return "group/group_left";
     }
 }

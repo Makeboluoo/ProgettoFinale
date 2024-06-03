@@ -14,7 +14,6 @@ import it.polimi.zagardo.progettofinale.service.def.GroupService;
 import it.polimi.zagardo.progettofinale.service.def.UserService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -29,21 +28,17 @@ public class EventFacade {
     private final GroupRightsService groupRightsService;
     private final EventMapper mapper;
 
-    public List<PrivateEventDTO> myEvents(){
-        //prendi l'utente in sessione
-        UserModel userModel = (UserModel) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    public List<PrivateEventDTO> myEvents(UserModel userModel){
         //prendi la lista di eventi a cui l'utente partecipa e convertili in DTO
         List<Event> e= eventService.findMyEvents(userModel.getId());
         return mapper.toPrivateEventDTO(e);
     }
 
-    public PrivateEventDTO creationEvent(String title, String description, LocalDateTime dateTime, String groupName) {
+    public PrivateEventDTO creationEvent(String title, String description, LocalDateTime dateTime, String groupName, UserModel userModel) {
         if(title==null||description==null||dateTime==null)
             return null;
         //cerca se esiste un evento con quei dati
         Event e =  eventService.findEvent(title, description, dateTime);
-        //prendi lo user in sessione
-        UserModel userModel = (UserModel) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         //nel caso in cui non esiste ancora un evento con quei valori lo crea e lo converte in DTO sennò ritorna null
         if (e == null){
             long idGroup=groupService.findGroupByName(groupName).getId();
@@ -54,9 +49,7 @@ public class EventFacade {
         else return null;
     }
 
-    public SingleEventDTO singleEvent(long id) {
-        //prendi lo user in sessione
-        UserModel userModel = (UserModel) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    public SingleEventDTO singleEvent(long id, UserModel userModel) {
         //prendi l'evento con id = id
         Event e = eventService.findEventByID(id);
         //prendi il groupRight dell'utente in sessione nel gruppo in cui è stato pubblicato l'evento con id = id
@@ -73,9 +66,7 @@ public class EventFacade {
         return g != null;
     }
 
-    public List<PrivateEventDTO> allEvents() {
-        //prendi lo user in sessione
-        UserModel userModel = (UserModel) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    public List<PrivateEventDTO> allEvents(UserModel userModel) {
         //prendi la lista degli eventi che sono stati pubblicati nei gruppi a cui l'utente fa parte
         List<Event> events = eventService.findAllEvents(userModel.getId());
         return mapper.toPrivateEventDTO(events);
@@ -95,9 +86,7 @@ public class EventFacade {
         eventService.deleteEvent(e);
     }
 
-    public List<PrivateEventDTO> allEventsBetween(LocalDateTime fromDateTime, LocalDateTime toDateTime) {
-        //prendi lo user in sessione
-        UserModel userModel = (UserModel) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    public List<PrivateEventDTO> allEventsBetween(LocalDateTime fromDateTime, LocalDateTime toDateTime, UserModel userModel) {
         //prendi la lista degli eventi che sono stati pubblicati nei gruppi a cui l'utente fa parte
         List<Event> events = eventService.findAllEventsBetween(userModel.getId(), fromDateTime, toDateTime);
         return mapper.toPrivateEventDTO(events);

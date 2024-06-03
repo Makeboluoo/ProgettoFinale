@@ -31,7 +31,6 @@ public class GroupServiceImpl implements GroupService {
         //crea un gruppo e settare il nome e la data
         GroupModel group = new GroupModel();
         group.setName(name);
-//      todo  in teoria per via delle annotations in groupModel non dovrei settare io la data di creazione
         group.setCreationDay(LocalDateTime.now());
         groupRepo.save(group);
         return groupRepo.findGroupModelByName(name).orElse(null);

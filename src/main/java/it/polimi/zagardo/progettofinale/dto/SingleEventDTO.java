@@ -5,6 +5,7 @@ import it.polimi.zagardo.progettofinale.model.enums.Role;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 public class SingleEventDTO {
@@ -25,13 +26,15 @@ public class SingleEventDTO {
     private long idUser;
     //prendiamo il ruolo dell'utente in sessione all'interno del gruppo
     private Role role;
-
-    //todo aggiungi anche il numero dei partecipanti e chi partecipa (quindi aggiungi la lista dei partecipanti)?
+    //prendiamo i membri
+    private List<GroupRightsDTO> participants;
 
     //step 1 il costruttore diventa privato
 
 
-    private SingleEventDTO(long id, String title, String description, LocalDateTime dateTime, long idGroup, String groupName, String creator, long idUser, Role role) {
+    private SingleEventDTO(long id, String title, String description, LocalDateTime dateTime,
+                           long idGroup, String groupName, String creator, long idUser,
+                           Role role, List<GroupRightsDTO> participants) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -41,6 +44,7 @@ public class SingleEventDTO {
         this.creator = creator;
         this.idUser = idUser;
         this.role = role;
+        this.participants = participants;
     }
 
     //step 2 creo una inner class pubblica statica che copia tutti gli attributi della classe padre
@@ -54,6 +58,7 @@ public class SingleEventDTO {
         private String creator;
         private long idUser;
         private Role role;
+        private List<GroupRightsDTO> participants;
 
         public Builder setId(long id) {
             if(id<1) throw new DatoNonValidoException("id non valido");
@@ -99,9 +104,13 @@ public class SingleEventDTO {
             this.role = role;
             return this;
         }
+        public Builder setParticipants(List<GroupRightsDTO> participants){
+            this.participants = participants;
+            return this;
+        }
 
         public SingleEventDTO build(){
-            if(id>0&&title!=null&&groupName!=null&&creator!=null)return new SingleEventDTO(id,title,description,dateTime,idGroup,groupName,creator ,idUser, role);
+            if(id>0&&title!=null&&groupName!=null&&creator!=null)return new SingleEventDTO(id,title,description,dateTime,idGroup,groupName,creator ,idUser, role, participants);
             else throw new DatoNonValidoException("non tutti i dati sono accettabili");
         }
     }

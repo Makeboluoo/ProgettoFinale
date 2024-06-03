@@ -34,6 +34,4 @@ public class GroupRightsController {
         model.addAttribute("newGroupRight", groupRightsDTO);
         return "groupRight/group_right_downgraded";
     }
-
-    //todo fare un metodo per togliersi da un gruppo?
 }

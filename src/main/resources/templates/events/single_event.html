@@ -100,14 +100,12 @@
         <td>
           <form action="/event/participate" method="post">
             <input type="hidden" id="id_event" name="id_event" th:value="${event.getId()}"/>
-            <input type="hidden" id="id_user" name="id_user" th:value="${event.getIdUser()}"/>
             <button type="submit">Participate!</button>
           </form>
         </td>
         <td>
           <form action="/event/resign" method="post">
             <input type="hidden" id="id_event1" name="id_event" th:value="${event.getId()}"/>
-            <input type="hidden" id="id_user1" name="id_user" th:value="${event.getIdUser()}"/>
             <button type="submit">Resign!</button>
           </form>
         </td>
@@ -117,6 +115,24 @@
             <button type="submit">Delete!</button>
           </form>
         </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div>
+    <h2>Participants</h2>
+    <table class="table table-dark">
+      <thead>
+      <tr>
+        <th scope="col">Username</th>
+        <th scope="col">Role</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="groupRight: ${event.getParticipants()}">
+        <td th:text="${groupRight.getUsername()}"></td>
+        <td th:text="${groupRight.getRole()}"></td>
       </tr>
       </tbody>
     </table>

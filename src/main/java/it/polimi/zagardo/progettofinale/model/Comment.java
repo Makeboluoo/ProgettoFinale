@@ -18,10 +18,9 @@ public class Comment {
     //testo del commento
     @Column(nullable = false)
     private String text;
-    //groupRight del creatore nel gruppo dell'evento su cui è postato un commento
-    //todo stessa questione del delete dell'evento: devo togliere il carattere nullable false
+    //persona che ha scritto il commento (sotto forma di iscrizione)
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "groupRight_id"/*,nullable = false*/)
+    @JoinColumn(name = "groupRight_id")
     private GroupRights groupRights;
     //evento su cui è postato un commento
     @ManyToOne

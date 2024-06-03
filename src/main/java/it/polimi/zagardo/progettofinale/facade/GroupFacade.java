@@ -2,10 +2,8 @@ package it.polimi.zagardo.progettofinale.facade;
 
 import it.polimi.zagardo.progettofinale.dto.GroupDTO;
 import it.polimi.zagardo.progettofinale.dto.GroupRightsDTO;
-import it.polimi.zagardo.progettofinale.dto.PrivateEventDTO;
 import it.polimi.zagardo.progettofinale.dto.SingleGroupDTO;
 import it.polimi.zagardo.progettofinale.mapper.GroupMapper;
-import it.polimi.zagardo.progettofinale.mapper.UserMapper;
 import it.polimi.zagardo.progettofinale.model.Event;
 import it.polimi.zagardo.progettofinale.model.GroupModel;
 import it.polimi.zagardo.progettofinale.model.GroupRights;
@@ -15,7 +13,6 @@ import it.polimi.zagardo.progettofinale.service.def.EventService;
 import it.polimi.zagardo.progettofinale.service.def.GroupRightsService;
 import it.polimi.zagardo.progettofinale.service.def.GroupService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -29,20 +26,16 @@ public class GroupFacade {
     private final GroupMapper mapper;
 
 
-    public List<GroupDTO> getGroups(){
-        //prendi lo user in sessione
-        UserModel userModel = (UserModel) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    public List<GroupDTO> getGroups(UserModel userModel){
         //prendi la lista dei gruppi di cui l'utente è membro e convertili in DTO
         List<GroupModel> g= groupService.findAllGroups(userModel);
         return mapper.toGroupDTO(g);
     }
 
-    public GroupDTO createGroup(String name) {
+    public GroupDTO createGroup(String name, UserModel userModel) {
         //controlla se esiste un gruppo con quel nome
         boolean exist = groupService.findIfExistGroupByName(name);
         if (!exist) {
-            //prendi lo user in sessione
-            UserModel userModel = (UserModel) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             //creo il gruppo
             GroupModel g = groupService.createGroup(name);
             //crea il collegamento tra utente e gruppo attraverso GroupRight
@@ -60,9 +53,7 @@ public class GroupFacade {
         return null;
     }
 
-    public Role getRoleFromGroup(SingleGroupDTO group) {
-        //prendi lo user in sessione
-        UserModel userModel = (UserModel) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    public Role getRoleFromGroup(SingleGroupDTO group, UserModel userModel) {
         for(GroupRightsDTO gr: group.getGroupRightsDTOS()){
             //cerca il collegamento groupRight tra lo user in sessione e il determinato gruppo, dopo prende il ruolo di quello user nel gruppo
             if(gr.getUsername().equals(userModel.getUsername()))return gr.getRole();
@@ -78,9 +69,7 @@ public class GroupFacade {
         return null;
     }
 
-    public boolean joinGroup(String groupName) {
-        //prendi lo user in sessione
-        UserModel userModel = (UserModel) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    public boolean joinGroup(String groupName, UserModel userModel) {
         //cerca un gruppo attraverso il nome
         GroupModel groupModel = groupService.findGroupByName(groupName);
         //cerca il groupRight che collega lo user in sessione con il gruppo trovato sopra
@@ -102,5 +91,20 @@ public class GroupFacade {
         }
         //infine elimino il gruppo
         groupService.deleteGroup(groupModel);
+    }
+
+    public void leaveGroup(UserModel userModel, String groupName) {
+        //prendi il gruppo da abbandonare
+        GroupModel groupModel = groupService.findGroupByName(groupName);
+        //prendi gli eventi di quel gruppo
+        List<Event> events = eventService.findSingleGroupEvents(groupModel);
+        //prendi l'iscrizione a quel gruppo
+        GroupRights userGroupRight = groupRightsService.searchGroupRightByIds(userModel.getId(), groupModel.getId());
+        for(Event e: events){
+            //eliminiamo ogni evento che ha creato l'utente in sessione
+            if(e.getCreatorGR() == userGroupRight)
+                eventService.deleteEvent(e);
+        }
+        groupRightsService.deleteGroupRight(userGroupRight);
     }
 }

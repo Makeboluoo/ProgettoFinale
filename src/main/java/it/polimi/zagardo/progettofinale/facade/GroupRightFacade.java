@@ -7,7 +7,6 @@ import it.polimi.zagardo.progettofinale.model.GroupRights;
 import it.polimi.zagardo.progettofinale.model.UserModel;
 import it.polimi.zagardo.progettofinale.service.def.GroupRightsService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 @Service

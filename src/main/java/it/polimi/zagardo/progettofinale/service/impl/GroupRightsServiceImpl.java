@@ -40,7 +40,6 @@ public class GroupRightsServiceImpl implements GroupRightsService {
         //prende il group right da promuovere
         GroupRights groupRights = groupRightsRepo.findById(idGroupRight).orElse(null);
         //se era un Senior allora diventa Administrator
-        //todo: da capire se lasciare un solo administrator o no
         if(groupRights.getRole() == Role.Senior){
             //cerca il group right dell' administrator del gruppo
             List<GroupRights> adminGroupRight = groupRightsRepo.findByGroup_IdAndRole(groupRights.getGroup().getId(), Role.Administrator);
@@ -76,4 +75,13 @@ public class GroupRightsServiceImpl implements GroupRightsService {
             groupRights.setRole(Role.Junior);
         return groupRights;
     }
+
+    @Transactional
+    @Override
+    public void deleteGroupRight(GroupRights groupRights) {
+        //prende il group right da eliminare e lo elimina
+        groupRightsRepo.findById(groupRights.getId()).ifPresent(groupRightsRepo::delete);
+    }
+
+
 }

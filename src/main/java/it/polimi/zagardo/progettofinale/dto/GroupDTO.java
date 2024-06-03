@@ -3,13 +3,14 @@ package it.polimi.zagardo.progettofinale.dto;
 import it.polimi.zagardo.progettofinale.exception.DatoNonValidoException;
 import lombok.Getter;
 
+import java.util.List;
+
 @Getter
 public class GroupDTO {
     //prendiamo l'id del gruppo
     private long id;
-    //prendiamo ilnome del gruppo
+    //prendiamo il nome del gruppo
     private String name;
-    //todo: vogliamo anche aggiungere il numero di partecipanti nella schermata di tutti i gruppi? Nome + membri?
 
 
     private GroupDTO(long id, String name) {

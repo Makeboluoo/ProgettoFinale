@@ -21,10 +21,6 @@ public class GroupMapper {
     }
 
     public List<GroupDTO> toGroupDTO(List<GroupModel> g){
-        if(g==null||g.isEmpty()){
-            //TODO: crea e sviluppa exception
-//            throw new GroupNotFoundException();
-        }
         return g.stream().map(this::toGroupDTO).toList();
     }
 
