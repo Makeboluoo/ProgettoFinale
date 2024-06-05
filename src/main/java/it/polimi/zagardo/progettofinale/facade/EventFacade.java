@@ -1,6 +1,5 @@
 package it.polimi.zagardo.progettofinale.facade;
 
-import it.polimi.zagardo.progettofinale.dto.EventDTO;
 import it.polimi.zagardo.progettofinale.dto.PrivateEventDTO;
 import it.polimi.zagardo.progettofinale.dto.SingleEventDTO;
 import it.polimi.zagardo.progettofinale.mapper.EventMapper;
@@ -11,8 +10,6 @@ import it.polimi.zagardo.progettofinale.model.enums.Role;
 import it.polimi.zagardo.progettofinale.service.def.EventService;
 import it.polimi.zagardo.progettofinale.service.def.GroupRightsService;
 import it.polimi.zagardo.progettofinale.service.def.GroupService;
-import it.polimi.zagardo.progettofinale.service.def.UserService;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

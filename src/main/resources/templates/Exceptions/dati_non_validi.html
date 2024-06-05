@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Data non valid!</title>
+</head>
+<body>
+<div th:if="${error!=null}">
+    <h2 th:text="${error}"></h2>
+</div>
+<h2>It seems that the data that you used are not valid</h2>
+
+<a href="/group/groups">Go Back to Groups Page</a>
+<a href="/user/home">Go Back to Home Page</a>
+
+</body>
+</html>

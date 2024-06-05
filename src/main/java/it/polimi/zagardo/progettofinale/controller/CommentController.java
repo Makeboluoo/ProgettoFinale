@@ -25,7 +25,6 @@ public class CommentController {
 
     private final CommentFacade commentFacade;
 
-    //todo: da fare una chat reale websocket etc??
     /*Manda alla pagina html event_comments tutti i commenti di un evento con id = id_event
     passato dalla pagina event.html o single_event.html*/
     @PostMapping(path = "/eventComments")

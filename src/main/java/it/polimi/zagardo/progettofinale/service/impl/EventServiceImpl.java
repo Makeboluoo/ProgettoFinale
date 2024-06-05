@@ -95,9 +95,6 @@ public class EventServiceImpl implements EventService {
             //per ogni groupRight prende la lista di eventi a cui partecipa e lo rimuove
             participant.getEvents().remove(e);
         }
-        //si setta il creatore dell'evento da eliminare uguale a null per poi eliminare l'evento dal database
-        e.setCreatorGR(null);
-        //todo: per antonio, ho provato a togliere queste righe sopra ma mi da java.sql.SQLIntegrityConstraintViolationException: Cannot delete or update a parent row: a foreign key constraint fails (`progettofinaleids`.`group_rights_events`, CONSTRAINT `FKesdlokua0kc65v6gxx02xk8gx` FOREIGN KEY (`events_id`) REFERENCES `event` (`id`))
         eventRepo.delete(e);
     }
 

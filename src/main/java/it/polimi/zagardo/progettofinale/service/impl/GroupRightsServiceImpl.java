@@ -1,6 +1,5 @@
 package it.polimi.zagardo.progettofinale.service.impl;
 
-import it.polimi.zagardo.progettofinale.exception.GroupRightsNotFoundException;
 import it.polimi.zagardo.progettofinale.model.GroupModel;
 import it.polimi.zagardo.progettofinale.model.GroupRights;
 import it.polimi.zagardo.progettofinale.model.UserModel;

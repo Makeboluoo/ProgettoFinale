@@ -14,7 +14,6 @@ import java.util.Objects;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-//@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"id_groupRight","title"})})
 public class Event {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,7 +27,7 @@ public class Event {
     @Column(nullable = false)
     private LocalDateTime dateTime;
     //creatore dell'evento sotto forma di groupRight (connessione utente-gruppo)
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "id_groupRight")
     private GroupRights creatorGR;
 
@@ -40,21 +39,14 @@ public class Event {
     @OneToMany(mappedBy = "event",cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REMOVE})
     private List<Comment> comments;
 
-    public Event(String title, String description, LocalDateTime dateTime,/* UserModel creator, GroupModel group,*/ GroupRights creatorGR,  List<GroupRights> participants, List<Comment> comments) {
+    public Event(String title, String description, LocalDateTime dateTime, GroupRights creatorGR,  List<GroupRights> participants, List<Comment> comments) {
         this.title = title;
         this.description = description;
         this.dateTime = dateTime;
-//        this.creator = creator;
-//        this.group = group;
         this.creatorGR = creatorGR;
         this.participants = participants;
         this.comments = comments;
     }
 
-    //    In caso possiamo aggiungere questo
-
-//    private long maxNumber;
-//    private enum city;
-//    private boolean openToPublic;
 
 }

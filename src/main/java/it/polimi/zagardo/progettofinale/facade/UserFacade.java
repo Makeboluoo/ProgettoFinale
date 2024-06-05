@@ -2,7 +2,6 @@ package it.polimi.zagardo.progettofinale.facade;
 
 
 import it.polimi.zagardo.progettofinale.dto.UserDTO;
-import it.polimi.zagardo.progettofinale.mapper.EventMapper;
 import it.polimi.zagardo.progettofinale.mapper.UserMapper;
 import it.polimi.zagardo.progettofinale.model.UserModel;
 import it.polimi.zagardo.progettofinale.service.def.UserService;

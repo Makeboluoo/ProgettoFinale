@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User not in session</title>
+</head>
+<body>
+<div th:if="${error!=null}">
+    <h2 th:text="${error}"></h2>
+</div>
+<h2>If you are here it means that the sessions has expired! try logging in again!</h2>
+<a href="/user/login">Try again</a>
+</body>
+</html>

@@ -4,7 +4,6 @@ import it.polimi.zagardo.progettofinale.dto.EventDTO;
 import it.polimi.zagardo.progettofinale.dto.GroupRightsDTO;
 import it.polimi.zagardo.progettofinale.dto.PrivateEventDTO;
 import it.polimi.zagardo.progettofinale.dto.SingleEventDTO;
-import it.polimi.zagardo.progettofinale.exception.EventsNotFoundException;
 import it.polimi.zagardo.progettofinale.model.Event;
 import it.polimi.zagardo.progettofinale.model.GroupRights;
 import it.polimi.zagardo.progettofinale.model.enums.Role;
@@ -49,7 +48,8 @@ public class EventMapper {
         List<GroupRightsDTO> groupRightsDTO = new ArrayList<>();
         for(GroupRights groupRight:e.getParticipants()){
             GroupRightsDTO grDTO = new GroupRightsDTO.Builder()
-                    .setId(groupRight.getId()).setGroupName(groupRight.getGroup().getName()).setRole(groupRight.getRole()).setUsername(groupRight.getUser().getUsername())
+                    .setId(groupRight.getId()).setGroupName(groupRight.getGroup().
+                            getName()).setRole(groupRight.getRole()).setUsername(groupRight.getUser().getUsername())
                     .build();
             groupRightsDTO.add(grDTO);
         }

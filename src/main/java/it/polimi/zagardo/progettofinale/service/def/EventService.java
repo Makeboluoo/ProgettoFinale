@@ -14,7 +14,7 @@ public interface EventService {
 
     Event findEventByID(long id);
 
-    Event createEvent(String title, String description, LocalDateTime dateTime,/* UserModel creator, GroupModel group*/ GroupRights groupRights);
+    Event createEvent(String title, String description, LocalDateTime dateTime, GroupRights groupRights);
 
     List<Event> findAllEvents(long idUser);
 

@@ -66,6 +66,7 @@ public class SingleEventDTO {
             return this;
         }
         public Builder setTitle(String title) {
+            if(title==null) throw new DatoNonValidoException("title non valido");
             this.title = title;
             return this;
         }
@@ -110,7 +111,8 @@ public class SingleEventDTO {
         }
 
         public SingleEventDTO build(){
-            if(id>0&&title!=null&&groupName!=null&&creator!=null)return new SingleEventDTO(id,title,description,dateTime,idGroup,groupName,creator ,idUser, role, participants);
+            if(id>0&&title!=null&&groupName!=null&&creator!=null)return new SingleEventDTO(id,title,
+                    description,dateTime,idGroup,groupName,creator ,idUser, role, participants);
             else throw new DatoNonValidoException("non tutti i dati sono accettabili");
         }
     }
