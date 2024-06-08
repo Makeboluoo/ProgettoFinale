@@ -11,11 +11,11 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @AllArgsConstructor
 @Service
 public class GroupRightsServiceImpl implements GroupRightsService {
+
     private final GroupRightsRepo groupRightsRepo;
 
     @Override
@@ -79,7 +79,11 @@ public class GroupRightsServiceImpl implements GroupRightsService {
     @Override
     public void deleteGroupRight(GroupRights groupRights) {
         //prende il group right da eliminare e lo elimina
-        groupRightsRepo.findById(groupRights.getId()).ifPresent(groupRightsRepo::delete);
+        groupRights.getUser().getGroupRights().remove(groupRights);
+        groupRights.getGroup().getGroupRights().remove(groupRights);
+        groupRightsRepo.delete(groupRights);
+        groupRightsRepo.flush();
+        System.out.println(groupRightsRepo.findById(groupRights.getId()));
     }
 
 

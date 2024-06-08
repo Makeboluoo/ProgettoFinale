@@ -28,7 +28,7 @@ public class GroupModel {
     @Column(nullable = false)
     private LocalDateTime creationDay;
     //membri di un gruppo
-    @OneToMany(mappedBy = "group", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER,mappedBy = "group", cascade = CascadeType.ALL)
     private List<GroupRights> groupRights;
 
     public GroupModel(String name) {
@@ -47,5 +47,14 @@ public class GroupModel {
     @Override
     public int hashCode() {
         return Objects.hash(getId());
+    }
+
+    @Override
+    public String toString() {
+        return "GroupModel{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", creationDay=" + creationDay +
+                '}';
     }
 }

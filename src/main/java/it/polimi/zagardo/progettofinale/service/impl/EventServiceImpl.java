@@ -8,6 +8,7 @@ import it.polimi.zagardo.progettofinale.repository.GroupRepo;
 import it.polimi.zagardo.progettofinale.repository.GroupRightsRepo;
 import it.polimi.zagardo.progettofinale.repository.UserRepo;
 import it.polimi.zagardo.progettofinale.service.def.EventService;
+import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +45,8 @@ public class EventServiceImpl implements EventService {
     @Override
     public Event createEvent(String title, String description, LocalDateTime dateTime, GroupRights groupRights) {
         //crea un evento con i dati passati
+        //todo aggiunto questa riga per provare a fare i test di createevent
+        groupRights = groupRightsRepo.save(groupRights);
         Event event = new Event(title,description,dateTime, groupRights, new ArrayList<>(),new ArrayList<>());
         eventRepo.save(event);
         //aggiunge al groupRight (dell'utente in sessione nel gruppo in cui ha pubblicato l'evento) l'evento nella lista createdEvents
@@ -95,6 +98,7 @@ public class EventServiceImpl implements EventService {
             //per ogni groupRight prende la lista di eventi a cui partecipa e lo rimuove
             participant.getEvents().remove(e);
         }
+        e.getCreatorGR().getCreatedEvents().remove(e);
         eventRepo.delete(e);
     }
 

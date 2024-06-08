@@ -19,7 +19,8 @@ public class Comment {
     @Column(nullable = false)
     private String text;
     //persona che ha scritto il commento (sotto forma di iscrizione)
-    @ManyToOne(fetch = FetchType.EAGER)
+    //todo tolto la eager perché messa in groupRight
+    @ManyToOne(/*fetch = FetchType.EAGER*/)
     @JoinColumn(name = "groupRight_id")
     private GroupRights groupRights;
     //evento su cui è postato un commento
@@ -31,5 +32,13 @@ public class Comment {
         this.text = text;
         this.groupRights = groupRights;
         this.event = event;
+    }
+
+    @Override
+    public String toString() {
+        return "Comment{" +
+                "id=" + id +
+                ", text='" + text + '\'' +
+                '}';
     }
 }

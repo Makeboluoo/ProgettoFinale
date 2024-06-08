@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -35,7 +36,7 @@ public class GroupFacade {
     public GroupDTO createGroup(String name, UserModel userModel) {
         //controlla se esiste un gruppo con quel nome
         boolean exist = groupService.findIfExistGroupByName(name);
-        if (!exist) {
+        if (!exist && !Objects.equals(name, "")) {
             //creo il gruppo
             GroupModel g = groupService.createGroup(name);
             //crea il collegamento tra utente e gruppo attraverso GroupRight

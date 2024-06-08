@@ -48,5 +48,13 @@ public class Event {
         this.comments = comments;
     }
 
-
+    @Override
+    public String toString() {
+        return "Event{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", dateTime=" + dateTime +
+                '}';
+    }
 }

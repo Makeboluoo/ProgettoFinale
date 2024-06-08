@@ -5,6 +5,7 @@ import it.polimi.zagardo.progettofinale.facade.UserFacade;
 import it.polimi.zagardo.progettofinale.model.UserModel;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -75,9 +76,9 @@ public class UserController {
 
     //si indirizza alla pagina di profilo
     @GetMapping(path = "/profile")
-    public String profile(Model model){
+    public String profile(Model model, Authentication authentication){
         //si prende lo user dalla sessione e lo si converte in DTO
-        UserModel userModel = (UserModel) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        UserModel userModel = (UserModel) authentication.getPrincipal();
         UserDTO user = userFacade.getProfile(userModel);
         model.addAttribute("user", user);
         return "register_login_logout_profile/profile";

@@ -15,17 +15,17 @@ import java.util.List;
 @Component
 public class CommentMapper {
 
-    public CommentDTO toCommentDTO(Comment c){
-        CommentDTO.Builder cDTO = new CommentDTO.Builder()
-                .setId(c.getId())
-                .setUsername(c.getGroupRights().getUser().getUsername())
-                .setText(c.getText());
-        return cDTO.build();
-    }
-
-    public List<CommentDTO> toCommentDTO(List<Comment> c, long idEvent){
-        return c.stream().map(this::toCommentDTO).toList();
-    }
+//    public CommentDTO toCommentDTO(Comment c){
+//        CommentDTO.Builder cDTO = new CommentDTO.Builder()
+//                .setId(c.getId())
+//                .setUsername(c.getGroupRights().getUser().getUsername())
+//                .setText(c.getText());
+//        return cDTO.build();
+//    }
+//
+//    public List<CommentDTO> toCommentDTO(List<Comment> c, long idEvent){
+//        return c.stream().map(this::toCommentDTO).toList();
+//    }
 
     public AllEventCommentsDTO toAllEventCommentsDTO(List<Comment> c, long idEvent){
         List<CommentDTO> comments = new ArrayList<>();

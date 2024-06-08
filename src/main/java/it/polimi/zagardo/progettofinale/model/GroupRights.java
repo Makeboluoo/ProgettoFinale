@@ -29,15 +29,15 @@ public class GroupRights {
     private GroupModel group;
 
     //commenti creati
-    @OneToMany(mappedBy = "groupRights", cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REMOVE})
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "groupRights", cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REMOVE})
     private List<Comment> comments;
 
     //eventi creati
-    @OneToMany(mappedBy = "creatorGR", cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REMOVE})
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "creatorGR", cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REMOVE})
     private List<Event> createdEvents;
 
     //eventi a cui si partecipa
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     private List<Event> events; //eventi a cui partecipa
 
     //ruolo all'interno del gruppo

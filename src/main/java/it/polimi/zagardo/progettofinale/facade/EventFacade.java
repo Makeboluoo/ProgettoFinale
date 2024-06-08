@@ -58,7 +58,8 @@ public class EventFacade {
     public boolean partecipate(long idEvent, long idUser) {
         //cerca se esiste un utente con id=idUser che partecipa all'evento con id = idEvent, in caso negativo
         GroupRights g = eventService.findSingleParticipant(idEvent,idUser);
-        if (g == null) eventService.participate(eventService.findEventByID(idEvent), idUser);
+        Event e = eventService.findEventByID(idEvent);
+        if (g == null) eventService.participate(e, idUser);
         //ritorna true se esiste, false se non esiste
         return g != null;
     }

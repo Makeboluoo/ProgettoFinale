@@ -86,10 +86,10 @@
     <form action="/event/searchBetween" method="post">
 
       <label for="fromDateTime"> From: </label>
-      <input type="datetime-local" id="fromDateTime" name="fromDateTime"/>
+      <input type="datetime-local" id="fromDateTime" name="fromDateTime" required/>
 
       <label for="toDateTime">To: </label>
-      <input type="datetime-local" id="toDateTime" name="toDateTime"/>
+      <input type="datetime-local" id="toDateTime" name="toDateTime" required/>
 
       <button type="submit">Search events in that period!</button>
     </form>

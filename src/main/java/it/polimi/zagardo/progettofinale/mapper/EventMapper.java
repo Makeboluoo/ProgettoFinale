@@ -1,6 +1,6 @@
 package it.polimi.zagardo.progettofinale.mapper;
 
-import it.polimi.zagardo.progettofinale.dto.EventDTO;
+//import it.polimi.zagardo.progettofinale.dto.EventDTO;
 import it.polimi.zagardo.progettofinale.dto.GroupRightsDTO;
 import it.polimi.zagardo.progettofinale.dto.PrivateEventDTO;
 import it.polimi.zagardo.progettofinale.dto.SingleEventDTO;
@@ -15,13 +15,13 @@ import java.util.List;
 @Component
 public class EventMapper {
 
-    public EventDTO toEventDTO(Event e){
-        return new EventDTO(e.getId(),e.getTitle(),e.getDescription(),e.getDateTime(),e.getCreatorGR().getUser().getId(),e.getCreatorGR().getUser().getUsername(),e.getCreatorGR().getGroup().getId(),e.getCreatorGR().getGroup().getName());
-    }
-
-    public List<EventDTO> toEventDTOList(List<Event> e){
-        return e.stream().map(this::toEventDTO).toList();
-    }
+//    public EventDTO toEventDTO(Event e){
+//        return new EventDTO(e.getId(),e.getTitle(),e.getDescription(),e.getDateTime(),e.getCreatorGR().getUser().getId(),e.getCreatorGR().getUser().getUsername(),e.getCreatorGR().getGroup().getId(),e.getCreatorGR().getGroup().getName());
+//    }
+//
+//    public List<EventDTO> toEventDTOList(List<Event> e){
+//        return e.stream().map(this::toEventDTO).toList();
+//    }
 
     public PrivateEventDTO toPrivateEventDTO(Event e){
         PrivateEventDTO.Builder pDTO=new PrivateEventDTO.Builder()

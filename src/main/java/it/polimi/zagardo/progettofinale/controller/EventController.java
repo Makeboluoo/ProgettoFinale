@@ -79,7 +79,8 @@ public class EventController {
         UserModel userModel = (UserModel) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         SingleEventDTO event = eventFacade.singleEvent(idEvent, userModel);
         //se non trova alcun evento con quell'id torna la pagina con l'errore
-        if(event == null) model.addAttribute("error", "An error occurred during the loading of the event. Please go back and try again!");
+        if(event == null) model.addAttribute("error",
+                "An error occurred during the loading of the event. Please go back and try again!");
         model.addAttribute("event", event);
         return "events/single_event";
     }
@@ -111,8 +112,10 @@ public class EventController {
         SingleEventDTO event = eventFacade.singleEvent(id_event, userModel);
         model.addAttribute("event", event);
         model.addAttribute("error", "You are no longer a participant!");
-        //nel caso in cui l'utente non fosse già un partecipante passa il messaggio di errore alla pagina single_event qui sotto
-        if (!wasAlreadyParticipant) model.addAttribute("error", "You can't resign an event you didn't join: you were already not a participant");
+        //nel caso in cui l'utente non fosse già un partecipante passa il messaggio di errore
+        // alla pagina single_event qui sotto
+        if (!wasAlreadyParticipant) model.addAttribute("error",
+                "You can't resign an event you didn't join: you were already not a participant");
         else eventFacade.resign(id_event, userModel.getId());
         return "events/single_event";
     }
