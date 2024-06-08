@@ -13,7 +13,6 @@ public class DowngradeRole {
     @Autowired
     private GroupRightFacade groupRightFacade;
 
-    //todo rifare con un id settato per Senior e uno per Junior sennò sbaglia
     @Test
     public void testDowngradeToJunior() {
         //655

@@ -28,7 +28,6 @@ public class createGroupTest {
         GroupDTO groupDTO = groupFacade.createGroup(groupName, userModel);
         assertNotNull(groupDTO);
         assertThat(groupDTO.getName()).isEqualTo(groupName);
-        // todo eventualmente fai il test per vedere il groupright creato
     }
 
     @Test

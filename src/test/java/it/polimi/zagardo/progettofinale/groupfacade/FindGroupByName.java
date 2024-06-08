@@ -21,9 +21,6 @@ public class FindGroupByName {
 
     @Test
     public void testFindGroupByNameOK(){
-        //todo ho dovuto aggiungere il fetch type Eager a Group per l'attributo groupright sennò mi dava errore di
-        // org.hibernate.LazyInitializationException: failed to lazily initialize a collection of role:
-        // it.polimi.zagardo.progettofinale.model.GroupModel.groupRights: could not initialize proxy - no Session
         String groupName = "gruppo1";
         SingleGroupDTO singleGroupDTO = groupFacade.findGroupByName(groupName);
         assertNotNull(singleGroupDTO);

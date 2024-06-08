@@ -11,7 +11,6 @@ public class DeleteGroup {
     @Autowired
     private GroupFacade groupFacade;
 
-    //todo cambiare il gruppo visto che gruppo3 non esiste più
     @Test
     public void testDeleteGroupOK() {
         String groupName = "gruppo3";

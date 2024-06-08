@@ -15,7 +15,6 @@ public class Partecipate {
     @Autowired
     private UserRepo userRepo;
 
-    //todo cambiare ovviamente l'evento
     @Test
     public void testPartecipateOK() {
         long userID = 52;

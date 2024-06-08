@@ -34,15 +34,4 @@ public class PostComments {
         assertThat(allEventCommentsDTO.getCommentsDTO().size()).isEqualTo(c.size()+1);
         assertThat(allEventCommentsDTO.getCommentsDTO().get(allEventCommentsDTO.getCommentsDTO().size()-1).getText().equals(text));
     }
-
-    //todo ma devo mettere tutti i test? così copro comunque il 100%
-//    @Test
-//    public void testCommentoCon() {
-//        AllEventCommentsDTO comment= commentFacade.getEventComments(9);
-//        List<CommentDTO> c=comment.getCommentsDTO();
-//        String text = "Commento 1";
-//        UserModel userModel = userRepo.findById(1L).orElse(null);
-//        AllEventCommentsDTO allEventCommentsDTO = commentFacade.postComment(9, text, userModel);
-//        assertThat(allEventCommentsDTO.getCommentsDTO().size()).isEqualTo(c.size()+1);
-//    }
 }

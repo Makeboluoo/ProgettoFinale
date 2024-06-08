@@ -22,7 +22,6 @@ public class GetEventComments {
     @Test
     public void TestIdGiusto(){
 
-        //todo cambia ogni volta il numero
         AllEventCommentsDTO comment= commentFacade.getEventComments(9);
         List<CommentDTO> c=comment.getCommentsDTO();
         assertEquals(c.size(),15);

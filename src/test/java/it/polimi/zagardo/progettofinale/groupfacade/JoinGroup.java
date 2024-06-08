@@ -17,7 +17,6 @@ public class JoinGroup {
 
     @Test
     public void joinGroupTestOK(){
-        //todo nel rifarlo ricordati che Luca è già un membro di gruppo0, devi cambiare gruppo o persona
         //join di un gruppo di cui non si era membri
         String groupName = "gruppo0";
         UserModel userModel = userRepo.findById(2L).orElse(null);

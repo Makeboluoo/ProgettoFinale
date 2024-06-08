@@ -45,7 +45,6 @@ public class EventServiceImpl implements EventService {
     @Override
     public Event createEvent(String title, String description, LocalDateTime dateTime, GroupRights groupRights) {
         //crea un evento con i dati passati
-        //todo aggiunto questa riga per provare a fare i test di createevent
         groupRights = groupRightsRepo.save(groupRights);
         Event event = new Event(title,description,dateTime, groupRights, new ArrayList<>(),new ArrayList<>());
         eventRepo.save(event);

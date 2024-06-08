@@ -16,7 +16,6 @@ public class Resign {
     @Autowired
     private EventServiceImpl eventServiceImpl;
 
-    //todo da applicazione funziona, qui no....
     @Test
     @Transactional
     public void testResign() {

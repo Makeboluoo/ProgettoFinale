@@ -13,7 +13,6 @@ public class UpgradeRole {
     @Autowired
     private GroupRightFacade groupRightFacade;
 
-    //todo tutto funziona ma cambiare id o settarlo a waiting
     @Test
     public void testUpgradeToJunior() {
         //657
