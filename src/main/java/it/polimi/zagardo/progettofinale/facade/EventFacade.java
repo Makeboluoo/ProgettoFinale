@@ -34,7 +34,7 @@ public class EventFacade {
     }
 
     public PrivateEventDTO creationEvent(String title, String description, LocalDateTime dateTime, String groupName, UserModel userModel) {
-        if(title==null||description==null||dateTime==null)
+        if(title==null||description==null||dateTime==null||dateTime.isBefore(LocalDateTime.now()))
             return null;
         //cerca se esiste un evento con quei dati
         Event e =  eventService.findEvent(title, description, dateTime);

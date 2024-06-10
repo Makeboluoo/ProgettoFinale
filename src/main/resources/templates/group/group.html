@@ -51,13 +51,13 @@
             <h3>Create your event!</h3>
             <form action="/event/creation" method="post">
                 <label for="title">Title of the event</label>
-                <input type="text" id="title" name="title"/>
+                <input type="text" id="title" name="title" required/>
 
                 <label for="description">Description of the event</label>
-                <input type="text" id="description" name="description"/>
+                <input type="text" id="description" name="description" required/>
 
                 <label for="dateTime">Date and Time of the event</label>
-                <input type="datetime-local" id="dateTime" name="dateTime"/>
+                <input type="datetime-local" id="dateTime" name="dateTime" required/>
 
                 <input type="hidden" id="groupName" name="groupName" th:value="${group.getName()}"/>
 

@@ -19,8 +19,11 @@ public interface EventRepo extends JpaRepository<Event, Long> {
     @Query("SELECT e FROM Event e JOIN e.participants p WHERE p.user.id = :idUser ORDER BY e.creatorGR.group.name, e.dateTime")
     List<Event> findEventsByParticipant(@Param("idUser") long idUser);
 
-    @Query("SELECT e FROM Event e JOIN e.creatorGR.group g JOIN g.groupRights gr WHERE gr.user.id = :userId AND gr.role <> :role ORDER BY e.creatorGR.group.name, e.dateTime")
-    List<Event> findAllGroupEventsByUser(@Param("userId") Long userId, @Param("role") Role role );
+//    @Query("SELECT e FROM Event e JOIN e.creatorGR.group g JOIN g.groupRights gr WHERE gr.user.id = :userId AND gr.role <> :role ORDER BY e.creatorGR.group.name, e.dateTime")
+//    List<Event> findAllGroupEventsByUser(@Param("userId") Long userId, @Param("role") Role role );
+    @Query("SELECT e FROM Event e JOIN e.creatorGR.group g JOIN g.groupRights gr WHERE gr.user.id = :userId AND gr.role <> :role AND e.dateTime >= CURRENT_TIMESTAMP ORDER BY e.creatorGR.group.name, e.dateTime")
+    List<Event> findAllGroupEventsByUser(@Param("userId") Long userId, @Param("role") Role role);
+
 
     @Query("SELECT p FROM Event e JOIN e.participants p WHERE e.id = :idEvent AND p.user.id = :idUser")
     Optional<GroupRights> findParticipantById(@Param("idEvent") long idEvent, @Param("idUser") long idUser);

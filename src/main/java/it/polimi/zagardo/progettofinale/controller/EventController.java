@@ -30,6 +30,7 @@ public class EventController {
     public String myEvents(Model model){
         //prendi l'utente in sessione
         UserModel userModel = (UserModel) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        //prendi la lista di eventi a cui l'utente è iscritto
         List<PrivateEventDTO> events = eventFacade.myEvents(userModel);
         model.addAttribute("now", LocalDateTime.now());
         model.addAttribute("events", events);
