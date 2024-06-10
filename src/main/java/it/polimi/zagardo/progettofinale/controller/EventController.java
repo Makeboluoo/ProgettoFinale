@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -42,6 +43,8 @@ public class EventController {
         //prendi lo user in sessione
         UserModel userModel = (UserModel) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         List<PrivateEventDTO> events = eventFacade.allEvents(userModel);
+        List<String> groupNames = eventFacade.getGroupNames(events);
+        model.addAttribute("groupNames", groupNames);
         model.addAttribute("events", events);
             return "events/allEvents";
     }
@@ -51,6 +54,16 @@ public class EventController {
         //prendi lo user in sessione
         UserModel userModel = (UserModel) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         List<PrivateEventDTO> events = eventFacade.allEventsBetween(fromDateTime, toDateTime, userModel);
+        List<String> groupNames = eventFacade.getGroupNames(events);
+        model.addAttribute("groupNames", groupNames);
+        model.addAttribute("events", events);
+        return "events/allEvents";
+    }
+
+    @PostMapping(path = "/searchByGroup")
+    public String searchByGroup(@RequestParam("selectedGroup") String selectedGroup, Model model){
+        // Logica per filtrare gli eventi in base al gruppo selezionato
+        List<PrivateEventDTO> events = eventFacade.getEventsByGroup(selectedGroup);
         model.addAttribute("events", events);
         return "events/allEvents";
     }

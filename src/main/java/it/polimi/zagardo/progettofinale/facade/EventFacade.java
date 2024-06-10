@@ -4,6 +4,7 @@ import it.polimi.zagardo.progettofinale.dto.PrivateEventDTO;
 import it.polimi.zagardo.progettofinale.dto.SingleEventDTO;
 import it.polimi.zagardo.progettofinale.mapper.EventMapper;
 import it.polimi.zagardo.progettofinale.model.Event;
+import it.polimi.zagardo.progettofinale.model.GroupModel;
 import it.polimi.zagardo.progettofinale.model.GroupRights;
 import it.polimi.zagardo.progettofinale.model.UserModel;
 import it.polimi.zagardo.progettofinale.model.enums.Role;
@@ -14,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -87,6 +89,24 @@ public class EventFacade {
     public List<PrivateEventDTO> allEventsBetween(LocalDateTime fromDateTime, LocalDateTime toDateTime, UserModel userModel) {
         //prendi la lista degli eventi che sono stati pubblicati nei gruppi a cui l'utente fa parte
         List<Event> events = eventService.findAllEventsBetween(userModel.getId(), fromDateTime, toDateTime);
+        return mapper.toPrivateEventDTO(events);
+    }
+
+    public List<String> getGroupNames(List<PrivateEventDTO> events) {
+        List<String> groupNames = new ArrayList<>();
+        if (!events.isEmpty()){
+            for (PrivateEventDTO event : events) {
+                if (!groupNames.contains(event.getGroupName())) {
+                    groupNames.add(event.getGroupName());
+                }
+            }
+        }
+        return groupNames;
+    }
+
+    public List<PrivateEventDTO> getEventsByGroup(String selectedGroup) {
+        GroupModel g = groupService.findGroupByName(selectedGroup);
+        List<Event> events = eventService.findSingleGroupEvents(g);
         return mapper.toPrivateEventDTO(events);
     }
 }

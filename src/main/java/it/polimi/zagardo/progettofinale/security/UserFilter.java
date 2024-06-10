@@ -27,18 +27,18 @@ public class UserFilter extends OncePerRequestFilter {
         HttpSession session=request.getSession();
         String username=(String)session.getAttribute("username");
 
-        String loginUrl = request.getContextPath() + "/user/login"; // URL della pagina di login
-        String registerUrl = request.getContextPath() + "/user/register"; // URL della pagina di registrazione
-
-        // Controllo se la richiesta corrente è per la pagina di login
-        if (request.getRequestURI().equals(loginUrl) || request.getRequestURI().equals(registerUrl)) {
-            filterChain.doFilter(request,response); // Se è la richiesta di login, passa alla pagina di login
-            return;
-        }
+//        String loginUrl = request.getContextPath() + "/user/login"; // URL della pagina di login
+//        String registerUrl = request.getContextPath() + "/user/register"; // URL della pagina di registrazione
+//
+//        // Controllo se la richiesta corrente è per la pagina di login
+//        if (request.getRequestURI().equals(loginUrl) || request.getRequestURI().equals(registerUrl)) {
+//            filterChain.doFilter(request,response); // Se è la richiesta di login, passa alla pagina di login
+//            return;
+//        }
 
         if(username==null|| SecurityContextHolder.getContext().getAuthentication()!=null){
-//            filterChain.doFilter(request,response);
-            response.sendRedirect(loginUrl);
+//            response.sendRedirect(loginUrl);
+            filterChain.doFilter(request,response);
         }else{
             UserDetails user=service.loadUserByUsername(username);
             UsernamePasswordAuthenticationToken upat=new UsernamePasswordAuthenticationToken(user,null,user.getAuthorities());

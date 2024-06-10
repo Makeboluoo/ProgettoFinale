@@ -93,6 +93,21 @@
 
       <button type="submit">Search events in that period!</button>
     </form>
+    <div th:if="${groupNames != null}">
+      <form action="/event/searchByGroup" method="post">
+
+        <label for="groupSelect">Seleziona un gruppo:</label>
+        <select id="groupSelect" name="selectedGroup">
+          <option value="">-- Seleziona un gruppo --</option>
+          <option th:each="groupName : ${groupNames}" th:value="${groupName}" th:text="${groupName}"></option>
+        </select>
+
+        <button type="submit">Filtra</button>
+      </form>
+    </div>
+    <form action="/event/allEvents" method="get">
+      <button type="submit">Elimina filtri</button>
+    </form>
     <table>
       <thead>
       <tr>
