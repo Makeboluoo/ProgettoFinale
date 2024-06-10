@@ -79,6 +79,7 @@ public class UserController {
     public String profile(Model model, Authentication authentication){
         //si prende lo user dalla sessione e lo si converte in DTO
         UserModel userModel = (UserModel) authentication.getPrincipal();
+        //si prendono le informazioni necessarie dl profilo
         UserDTO user = userFacade.getProfile(userModel);
         model.addAttribute("user", user);
         return "register_login_logout_profile/profile";

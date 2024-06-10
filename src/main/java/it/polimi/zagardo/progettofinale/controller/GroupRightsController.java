@@ -22,6 +22,7 @@ public class GroupRightsController {
     //promuove un utente all'interno di un gruppo
     @PostMapping(path = "/upgradeRole")
     public String upgradeRole(@RequestParam("id_gr_upgrade") long idGroupRight, Model model){
+        //fa il upgrade di un membro e lo riporta come DTO
         GroupRightsDTO groupRightsDTO = groupRightFacade.upgradeRole(idGroupRight);
         model.addAttribute("newGroupRight", groupRightsDTO);
         return "groupRight/group_right_upgraded";
@@ -30,6 +31,7 @@ public class GroupRightsController {
     //degrada un utente all'interno di un gruppo
     @PostMapping(path = "/downgradeRole")
     public String downgradeRole(@RequestParam("id_gr_downgrade") long idGroupRight, Model model){
+        //fa il downgrade di un membro e lo riporta come DTO
         GroupRightsDTO groupRightsDTO = groupRightFacade.downgradeRole(idGroupRight);
         model.addAttribute("newGroupRight", groupRightsDTO);
         return "groupRight/group_right_downgraded";

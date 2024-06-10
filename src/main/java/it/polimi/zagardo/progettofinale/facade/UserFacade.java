@@ -22,10 +22,12 @@ public class UserFacade {
 
     //si crea un nuovo account
     public void createAccount(String username, String password) {
+        //crea l'account con quel username e password
         userService.createAccount(username, password);
     }
 
     public UserDTO getProfile(UserModel userModel) {
+        //converte il user in DTO
         return mapper.toUserDTO(userModel);
     }
 }

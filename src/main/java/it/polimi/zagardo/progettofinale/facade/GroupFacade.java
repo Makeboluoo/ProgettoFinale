@@ -57,7 +57,7 @@ public class GroupFacade {
 
     public Role getRoleFromGroup(SingleGroupDTO group, UserModel userModel) {
         for(GroupRightsDTO gr: group.getGroupRightsDTOS()){
-            //cerca il collegamento groupRight tra lo user in sessione e il determinato gruppo, dopo prende il ruolo di quello user nel gruppo
+            //cerca l'iscrizione dello user in sessione e il determinato gruppo, dopo ne prende il ruolo
             if(gr.getUsername().equals(userModel.getUsername()))return gr.getRole();
         }
         return null;

@@ -12,8 +12,10 @@ import java.util.Optional;
 
 public interface GroupRepo extends JpaRepository<GroupModel, Long> {
 
+    //ritorna un gruppo con un determinato nome
     Optional<GroupModel> findGroupModelByName(String name);
 
+    //ritorna tutti i gruppi a cui fa parte un utente (tranne se è WAITING)
     @Query(
             "SELECT g FROM GroupModel g INNER JOIN GroupRights gr ON g.id = gr.group.id INNER JOIN UserModel u ON u.id = gr.user.id WHERE u.username = ?1"
     )

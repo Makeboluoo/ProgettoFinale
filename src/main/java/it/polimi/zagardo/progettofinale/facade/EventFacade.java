@@ -40,9 +40,13 @@ public class EventFacade {
         Event e =  eventService.findEvent(title, description, dateTime);
         //nel caso in cui non esiste ancora un evento con quei valori lo crea e lo converte in DTO sennò ritorna null
         if (e == null){
+            //prendi il id del gruppo
             long idGroup=groupService.findGroupByName(groupName).getId();
+            //prendi l'iscrizione di un utente a quel gruppo
             GroupRights g=groupRightsService.searchGroupRightByIds(userModel.getId(),idGroup);
+            //crea un evento con le informazioni necessarie
             Event event = eventService.createEvent(title,description,dateTime, g);
+            //convertilo in mapper
             return mapper.toPrivateEventDTO(event);
         }
         else return null;
@@ -58,9 +62,11 @@ public class EventFacade {
     }
 
     public boolean partecipate(long idEvent, long idUser) {
-        //cerca se esiste un utente con id=idUser che partecipa all'evento con id = idEvent, in caso negativo
+        //cerca se esiste un utente con id=idUser che partecipa all'evento con id = idEvent
         GroupRights g = eventService.findSingleParticipant(idEvent,idUser);
+        //prendi l'evento con quell'id
         Event e = eventService.findEventByID(idEvent);
+        //se in effetti non esiste ancora nessuna iscrizione al gruppo, iscrivilo
         if (g == null) eventService.participate(e, idUser);
         //ritorna true se esiste, false se non esiste
         return g != null;
@@ -93,19 +99,26 @@ public class EventFacade {
     }
 
     public List<String> getGroupNames(List<PrivateEventDTO> events) {
+        //genera lista vuota di nomi di gruppi
         List<String> groupNames = new ArrayList<>();
+        //se ci sono degli eventi
         if (!events.isEmpty()){
+            //prendi ogni evento uno a uno
             for (PrivateEventDTO event : events) {
+                //se il nome del gruppo ancora non è stato registrato, registralo all'interno della lista
                 if (!groupNames.contains(event.getGroupName())) {
                     groupNames.add(event.getGroupName());
                 }
             }
         }
+        //ritorna la lista dei nomi dei gruppi degli eventi che sono stati passati (senza duplicati)
         return groupNames;
     }
 
     public List<PrivateEventDTO> getEventsByGroup(String selectedGroup) {
+        //prendi il gruppo con quel nome
         GroupModel g = groupService.findGroupByName(selectedGroup);
+        //prendi gli eventi di quel gruppo
         List<Event> events = eventService.findSingleGroupEvents(g);
         return mapper.toPrivateEventDTO(events);
     }

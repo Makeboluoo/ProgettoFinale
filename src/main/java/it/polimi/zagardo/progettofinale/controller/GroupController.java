@@ -61,7 +61,9 @@ public class GroupController {
         if (group!= null){
             //prendi lo user in sessione
             UserModel userModel = (UserModel) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            //prendi il ruolo di un utente all'interno di un gruppo
             Role myRole = groupFacade.getRoleFromGroup(group, userModel);
+            //prendi lo username dell'amministratore di un gruppo
             String adminGroupUsername = groupFacade.getAdminUsername(group);
             model.addAttribute("group", group);
             model.addAttribute("myRole", myRole);
@@ -101,6 +103,7 @@ public class GroupController {
     public String leaveGroup(@RequestParam("group_name") String groupName){
         //prendi lo user in sessione
         UserModel userModel = (UserModel) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        //lascia un gruppo
         groupFacade.leaveGroup(userModel, groupName);
         return "group/group_left";
     }

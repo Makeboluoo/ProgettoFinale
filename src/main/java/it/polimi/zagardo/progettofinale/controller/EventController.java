@@ -43,7 +43,9 @@ public class EventController {
     public String allEvents(Model model){
         //prendi lo user in sessione
         UserModel userModel = (UserModel) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        //prendi tutti gli eventi di un determinato utente
         List<PrivateEventDTO> events = eventFacade.allEvents(userModel);
+        //prendi la lista dei nomi dei gruppi degli eventi pubblicati
         List<String> groupNames = eventFacade.getGroupNames(events);
         model.addAttribute("groupNames", groupNames);
         model.addAttribute("events", events);
@@ -54,7 +56,9 @@ public class EventController {
     public String searchBetween(@RequestParam("fromDateTime") LocalDateTime fromDateTime, @RequestParam("toDateTime") LocalDateTime toDateTime, Model model){
         //prendi lo user in sessione
         UserModel userModel = (UserModel) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        //prendi tutti gli eventi con data tra fromDateTime e toDateTime di un utente
         List<PrivateEventDTO> events = eventFacade.allEventsBetween(fromDateTime, toDateTime, userModel);
+        //prendi i nomi dei gruppi degli eventi
         List<String> groupNames = eventFacade.getGroupNames(events);
         model.addAttribute("groupNames", groupNames);
         model.addAttribute("events", events);
@@ -63,7 +67,7 @@ public class EventController {
 
     @PostMapping(path = "/searchByGroup")
     public String searchByGroup(@RequestParam("selectedGroup") String selectedGroup, Model model){
-        // Logica per filtrare gli eventi in base al gruppo selezionato
+        // prendi gli eventi pubblicati di un determinato gruppo
         List<PrivateEventDTO> events = eventFacade.getEventsByGroup(selectedGroup);
         model.addAttribute("events", events);
         return "events/allEvents";
@@ -78,6 +82,7 @@ public class EventController {
         UserModel userModel = (UserModel) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         //crea un evento e passa il DTO di questo evento
         PrivateEventDTO privateEventDTO = eventFacade.creationEvent(title, description, dateTime, (String)session.getAttribute("groupName"), userModel);
+        //se l'evento non esiste, lo crea
         if (privateEventDTO != null) {
             model.addAttribute("event", privateEventDTO);
             return "events/event";
@@ -91,6 +96,7 @@ public class EventController {
     public String singleEvent(@RequestParam("id_event") long idEvent, Model model){
         //prendi lo user in sessione
         UserModel userModel = (UserModel) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        //prendi un singolo evento e trasformalo in DTO
         SingleEventDTO event = eventFacade.singleEvent(idEvent, userModel);
         //se non trova alcun evento con quell'id torna la pagina con l'errore
         if(event == null) model.addAttribute("error",
