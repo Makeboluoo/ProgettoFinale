@@ -35,7 +35,7 @@ public class CreationEvent {
         UserModel userModel = userRepo.findById(1L).orElse(null);
         String title = "Evento numero " + eventFacade.allEvents(userModel).size();
         String description = "nuovo evento";
-        LocalDateTime date = LocalDateTime.of(2024,6,5,18,30);
+        LocalDateTime date = LocalDateTime.of(2024,7,5,18,30);
         String groupName = "gruppo1";
 
         PrivateEventDTO privateEventDTO = eventFacade.creationEvent(title,description,date,groupName,userModel);

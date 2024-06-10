@@ -21,7 +21,7 @@ public class commentdtoTest {
 
         assertThrows(DatoNonValidoException.class, () -> {
             CommentDTO comment = new CommentDTO.Builder()
-                    .setId(0) // This should trigger the exception
+                    .setId(0)
                     .setUsername("username")
                     .setText("text")
                     .build();

@@ -36,6 +36,7 @@ public class GroupFacade {
     public GroupDTO createGroup(String name, UserModel userModel) {
         //controlla se esiste un gruppo con quel nome
         boolean exist = groupService.findIfExistGroupByName(name);
+        //se il gruppo non esiste e il nome non è vuoto
         if (!exist && !Objects.equals(name, "")) {
             //creo il gruppo
             GroupModel g = groupService.createGroup(name);
@@ -63,11 +64,12 @@ public class GroupFacade {
     }
 
     public String getAdminUsername(SingleGroupDTO group) {
+        String adminUsername = "Nessun admin";
         for(GroupRightsDTO gr: group.getGroupRightsDTOS()){
             //cerca lo user administrator del gruppo e ritorna il suo nome
-            if(gr.getRole()==Role.Administrator)return gr.getUsername();
+            if(gr.getRole()==Role.Administrator) adminUsername = gr.getUsername();
         }
-        return null;
+        return adminUsername;
     }
 
     public boolean joinGroup(String groupName, UserModel userModel) {

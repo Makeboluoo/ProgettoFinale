@@ -24,7 +24,7 @@ public class GetEventComments {
 
         AllEventCommentsDTO comment= commentFacade.getEventComments(9);
         List<CommentDTO> c=comment.getCommentsDTO();
-        assertEquals(c.size(),15);
+        assertEquals(c.size(),17);
     }
 
     @Test

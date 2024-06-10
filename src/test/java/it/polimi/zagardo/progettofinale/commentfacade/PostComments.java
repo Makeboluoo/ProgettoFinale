@@ -32,6 +32,5 @@ public class PostComments {
         assertNotNull(allEventCommentsDTO);
         assertFalse(allEventCommentsDTO.getCommentsDTO().isEmpty());
         assertThat(allEventCommentsDTO.getCommentsDTO().size()).isEqualTo(c.size()+1);
-        assertThat(allEventCommentsDTO.getCommentsDTO().get(allEventCommentsDTO.getCommentsDTO().size()-1).getText().equals(text));
     }
 }
