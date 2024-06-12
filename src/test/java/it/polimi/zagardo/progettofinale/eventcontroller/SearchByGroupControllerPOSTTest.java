@@ -4,6 +4,7 @@ import it.polimi.zagardo.progettofinale.controller.EventController;
 import it.polimi.zagardo.progettofinale.dto.PrivateEventDTO;
 import it.polimi.zagardo.progettofinale.facade.EventFacade;
 import it.polimi.zagardo.progettofinale.model.UserModel;
+import jakarta.servlet.http.HttpSession;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -12,6 +13,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.mock.web.MockHttpSession;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
@@ -27,6 +29,9 @@ import java.util.List;
 
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -50,13 +55,6 @@ public class SearchByGroupControllerPOSTTest {
         userModel.setId(152L);
         userModel.setUsername("Maria");
         userModel.setPassword("root");
-
-        // Mocking authentication
-        UserDetails userDetails = userModel; // UserModel dovrebbe implementare UserDetails
-        Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null);
-        SecurityContext securityContext = org.mockito.Mockito.mock(SecurityContext.class);
-        when(securityContext.getAuthentication()).thenReturn(authentication);
-        SecurityContextHolder.setContext(securityContext);
 
         // Mocking eventFacade behavior
         PrivateEventDTO event1 = new PrivateEventDTO.Builder()
@@ -83,9 +81,18 @@ public class SearchByGroupControllerPOSTTest {
         String selectedGroup = "gruppoMyEvents";
         when(eventFacade.getEventsByGroup(selectedGroup)).thenReturn(events);
 
+        HttpSession session = mockMvc.perform(post("/user/login")
+                        .param("username", "Maria")
+                        .param("password", "root"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("home/home"))
+                .andReturn()
+                .getRequest()
+                .getSession();
         mockMvc.perform(MockMvcRequestBuilders.post("/event/searchByGroup")
                         .param("selectedGroup", selectedGroup)
-                        .with(user(userDetails)))
+                        .session((MockHttpSession) session))
+                .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.view().name("events/allEvents"));
     }

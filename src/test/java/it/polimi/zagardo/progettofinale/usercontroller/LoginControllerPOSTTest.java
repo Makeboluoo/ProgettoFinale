@@ -38,8 +38,8 @@ public class LoginControllerPOSTTest {
                         .param("username", "Marco")
                         .param("password", "root")
                         .session(session))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/user/home"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("home/home"))
                 .andExpect(request().sessionAttribute("username", "Marco"));
     }
 

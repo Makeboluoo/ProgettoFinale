@@ -17,8 +17,9 @@ public class HomePageControllerGETTest {
 
     @Test
     public void testHomePage() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/user/home"))
-                .andExpect(MockMvcResultMatchers.status().isOk())
+        mockMvc.perform(MockMvcRequestBuilders.post("/user/login")
+                        .param("username", "Marco")
+                        .param("password", "root"))
                 .andExpect(MockMvcResultMatchers.view().name("home/home"));
     }
 }

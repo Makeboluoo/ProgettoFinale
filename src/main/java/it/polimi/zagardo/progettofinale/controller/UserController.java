@@ -41,7 +41,7 @@ public class UserController {
         if (userFacade.loginCheck(username, password)){
             //viene settato lo username dell'utente nella sessione
             session.setAttribute("username", username);
-            return "redirect:/user/home";
+            return homePage();
         }
         else return "register_login_logout_profile/login_failed";
     }
@@ -61,7 +61,7 @@ public class UserController {
             userFacade.createAccount(username,password);
             //viene settato lo username dell'utente nella sessione
             session.setAttribute("username", username);
-            return "redirect:/user/home";
+            return homePage();
             }
         else {
             return "register_login_logout_profile/registration_failed";

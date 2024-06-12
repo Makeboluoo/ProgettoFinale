@@ -9,6 +9,7 @@ import it.polimi.zagardo.progettofinale.facade.UserFacade;
 import it.polimi.zagardo.progettofinale.mapper.UserMapper;
 import it.polimi.zagardo.progettofinale.model.UserModel;
 import it.polimi.zagardo.progettofinale.model.enums.Role;
+import jakarta.servlet.http.HttpSession;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -16,6 +17,7 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.mock.web.MockHttpSession;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
@@ -28,6 +30,8 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import java.util.Collections;
 
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -39,12 +43,6 @@ public class ProfileControllerGETTest {
     @Mock
     private UserFacade userFacade;
 
-    @Mock
-    private UserMapper userMapper;
-
-    @InjectMocks
-    private UserController userController;
-
     @Test
     public void testProfilePage() throws Exception {
         // Mocking user data
@@ -52,13 +50,6 @@ public class ProfileControllerGETTest {
         userModel.setId(102L);
         userModel.setUsername("Giorgia");
         userModel.setPassword("root");
-
-        // Mocking authentication
-        UserDetails userDetails = userModel; // UserModel dovrebbe implementare UserDetails
-        Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null);
-        SecurityContext securityContext = Mockito.mock(SecurityContext.class);
-        Mockito.when(securityContext.getAuthentication()).thenReturn(authentication);
-        SecurityContextHolder.setContext(securityContext);
 
         // Mocking userFacade behavior
         UserDTO userDTO = new UserDTO.Builder()
@@ -73,12 +64,21 @@ public class ProfileControllerGETTest {
                 .build();
         when(userFacade.getProfile(userModel)).thenReturn(userDTO);
 
-        // Mocking userMapper behavior
-        when(userMapper.toUserDTO(userModel)).thenReturn(userDTO);
+        // Perform the login request
+        HttpSession session = mockMvc.perform(post("/user/login")
+                        .param("username", "Marco")
+                        .param("password", "root"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("home/home"))
+                .andReturn()
+                .getRequest()
+                .getSession();
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/user/profile").with(user(userDetails)))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.view().name("register_login_logout_profile/profile"));
+        mockMvc.perform(MockMvcRequestBuilders.get("/user/profile")
+                        .session((MockHttpSession) session))
+                .andExpect(status().isOk())
+                .andExpect(view().name("register_login_logout_profile/profile"))
+                .andExpect(model().attributeExists("user"));
     }
 
 }

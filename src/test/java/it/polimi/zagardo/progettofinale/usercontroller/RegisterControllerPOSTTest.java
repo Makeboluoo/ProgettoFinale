@@ -9,6 +9,9 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.mock.web.MockHttpSession;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+
 @SpringBootTest
 @AutoConfigureMockMvc
 public class RegisterControllerPOSTTest {
@@ -23,8 +26,8 @@ public class RegisterControllerPOSTTest {
                         .param("username", "Francesco")
                         .param("password", "root")
                         .session(session))
-                .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
-                .andExpect(MockMvcResultMatchers.redirectedUrl("/user/home"));
+                .andExpect(status().isOk())
+                .andExpect(view().name("home/home"));
 
         // Verifica che il nome utente sia stato impostato correttamente nella sessione
         Object usernameInSession = session.getAttribute("username");
